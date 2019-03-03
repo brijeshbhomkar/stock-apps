@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Data
 @Table(name = "symbol")
-public class Symbol implements Serializable {
+public class Symbol extends AuditModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
