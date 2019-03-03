@@ -22,7 +22,7 @@ import java.util.Optional;
  * The symbol controller to delete/update/edit new symbol for the stock.
  */
 @RestController
-@RequestMapping(value = "/api/symbol")
+@RequestMapping(value = "/api/v1/symbol")
 public class SymbolController {
 
     private static final Logger LOG = LoggerFactory.getLogger(SymbolController.class);
@@ -97,6 +97,11 @@ public class SymbolController {
             return ResponseEntity.badRequest().body(new ErrorResponse(HttpStatus.BAD_REQUEST, " Failed to update symbol "));
         }
         return ResponseEntity.ok(" Updated successfully ");
+    }
+
+    @RequestMapping(value = "/ping", method = RequestMethod.GET)
+    public ResponseEntity<String> servicePing() {
+        return ResponseEntity.ok("Success");
     }
 
 }

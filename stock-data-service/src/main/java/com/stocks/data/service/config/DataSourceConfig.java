@@ -34,10 +34,4 @@ public class DataSourceConfig {
         source.setPassword(username);
         return source;
     }
-
-    @Bean
-    public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource());
-        return namedParameterJdbcTemplate;
-    }
 }
