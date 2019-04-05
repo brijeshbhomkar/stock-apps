@@ -2,6 +2,7 @@ package com.data.service.dataservice.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,25 +10,37 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "STOCK")
+@Table(name = "STOCKS")
 public class Stock implements Serializable {
 
 	private static final long serialVersionUID = 3889068968908161074L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
+
+	@Column(name = "symbol")
 	private String symbol;
+	@Column(name = "series")
 	private String series;
-	private long price;
-	private long change;
-	private long perChange;
-	private long prevClose;
-	private long quantity;
-	private long tradedQuantity;
-	private long marketCap;
-	private long yearHigh;
-	private long yearLow;
+	@Column(name = "price")
+	private Long price;
+	@Column(name = "change")
+	private Long change;
+	@Column(name = "percentage_change")
+	private Long perChange;
+	@Column(name = "prev_close")
+	private Long prevClose;
+	@Column(name = "quantity")
+	private Long quantity;
+	@Column(name = "traded_quantity")
+	private Long tradedQuantity;
+	@Column(name = "market_cap")
+	private Long marketCap;
+	@Column(name = "year_high")
+	private Long yearHigh;
+	@Column(name = "year_low")
+	private Long yearLow;
 
 	public long getId() {
 		return id;
@@ -53,75 +66,75 @@ public class Stock implements Serializable {
 		this.series = series;
 	}
 
-	public long getPrice() {
+	public Long getPrice() {
 		return price;
 	}
 
-	public void setPrice(long price) {
+	public void setPrice(Long price) {
 		this.price = price;
 	}
 
-	public long getChange() {
+	public Long getChange() {
 		return change;
 	}
 
-	public void setChange(long change) {
+	public void setChange(Long change) {
 		this.change = change;
 	}
 
-	public long getPerChange() {
+	public Long getPerChange() {
 		return perChange;
 	}
 
-	public void setPerChange(long perChange) {
+	public void setPerChange(Long perChange) {
 		this.perChange = perChange;
 	}
 
-	public long getPrevClose() {
+	public Long getPrevClose() {
 		return prevClose;
 	}
 
-	public void setPrevClose(long prevClose) {
+	public void setPrevClose(Long prevClose) {
 		this.prevClose = prevClose;
 	}
 
-	public long getQuantity() {
+	public Long getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(long quantity) {
+	public void setQuantity(Long quantity) {
 		this.quantity = quantity;
 	}
 
-	public long getTradedQuantity() {
+	public Long getTradedQuantity() {
 		return tradedQuantity;
 	}
 
-	public void setTradedQuantity(long tradedQuantity) {
+	public void setTradedQuantity(Long tradedQuantity) {
 		this.tradedQuantity = tradedQuantity;
 	}
 
-	public long getMarketCap() {
+	public Long getMarketCap() {
 		return marketCap;
 	}
 
-	public void setMarketCap(long marketCap) {
+	public void setMarketCap(Long marketCap) {
 		this.marketCap = marketCap;
 	}
 
-	public long getYearHigh() {
+	public Long getYearHigh() {
 		return yearHigh;
 	}
 
-	public void setYearHigh(long yearHigh) {
+	public void setYearHigh(Long yearHigh) {
 		this.yearHigh = yearHigh;
 	}
 
-	public long getYearLow() {
+	public Long getYearLow() {
 		return yearLow;
 	}
 
-	public void setYearLow(long yearLow) {
+	public void setYearLow(Long yearLow) {
 		this.yearLow = yearLow;
 	}
 

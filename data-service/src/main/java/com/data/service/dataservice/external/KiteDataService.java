@@ -22,7 +22,7 @@ public class KiteDataService extends RestfulSupport {
 		CandleResponse candleResponse = null;
 		try {
 			HttpEntity<String> entity = new HttpEntity<String>("parameters", httpHeaders);
-			final String url = generateEndpoint(Long.toString(id), dataSearchCriteria.getPeriod(),
+			final String url = generateKiteEndpont(Long.toString(id), dataSearchCriteria.getPeriod(),
 					dataSearchCriteria.getKiteId(), dataSearchCriteria.getStartDate(), dataSearchCriteria.getEndDate());
 			ResponseEntity<CandleResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity,
 					CandleResponse.class);

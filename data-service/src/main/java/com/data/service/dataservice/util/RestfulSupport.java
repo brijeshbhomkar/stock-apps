@@ -16,6 +16,9 @@ public class RestfulSupport {
 	protected HttpHeaders httpHeaders;
 
 	protected static String BASE_URL = "https://kitecharts-aws.zerodha.com/api/chart/";
+	
+	protected static final String NSE_NIFTY_50_URL = "https://www.nseindia.com/live_market/dynaContent/live_analysis/pre_open/nifty.json";
+	protected static final String NSE_ALL_URL = "https://www.nseindia.com/live_market/dynaContent/live_analysis/pre_open/all.json";
 
 	public RestfulSupport() {
 		this.restTemplate = new RestTemplate();
@@ -33,7 +36,7 @@ public class RestfulSupport {
 		return converters;
 	}
 
-	public String generateEndpoint(final String symboldId, final String period, final String userId,
+	public String generateKiteEndpont(final String symboldId, final String period, final String userId,
 			final String startDate, final String endDate) {
 		return BASE_URL + symboldId + "/" + period + "?" + "user_id=" + userId + "&from=" + startDate + "&to="
 				+ endDate;
