@@ -73,7 +73,7 @@ public class KiteDataController {
 	public ResponseEntity<?> delete(@PathVariable final String symbol) {
 		logger.debug("Delete the data for symbol : {} ", symbol);
 		try {
-			kiteDataRepository.deleteBySymbolId(symbol);
+			//kiteDataRepository.deleteBySymbolId(symbol);
 		} catch (Exception e) {
 			logger.error("Failed to delete");
 			return ResponseEntity.badRequest().body("Failed to find symbol ");
