@@ -17,9 +17,6 @@ public class RestfulSupport {
 
 	protected static String BASE_URL = "https://kitecharts-aws.zerodha.com/api/chart/";
 	
-	protected static final String NSE_NIFTY_50_URL = "https://www.nseindia.com/live_market/dynaContent/live_analysis/pre_open/nifty.json";
-	protected static final String NSE_ALL_URL = "https://www.nseindia.com/live_market/dynaContent/live_analysis/pre_open/all.json";
-
 	public RestfulSupport() {
 		this.restTemplate = new RestTemplate();
 		this.httpHeaders = new HttpHeaders();

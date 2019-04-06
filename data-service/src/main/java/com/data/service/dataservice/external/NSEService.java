@@ -15,17 +15,17 @@ public class NSEService extends RestfulSupport {
 
 	private static final Logger logger = LoggerFactory.getLogger(NSEService.class);
 
-	public StockDataResponse getNiftyFifty() {
-		logger.debug("Find nifty 50 stocks ");
+	public StockDataResponse fetchDataFromNse(final String url) {
+		logger.debug("Find nifty stocks ");
 		StockDataResponse result = null;
 		try {
-			final HttpEntity<String> entity = new HttpEntity<String>("paramters", httpHeaders);
-			ResponseEntity<StockDataResponse> response = restTemplate.exchange(NSE_NIFTY_50_URL, HttpMethod.GET,
+			final HttpEntity<String> entity = new HttpEntity<String>("parameters", httpHeaders);
+			ResponseEntity<StockDataResponse> response = restTemplate.exchange(url, HttpMethod.GET,
 					entity, StockDataResponse.class);
 			result = response.getBody();
 		} catch (Exception e) {
-			logger.error("Failed to get the nifty 50 stocks ");
-			throw new RuntimeException("Failed to get the nifty 50 stocks ");
+			logger.error("Failed to get the nifty stocks ");
+			throw new RuntimeException("Failed to get the nifty stocks ");
 		}
 		return result;
 	}

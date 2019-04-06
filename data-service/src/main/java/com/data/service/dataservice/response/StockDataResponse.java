@@ -16,8 +16,10 @@ public class StockDataResponse implements Serializable {
 	public StockDataResponse() {
 	}
 
-	public StockDataResponse(final List<StockData> data) {
+	public StockDataResponse(final long declines, final long noChange, final List<StockData> data) {
 		this.data = data;
+		this.declines = declines;
+		this.noChange = noChange;
 	}
 
 	public long getDeclines() {
