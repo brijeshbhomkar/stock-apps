@@ -183,13 +183,13 @@ public class NSEController {
 
 		return ResponseEntity.ok("Cleaned!");
 	}
-	
+
 	@PostMapping("/pricerange")
 	public ResponseEntity<?> betweenPriceRange(@RequestBody final PriceRangeCriteria priceRangeCriteria) {
 		try {
-		//	nseRepository.
+			nseRepository.findByPrice(priceRangeCriteria.getUpperBound());
 		} catch (Exception e) {
-			
+
 		}
 		return null;
 	}
