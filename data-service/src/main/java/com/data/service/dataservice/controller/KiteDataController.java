@@ -44,36 +44,37 @@ public class KiteDataController {
 	private SymbolRepository symbolRepository;
 
 	@PostMapping
-	public ResponseEntity<?> get(@RequestBody final DataSearchCriteria dataSearchCriteria) {
+	public ResponseEntity<List<CandleTick>> get(@RequestBody final DataSearchCriteria dataSearchCriteria) {
 		logger.debug("Find the data for the given symbol ");
+		List<CandleTick> candleTicks = new ArrayList<CandleTick>();
 		try {
 			final Symbol symbol = symbolRepository.findSymbolById(dataSearchCriteria.getSymbol());
 			CandleResponse data = kiteDataService.get(dataSearchCriteria, symbol.getSymbolId());
 			if (data == null) {
-				return ResponseEntity.badRequest().body(HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
 			// insert into db
-			List<CandleTick> candletTicks = extractData(data.getData(), symbol.getSymbolId(), symbol.getSymbol(),
+			candleTicks = extractData(data.getData(), symbol.getSymbolId(), symbol.getSymbol(),
 					dataSearchCriteria.getPeriod());
-			if (candletTicks != null && !candletTicks.isEmpty()) {
-				for (CandleTick candleTick : candletTicks) {
-					kiteDataRepository.saveAndFlush(candleTick);
+			if (candleTicks != null && !candleTicks.isEmpty()) {
+				for (CandleTick candleTick : candleTicks) {
+					kiteDataRepository.save(candleTick);
 				}
 			}
 		} catch (Exception e) {
 			logger.error("Failed to find data", e);
-			return ResponseEntity.badRequest().body("Failed to find data ");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return ResponseEntity.ok(HttpStatus.OK);
+		return new ResponseEntity<List<CandleTick>>(candleTicks, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping
 	public ResponseEntity<?> delete(@PathVariable final String symbol) {
 		logger.debug("Delete the data for symbol : {} ", symbol);
 		try {
-			//kiteDataRepository.deleteBySymbolId(symbol);
+			// kiteDataRepository.deleteBySymbolId(symbol);
 		} catch (Exception e) {
 			logger.error("Failed to delete");
 			return ResponseEntity.badRequest().body("Failed to find symbol ");

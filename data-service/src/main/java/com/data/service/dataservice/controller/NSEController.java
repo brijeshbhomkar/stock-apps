@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +21,7 @@ import com.data.service.dataservice.external.NSEService;
 import com.data.service.dataservice.repository.NSERepository;
 import com.data.service.dataservice.response.StockData;
 import com.data.service.dataservice.response.StockDataResponse;
+import com.data.service.dataservice.searchcriteria.PriceRangeCriteria;
 import com.data.service.dataservice.util.EndpointUrls;
 import com.data.service.dataservice.util.NSEStockType;
 
@@ -37,15 +40,16 @@ public class NSEController {
 	@GetMapping("/nifty50")
 	public ResponseEntity<?> nifty50() {
 		logger.debug("Get the nifty 50");
+		List<Stocks> stocks = new ArrayList<Stocks>();
 		try {
 			StockDataResponse response = nseService.fetchDataFromNse(EndpointUrls.NSE_NIFTY_50_URL);
 			if (response == null) {
 				return ResponseEntity.badRequest().body(HttpStatus.NO_CONTENT);
 			}
-			final List<StockData> stocks = response.getData();
-			if (!CollectionUtils.isEmpty(stocks)) {
-				final List<Stocks> result = (List<Stocks>) extractData(response.getData(), NSEStockType.NSE_FITY);
-				for (Stocks stock : result) {
+			final List<StockData> stockData = response.getData();
+			if (!CollectionUtils.isEmpty(stockData)) {
+				stocks = (List<Stocks>) extractData(stockData, NSEStockType.NSE_FITY);
+				for (Stocks stock : stocks) {
 					nseRepository.save(stock);
 				}
 			}
@@ -54,12 +58,13 @@ public class NSEController {
 			return ResponseEntity.badRequest().body("Failed to get nifty 50 stocks ");
 		}
 
-		return ResponseEntity.ok(HttpStatus.OK);
+		return new ResponseEntity<List<Stocks>>(stocks, HttpStatus.OK);
 	}
 
 	@GetMapping("/fostocks")
 	public ResponseEntity<?> foStocks() {
 		logger.debug("Get the fo stocks");
+		List<Stocks> result = new ArrayList<Stocks>();
 		try {
 			StockDataResponse response = nseService.fetchDataFromNse(EndpointUrls.NSE_NIFTY_FO_URL);
 			if (response == null) {
@@ -67,7 +72,7 @@ public class NSEController {
 			}
 			final List<StockData> stocks = response.getData();
 			if (!CollectionUtils.isEmpty(stocks)) {
-				final List<Stocks> result = extractData(response.getData(), NSEStockType.NSE_FO);
+				result = extractData(response.getData(), NSEStockType.NSE_FO);
 				for (Stocks stock : result) {
 					nseRepository.save(stock);
 				}
@@ -77,12 +82,13 @@ public class NSEController {
 			return ResponseEntity.badRequest().body("Failed to get nifty fo stocks ");
 		}
 
-		return ResponseEntity.ok(HttpStatus.OK);
+		return new ResponseEntity<List<Stocks>>(result, HttpStatus.OK);
 	}
 
 	@GetMapping("/niftybanks")
 	public ResponseEntity<?> niftyBanks() {
 		logger.debug("Get the nifty banks stocks");
+		List<Stocks> result = new ArrayList<Stocks>();
 		try {
 			StockDataResponse response = nseService.fetchDataFromNse(EndpointUrls.NSE_NIFTY_BANK_URL);
 			if (response == null) {
@@ -90,7 +96,7 @@ public class NSEController {
 			}
 			final List<StockData> stocks = response.getData();
 			if (!CollectionUtils.isEmpty(stocks)) {
-				final List<Stocks> result = extractData(response.getData(), NSEStockType.NSE_BANK);
+				result = extractData(response.getData(), NSEStockType.NSE_BANK);
 				for (Stocks stock : result) {
 					nseRepository.save(stock);
 				}
@@ -100,12 +106,13 @@ public class NSEController {
 			return ResponseEntity.badRequest().body("Failed to get nifty fo stocks ");
 		}
 
-		return ResponseEntity.ok(HttpStatus.OK);
+		return new ResponseEntity<List<Stocks>>(result, HttpStatus.OK);
 	}
 
 	@GetMapping("/all")
 	public ResponseEntity<?> niftyAll() {
 		logger.debug("Get the nifty all stocks");
+		List<Stocks> result = new ArrayList<Stocks>();
 		try {
 			StockDataResponse response = nseService.fetchDataFromNse(EndpointUrls.NSE_NIFTY_ALL_URL);
 			if (response == null) {
@@ -113,7 +120,7 @@ public class NSEController {
 			}
 			final List<StockData> stocks = response.getData();
 			if (!CollectionUtils.isEmpty(stocks)) {
-				final List<Stocks> result = (List<Stocks>) extractData(response.getData(), NSEStockType.NSE_ALL);
+				result = (List<Stocks>) extractData(response.getData(), NSEStockType.NSE_ALL);
 				for (Stocks stock : result) {
 					nseRepository.save(stock);
 				}
@@ -123,7 +130,7 @@ public class NSEController {
 			return ResponseEntity.badRequest().body("Failed to get nifty fo stocks ");
 		}
 
-		return ResponseEntity.ok(HttpStatus.OK);
+		return new ResponseEntity<List<Stocks>>(result, HttpStatus.OK);
 	}
 
 	private List<Stocks> extractData(final List<StockData> data, final NSEStockType type) {
@@ -163,6 +170,28 @@ public class NSEController {
 	@GetMapping("/ping")
 	public ResponseEntity<?> ping() {
 		return ResponseEntity.ok(HttpStatus.OK);
+	}
+
+	@GetMapping("/clean")
+	public ResponseEntity<?> clean() {
+		try {
+			nseRepository.deleteAll();
+		} catch (Exception e) {
+			logger.error("Failed to clean all tables");
+			return ResponseEntity.badRequest().body("Failed to clean all tables");
+		}
+
+		return ResponseEntity.ok("Cleaned!");
+	}
+	
+	@PostMapping("/pricerange")
+	public ResponseEntity<?> betweenPriceRange(@RequestBody final PriceRangeCriteria priceRangeCriteria) {
+		try {
+		//	nseRepository.
+		} catch (Exception e) {
+			
+		}
+		return null;
 	}
 
 }
