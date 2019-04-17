@@ -48,7 +48,7 @@ public class KiteDataController {
 		logger.debug("Find the data for the given symbol ");
 		List<CandleTick> candleTicks = new ArrayList<CandleTick>();
 		try {
-			final Symbol symbol = symbolRepository.findSymbolById(dataSearchCriteria.getSymbol());
+			final Symbol symbol = symbolRepository.findSymbol(dataSearchCriteria.getSymbol());
 			CandleResponse data = kiteDataService.get(dataSearchCriteria, symbol.getSymbolId());
 			if (data == null) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -11,9 +11,6 @@ import javax.persistence.Table;
 public class Symbol implements Serializable {
 
 	private static final long serialVersionUID = -7462714771560213319L;
-
-	//@Id
-	//private Long id;
 	
 	@Id
 	private Long symbolId;
