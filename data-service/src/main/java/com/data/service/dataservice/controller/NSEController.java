@@ -1,9 +1,9 @@
 package com.data.service.dataservice.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
-import javax.websocket.server.PathParam;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,7 @@ import com.data.service.dataservice.external.NSEService;
 import com.data.service.dataservice.repository.NSERepository;
 import com.data.service.dataservice.response.StockData;
 import com.data.service.dataservice.response.StockDataResponse;
+import com.data.service.dataservice.searchcriteria.PriceRangeCriteria;
 import com.data.service.dataservice.util.EndpointUrls;
 import com.data.service.dataservice.util.NSEStockType;
 
@@ -183,18 +186,21 @@ public class NSEController {
 		return ResponseEntity.ok("Cleaned!");
 	}
 
-	@GetMapping("/pricerange/{price}")
-	public ResponseEntity<?> betweenPriceRange(@PathParam("price") final String price) {
-		List<Stocks> stocks = new ArrayList<>();
+	@PostMapping("/pricerange")
+	public ResponseEntity<?> betweenPriceRange(@RequestBody final PriceRangeCriteria priceRangeCriteria) { 
+		Set<Stocks> stocks = new HashSet<>();
 		try {
-			stocks = nseRepository.findByPrice(price);
+			final List<Stocks> result = nseRepository.findPriceBetweenRange(
+					Double.valueOf(priceRangeCriteria.getLowerBound()),
+					Double.valueOf(priceRangeCriteria.getUpparBound()));
+			stocks.addAll(result);
 		} catch (Exception e) {
 			logger.error("Failed to get the stock between prices ");
 			return ResponseEntity.badRequest().body("Failed to get the stock between prices ");
 		}
-		return new ResponseEntity<List<Stocks>>(stocks, HttpStatus.OK);
+		return new ResponseEntity<Set<Stocks>>(stocks, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/db/all")
 	public ResponseEntity<?> findAll() {
 		List<Stocks> stocks = new ArrayList<>();
