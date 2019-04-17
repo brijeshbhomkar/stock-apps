@@ -7,10 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "STOCK")
 public class Stocks implements Serializable {
 
 	private static final long serialVersionUID = 3889068968908161074L;
@@ -26,170 +24,137 @@ public class Stocks implements Serializable {
 	private String series;
 	
 	@Column(name = "price")
-	private String price;
+	private Double price;
 	
 	@Column(name = "chng")
-	private String change;
+	private Double change;
 	
 	@Column(name = "percentage_change")
-	private String perChange;
+	private Double perChange;
 	
 	@Column(name = "prevclose")
-	private String prevClose;
+	private Double prevClose;
 	
 	@Column(name = "tradedquantity")
-	private String tradedQuantity;
+	private Double tradedQuantity;
 	
 	@Column(name = "marketcap")
-	private String marketCap;
+	private Double marketCap;
 	
 	@Column(name = "yearhigh")
-	private String yearHigh;
+	private Double yearHigh;
 	
 	@Column(name = "yearlow")
-	private String yearLow;
+	private Double yearLow;
 	
 	@Column(name = "sumValue")
-	private String sumValue;
-	
-	@Column(name = "sumQuantity")
-	private String sumQuantity;
-	
-	@Column(name = "finQnty")
-	private String finQnty;
-	
-	@Column(name = "sumfinQnty")
-	private String sumfinQnty;
+	private Double sumValue;
 	
 	@Column(name ="type")
 	private String type;
 
-	public String getSymbol() {
-		return symbol;
+	public Long getId() {
+		return id;
 	}
 
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
+	public String getSymbol() {
+		return symbol;
 	}
 
 	public String getSeries() {
 		return series;
 	}
 
-	public void setSeries(String series) {
-		this.series = series;
-	}
-
-	public String getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
-	public String getChange() {
+	public Double getChange() {
 		return change;
 	}
 
-	public void setChange(String change) {
-		this.change = change;
-	}
-
-	public String getPerChange() {
+	public Double getPerChange() {
 		return perChange;
 	}
 
-	public void setPerChange(String perChange) {
-		this.perChange = perChange;
-	}
-
-	public String getPrevClose() {
+	public Double getPrevClose() {
 		return prevClose;
 	}
 
-	public void setPrevClose(String prevClose) {
-		this.prevClose = prevClose;
-	}
-
-	public String getTradedQuantity() {
+	public Double getTradedQuantity() {
 		return tradedQuantity;
 	}
 
-	public void setTradedQuantity(String tradedQuantity) {
-		this.tradedQuantity = tradedQuantity;
-	}
-
-	public String getMarketCap() {
+	public Double getMarketCap() {
 		return marketCap;
 	}
 
-	public void setMarketCap(String marketCap) {
-		this.marketCap = marketCap;
-	}
-
-	public String getYearHigh() {
+	public Double getYearHigh() {
 		return yearHigh;
 	}
 
-	public void setYearHigh(String yearHigh) {
-		this.yearHigh = yearHigh;
-	}
-
-	public String getYearLow() {
+	public Double getYearLow() {
 		return yearLow;
 	}
 
-	public void setYearLow(String yearLow) {
-		this.yearLow = yearLow;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getSumValue() {
+	public Double getSumValue() {
 		return sumValue;
-	}
-
-	public String getSumQuantity() {
-		return sumQuantity;
-	}
-
-	public String getFinQnty() {
-		return finQnty;
-	}
-
-	public String getSumfinQnty() {
-		return sumfinQnty;
-	}
-
-	public void setSumValue(String sumValue) {
-		this.sumValue = sumValue;
-	}
-
-	public void setSumQuantity(String sumQuantity) {
-		this.sumQuantity = sumQuantity;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setFinQnty(String finQnty) {
-		this.finQnty = finQnty;
 	}
 
 	public String getType() {
 		return type;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setSumfinQnty(String sumfinQnty) {
-		this.sumfinQnty = sumfinQnty;
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
+	public void setSeries(String series) {
+		this.series = series;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public void setChange(Double change) {
+		this.change = change;
+	}
+
+	public void setPerChange(Double perChange) {
+		this.perChange = perChange;
+	}
+
+	public void setPrevClose(Double prevClose) {
+		this.prevClose = prevClose;
+	}
+
+	public void setTradedQuantity(Double tradedQuantity) {
+		this.tradedQuantity = tradedQuantity;
+	}
+
+	public void setMarketCap(Double marketCap) {
+		this.marketCap = marketCap;
+	}
+
+	public void setYearHigh(Double yearHigh) {
+		this.yearHigh = yearHigh;
+	}
+
+	public void setYearLow(Double yearLow) {
+		this.yearLow = yearLow;
+	}
+
+	public void setSumValue(Double sumValue) {
+		this.sumValue = sumValue;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

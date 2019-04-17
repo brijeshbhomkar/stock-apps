@@ -11,103 +11,79 @@ public class StockData implements Serializable {
 
 	private String symbol;
 	private String series;
-	private String price;
-	private String change;
-	private String perChange;
-	private String prevClose;
-	private String tradedQuantity;
-	private String marketCap;
-	private String yearHigh;
-	private String yearLow;
-	private String sumValue;
-	private String sumQuantity;
-	private String finQnty;
-	private String sumfinQnty;
-	
+	private Double price;
+	private Double change;
+	private Double perChange;
+	private Double prevClose;
+	private Double tradedQuantity;
+	private Double marketCap;
+	private Double yearHigh;
+	private Double yearLow;
+	private Double sumValue;
 	public String getSymbol() {
 		return symbol;
-	}
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
 	}
 	public String getSeries() {
 		return series;
 	}
+	public Double getPrice() {
+		return price;
+	}
+	public Double getChange() {
+		return change;
+	}
+	public Double getPerChange() {
+		return perChange;
+	}
+	public Double getPrevClose() {
+		return prevClose;
+	}
+	public Double getTradedQuantity() {
+		return tradedQuantity;
+	}
+	public Double getMarketCap() {
+		return marketCap;
+	}
+	public Double getYearHigh() {
+		return yearHigh;
+	}
+	public Double getYearLow() {
+		return yearLow;
+	}
+	public Double getSumValue() {
+		return sumValue;
+	}
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
 	public void setSeries(String series) {
 		this.series = series;
 	}
-	public String getPrice() {
-		return price;
-	}
-	public void setPrice(String price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public String getChange() {
-		return change;
-	}
-	public void setChange(String change) {
+	public void setChange(Double change) {
 		this.change = change;
 	}
-	public String getPerChange() {
-		return perChange;
-	}
-	public void setPerChange(String perChange) {
+	public void setPerChange(Double perChange) {
 		this.perChange = perChange;
 	}
-	public String getPrevClose() {
-		return prevClose;
-	}
-	public void setPrevClose(String prevClose) {
+	public void setPrevClose(Double prevClose) {
 		this.prevClose = prevClose;
 	}
-	public String getTradedQuantity() {
-		return tradedQuantity;
-	}
-	public void setTradedQuantity(String tradedQuantity) {
+	public void setTradedQuantity(Double tradedQuantity) {
 		this.tradedQuantity = tradedQuantity;
 	}
-	public String getMarketCap() {
-		return marketCap;
-	}
-	public void setMarketCap(String marketCap) {
+	public void setMarketCap(Double marketCap) {
 		this.marketCap = marketCap;
 	}
-	public String getYearHigh() {
-		return yearHigh;
-	}
-	public void setYearHigh(String yearHigh) {
+	public void setYearHigh(Double yearHigh) {
 		this.yearHigh = yearHigh;
 	}
-	public String getYearLow() {
-		return yearLow;
-	}
-	public void setYearLow(String yearLow) {
+	public void setYearLow(Double yearLow) {
 		this.yearLow = yearLow;
 	}
-	public String getSumValue() {
-		return sumValue;
-	}
-	public void setSumValue(String sumValue) {
+	public void setSumValue(Double sumValue) {
 		this.sumValue = sumValue;
 	}
-	public String getSumQuantity() {
-		return sumQuantity;
-	}
-	public void setSumQuantity(String sumQuantity) {
-		this.sumQuantity = sumQuantity;
-	}
-	public String getFinQnty() {
-		return finQnty;
-	}
-	public void setFinQnty(String finQnty) {
-		this.finQnty = finQnty;
-	}
-	public String getSumfinQnty() {
-		return sumfinQnty;
-	}
-	public void setSumfinQnty(String sumfinQnty) {
-		this.sumfinQnty = sumfinQnty;
-	}
-
-	
 }

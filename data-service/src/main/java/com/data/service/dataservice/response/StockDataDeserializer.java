@@ -1,8 +1,11 @@
 package com.data.service.dataservice.response;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,21 +30,28 @@ public class StockDataDeserializer extends JsonDeserializer<StockDataResponse> {
 			final StockData stock = new StockData();
 			stock.setSymbol(record.get("symbol").asText());
 			stock.setSeries(record.get("series").asText());
-			stock.setPrice(record.get("iep").asText());
-			stock.setChange(record.get("chn").asText());
-			stock.setPerChange(record.get("perChn").asText());
-			stock.setPrevClose(record.get("pCls").asText());
-			stock.setTradedQuantity(record.get("trdQnty").asText());
-			stock.setMarketCap(record.get("mktCap").asText());
-			stock.setYearHigh(record.get("yHigh").asText());
-			stock.setYearLow(record.get("yLow").asText());
-			stock.setSumValue(record.get("sumVal").asText());
-			stock.setSumQuantity(record.get("sumQnty").asText());
-			stock.setFinQnty(record.get("finQnty").asText());
-			stock.setSumfinQnty(record.get("sumfinQnty").asText());
+			stock.setPrice(getDouble(record.get("iep").asText()));
+			stock.setChange(getDouble(record.get("chn").asText()));
+			stock.setPerChange(getDouble(record.get("perChn").asText()));
+			stock.setPrevClose(getDouble(record.get("pCls").asText()));
+			stock.setTradedQuantity(getDouble(record.get("trdQnty").asText()));
+			stock.setMarketCap(getDouble(record.get("mktCap").asText()));
+			stock.setYearHigh(getDouble(record.get("yHigh").asText()));
+			stock.setYearLow(getDouble(record.get("yLow").asText()));
+			stock.setSumValue(getDouble(record.get("sumVal").asText()));
 			dataList.add(stock);
 		}
 		return new StockDataResponse(declines, noChange, dataList);
 	}
 
+	private Double getDouble(final String value) {
+		NumberFormat format = NumberFormat.getInstance(Locale.US);
+		Number number = 0;
+		try {
+			number = format.parse(value);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return Double.valueOf(number.doubleValue());
+	}
 }

@@ -3,6 +3,8 @@ package com.data.service.dataservice.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -11,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +21,6 @@ import com.data.service.dataservice.external.NSEService;
 import com.data.service.dataservice.repository.NSERepository;
 import com.data.service.dataservice.response.StockData;
 import com.data.service.dataservice.response.StockDataResponse;
-import com.data.service.dataservice.searchcriteria.PriceRangeCriteria;
 import com.data.service.dataservice.util.EndpointUrls;
 import com.data.service.dataservice.util.NSEStockType;
 
@@ -184,14 +183,27 @@ public class NSEController {
 		return ResponseEntity.ok("Cleaned!");
 	}
 
-	@PostMapping("/pricerange")
-	public ResponseEntity<?> betweenPriceRange(@RequestBody final PriceRangeCriteria priceRangeCriteria) {
+	@GetMapping("/pricerange/{price}")
+	public ResponseEntity<?> betweenPriceRange(@PathParam("price") final String price) {
+		List<Stocks> stocks = new ArrayList<>();
 		try {
-			nseRepository.findByPrice(priceRangeCriteria.getUpperBound());
+			stocks = nseRepository.findByPrice(price);
 		} catch (Exception e) {
-
+			logger.error("Failed to get the stock between prices ");
+			return ResponseEntity.badRequest().body("Failed to get the stock between prices ");
 		}
-		return null;
+		return new ResponseEntity<List<Stocks>>(stocks, HttpStatus.OK);
 	}
-
+	
+	@GetMapping("/db/all")
+	public ResponseEntity<?> findAll() {
+		List<Stocks> stocks = new ArrayList<>();
+		try {
+			stocks = nseRepository.findAll();
+		} catch (Exception e) {
+			logger.error("Failed to find stocks from db ");
+			return ResponseEntity.badRequest().body("Failed to find stocks from db ");
+		}
+		return new ResponseEntity<List<Stocks>>(stocks, HttpStatus.OK);
+	}
 }
