@@ -2,6 +2,7 @@ package com.data.service.dataservice.response;
 
 import java.io.Serializable;
 
+import com.data.service.dataservice.json.Candles;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CandleResponse implements Serializable {

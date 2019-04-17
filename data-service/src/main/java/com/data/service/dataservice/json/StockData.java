@@ -1,10 +1,10 @@
-package com.data.service.dataservice.response;
+package com.data.service.dataservice.json;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonPropertyOrder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StockData implements Serializable {
 
 	private static final long serialVersionUID = 3497016924530886177L;

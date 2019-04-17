@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.data.service.dataservice.entity.CandleTick;
 import com.data.service.dataservice.entity.Symbol;
 import com.data.service.dataservice.external.KiteDataService;
+import com.data.service.dataservice.json.Candles;
+import com.data.service.dataservice.json.Ohlc;
 import com.data.service.dataservice.pojo.DataSearchCriteria;
 import com.data.service.dataservice.repository.KiteDataRepository;
 import com.data.service.dataservice.repository.SymbolRepository;
 import com.data.service.dataservice.response.CandleResponse;
-import com.data.service.dataservice.response.Candles;
-import com.data.service.dataservice.response.Ohlc;
 
 @RestController
 @RequestMapping("/api/kite")

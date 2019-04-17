@@ -22,7 +22,6 @@ public class SymbolRepositoryImpl implements StockSymbolRepository {
 		Root<Symbol> symbol = criteria.from(Symbol.class);
 		criteria.select(symbol);
 		criteria.where(criteriaBuilder.equal(symbol.get("symbolId"), id));
-
 		TypedQuery<Symbol> query = entityManager.createQuery(criteria);
 		return query.getSingleResult();
 

@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.data.service.dataservice.entity.Stocks;
 import com.data.service.dataservice.external.NSEService;
+import com.data.service.dataservice.json.StockData;
 import com.data.service.dataservice.repository.NSERepository;
-import com.data.service.dataservice.response.StockData;
 import com.data.service.dataservice.response.StockDataResponse;
 import com.data.service.dataservice.searchcriteria.PriceRangeCriteria;
 import com.data.service.dataservice.util.EndpointUrls;

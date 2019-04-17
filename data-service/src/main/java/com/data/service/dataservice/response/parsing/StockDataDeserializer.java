@@ -1,4 +1,4 @@
-package com.data.service.dataservice.response;
+package com.data.service.dataservice.response.parsing;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.data.service.dataservice.json.StockData;
+import com.data.service.dataservice.response.StockDataResponse;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;

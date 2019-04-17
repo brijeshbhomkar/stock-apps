@@ -3,6 +3,8 @@ package com.data.service.dataservice.response;
 import java.io.Serializable;
 import java.util.List;
 
+import com.data.service.dataservice.json.StockData;
+import com.data.service.dataservice.response.parsing.StockDataDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(using = StockDataDeserializer.class)
