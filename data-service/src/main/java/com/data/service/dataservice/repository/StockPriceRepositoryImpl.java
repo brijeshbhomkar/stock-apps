@@ -9,7 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import com.data.service.dataservice.entity.Stocks;
+import com.data.service.dataservice.entity.PreOpenStock;
 
 public class StockPriceRepositoryImpl implements StockPriceRepository {
 
@@ -17,17 +17,17 @@ public class StockPriceRepositoryImpl implements StockPriceRepository {
 	private EntityManager entityManager;
 
 	@Override
-	public List<Stocks> findPriceBetweenRange(final Double upparPrice, final Double lowerPrice) {
+	public List<PreOpenStock> findPriceBetweenRange(final Double upparPrice, final Double lowerPrice) {
 		final CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Stocks> criteria = builder.createQuery(Stocks.class);
-		Root<Stocks> order = criteria.from(Stocks.class);
+		CriteriaQuery<PreOpenStock> criteria = builder.createQuery(PreOpenStock.class);
+		Root<PreOpenStock> order = criteria.from(PreOpenStock.class);
 		criteria.select(order);
 		criteria.where(criteriaBuilder.between(order.get("price"), upparPrice, lowerPrice));
 		criteria.orderBy(criteriaBuilder.asc(order.get("price")));
 
-		TypedQuery<Stocks> query = entityManager.createQuery(criteria);
-		final List<Stocks> stocks = query.getResultList();
+		TypedQuery<PreOpenStock> query = entityManager.createQuery(criteria);
+		final List<PreOpenStock> stocks = query.getResultList();
 		return stocks != null ? stocks : null;
 	}
 

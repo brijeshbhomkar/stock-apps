@@ -15,14 +15,6 @@ public class Ohlc implements Serializable {
 	private long close;
 	private long volume;
 
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
-	}
-
 	public long getOpen() {
 		return open;
 	}
@@ -63,4 +55,11 @@ public class Ohlc implements Serializable {
 		this.volume = volume;
 	}
 
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
 }

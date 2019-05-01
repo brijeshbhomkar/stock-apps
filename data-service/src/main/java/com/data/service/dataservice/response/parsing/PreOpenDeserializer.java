@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import com.data.service.dataservice.json.StockData;
-import com.data.service.dataservice.response.StockDataResponse;
+import com.data.service.dataservice.json.PreOpen;
+import com.data.service.dataservice.response.PreOpenResponse;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -16,20 +16,20 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class StockDataDeserializer extends JsonDeserializer<StockDataResponse> {
+public class PreOpenDeserializer extends JsonDeserializer<PreOpenResponse> {
 
 	@Override
-	public StockDataResponse deserialize(JsonParser jsonParser, DeserializationContext ctxt)
+	public PreOpenResponse deserialize(JsonParser jsonParser, DeserializationContext ctxt)
 			throws IOException, JsonProcessingException {
 		ObjectCodec oc = jsonParser.getCodec();
 		JsonNode node = oc.readTree(jsonParser);
 		Long declines = node.get("declines").asLong();
 		Long noChange = node.get("noChange").asLong();
 		JsonNode data = node.get("data");
-		List<StockData> dataList = new ArrayList<>();
+		List<PreOpen> dataList = new ArrayList<>();
 		for (int i = 0; i < data.size(); i++) {
 			JsonNode record = data.get(i);
-			final StockData stock = new StockData();
+			final PreOpen stock = new PreOpen();
 			stock.setSymbol(record.get("symbol").asText());
 			stock.setSeries(record.get("series").asText());
 			stock.setPrice(getDouble(record.get("iep").asText()));
@@ -43,7 +43,7 @@ public class StockDataDeserializer extends JsonDeserializer<StockDataResponse> {
 			stock.setSumValue(getDouble(record.get("sumVal").asText()));
 			dataList.add(stock);
 		}
-		return new StockDataResponse(declines, noChange, dataList);
+		return new PreOpenResponse(declines, noChange, dataList);
 	}
 
 	private Double getDouble(final String value) {

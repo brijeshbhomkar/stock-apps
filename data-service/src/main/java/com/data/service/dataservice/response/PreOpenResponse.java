@@ -3,22 +3,22 @@ package com.data.service.dataservice.response;
 import java.io.Serializable;
 import java.util.List;
 
-import com.data.service.dataservice.json.StockData;
-import com.data.service.dataservice.response.parsing.StockDataDeserializer;
+import com.data.service.dataservice.json.PreOpen;
+import com.data.service.dataservice.response.parsing.PreOpenDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-@JsonDeserialize(using = StockDataDeserializer.class)
-public class StockDataResponse implements Serializable {
+@JsonDeserialize(using = PreOpenDeserializer.class)
+public class PreOpenResponse implements Serializable {
 	private static final long serialVersionUID = -849223705162170891L;
 
 	private long declines;
 	private long noChange;
-	private List<StockData> data;
+	private List<PreOpen> data;
 
-	public StockDataResponse() {
+	public PreOpenResponse() {
 	}
 
-	public StockDataResponse(final long declines, final long noChange, final List<StockData> data) {
+	public PreOpenResponse(final long declines, final long noChange, final List<PreOpen> data) {
 		this.data = data;
 		this.declines = declines;
 		this.noChange = noChange;
@@ -40,11 +40,11 @@ public class StockDataResponse implements Serializable {
 		this.noChange = noChange;
 	}
 
-	public List<StockData> getData() {
+	public List<PreOpen> getData() {
 		return data;
 	}
 
-	public void setData(List<StockData> data) {
+	public void setData(List<PreOpen> data) {
 		this.data = data;
 	}
 

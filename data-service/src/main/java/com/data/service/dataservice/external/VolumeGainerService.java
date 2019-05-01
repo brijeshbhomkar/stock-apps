@@ -24,7 +24,7 @@ public class VolumeGainerService extends RestfulSupport {
 		VolumeGainerResponse result = null;
 		try {
 			final HttpEntity<String> entity = new HttpEntity<String>("parameters", httpHeaders);
-			ResponseEntity<VolumeGainerResponse> response = restTemplate.exchange(EndpointUrls.NSE_VOLUME_GAINER,
+			ResponseEntity<VolumeGainerResponse> response = restTemplate.exchange(EndpointUrls.NSE_PREOPEN_VOLUME_GAINER,
 					HttpMethod.GET, entity, VolumeGainerResponse.class);
 			result = response.getBody();
 		} catch (Exception e) {

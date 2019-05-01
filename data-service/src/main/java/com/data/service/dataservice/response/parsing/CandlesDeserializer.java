@@ -24,19 +24,15 @@ public class CandlesDeserializer extends JsonDeserializer<Candles> {
 		List<Ohlc> ohlcList = new ArrayList<>();
 		for (int i = 0; i < candles.size(); i++) {
 			JsonNode tick = candles.get(i);
-			for (int j = 0; j < tick.size(); j++) {
-				//JsonNode data = tick.get(j);
-				final Ohlc ohlc = new Ohlc();
-				ohlc.setTime(tick.get(0).asText());
-				ohlc.setOpen(tick.get(1).asLong());
-				ohlc.setHigh(tick.get(2).asLong());
-				ohlc.setLow(tick.get(3).asLong());
-				ohlc.setClose(tick.get(4).asLong());
-				ohlc.setVolume(tick.get(5).asLong());
-				ohlcList.add(ohlc);
-			}
+			final Ohlc ohlc = new Ohlc();
+			ohlc.setTime(tick.get(0).asText());
+			ohlc.setOpen(tick.get(1).asLong());
+			ohlc.setHigh(tick.get(2).asLong());
+			ohlc.setLow(tick.get(3).asLong());
+			ohlc.setClose(tick.get(4).asLong());
+			ohlc.setVolume(tick.get(5).asLong());
+			ohlcList.add(ohlc);
 		}
 		return new Candles(ohlcList);
 	}
-
 }
