@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,22 +29,27 @@ public class NSEStockWatchController {
 
 	@Autowired
 	private NSEService nseService;
-	
+
 	@Autowired
 	private GmailSender gmailSender;
-	
-	@GetMapping("/intraday/upstocks/{limit}")
-	public ResponseEntity<?> intradayUpstocks(@PathVariable final int limit) {
+
+	@GetMapping("/intraday/upstocks")
+	public ResponseEntity<?> intradayUpstocks() {
 		final List<StockWatch> stocks = findUpstocks();
 		if (CollectionUtils.isEmpty(stocks)) {
 			return ResponseEntity.badRequest().body(HttpStatus.NO_CONTENT);
 		}
-		List<StockWatch> data = stocks.stream().distinct().collect(Collectors.toList());
-		List<StockWatch> result = data.stream().sorted(Comparator.comparing(StockWatch::getTrdVol).reversed())
-				.limit(limit == 0 ? 5 : limit).collect(Collectors.toList());
-		
-		//send an email 
-		gmailSender.init(result);
+		//List<StockWatch> data = stocks.stream().distinct().collect(Collectors.toList());
+		// List<StockWatch> result = null;
+//		if (limit >= 0) {
+//			result = data.stream().sorted(Comparator.comparing(StockWatch::getTrdVol).reversed())
+//					.limit(limit == 0 ? 5 : limit).collect(Collectors.toList());
+//		} else {
+		List<StockWatch> result = stocks.stream().distinct().sorted(Comparator.comparing(StockWatch::getTrdVol).reversed())
+				.collect(Collectors.toList());
+		// }
+		// send an email
+		// gmailSender.init(result);
 		return new ResponseEntity<List<StockWatch>>(result, HttpStatus.OK);
 	}
 
@@ -59,36 +63,36 @@ public class NSEStockWatchController {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
 					.collect(Collectors.toList()));
 		}
-
-		// NSE_NIFTY_STOCKWATCH_NEXT_50
+//
+//		// NSE_NIFTY_STOCKWATCH_NEXT_50
 		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_NEXT_50);
 		if (!CollectionUtils.isEmpty(response.getData())) {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
 					.collect(Collectors.toList()));
 		}
-
-		// NSE_NIFTY_STOCKWATCH_MIDCAP_50
+//
+//		// NSE_NIFTY_STOCKWATCH_MIDCAP_50
 		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_50);
 		if (!CollectionUtils.isEmpty(response.getData())) {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
 					.collect(Collectors.toList()));
 		}
-
-		// NSE_NIFTY_STOCKWATCH_MIDCAP_150
+//
+//		// NSE_NIFTY_STOCKWATCH_MIDCAP_150
 		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_150);
 		if (!CollectionUtils.isEmpty(response.getData())) {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
 					.collect(Collectors.toList()));
 		}
-
-		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
+//
+//		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
 		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_50);
 		if (!CollectionUtils.isEmpty(response.getData())) {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
 					.collect(Collectors.toList()));
 		}
-
-		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
+//
+//		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
 		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_250);
 		if (!CollectionUtils.isEmpty(response.getData())) {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
@@ -114,36 +118,36 @@ public class NSEStockWatchController {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
 					.collect(Collectors.toList()));
 		}
-
-		// NSE_NIFTY_STOCKWATCH_NEXT_50
+//
+//		// NSE_NIFTY_STOCKWATCH_NEXT_50
 		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_NEXT_50);
 		if (!CollectionUtils.isEmpty(response.getData())) {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
 					.collect(Collectors.toList()));
 		}
-
-		// NSE_NIFTY_STOCKWATCH_MIDCAP_50
+//
+//		// NSE_NIFTY_STOCKWATCH_MIDCAP_50
 		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_50);
 		if (!CollectionUtils.isEmpty(response.getData())) {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
 					.collect(Collectors.toList()));
 		}
-
-		// NSE_NIFTY_STOCKWATCH_MIDCAP_150
+//
+//		// NSE_NIFTY_STOCKWATCH_MIDCAP_150
 		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_150);
 		if (!CollectionUtils.isEmpty(response.getData())) {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
 					.collect(Collectors.toList()));
 		}
-
-		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
+//
+//		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
 		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_50);
 		if (!CollectionUtils.isEmpty(response.getData())) {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
 					.collect(Collectors.toList()));
 		}
-
-		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
+//
+//		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
 		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_250);
 		if (!CollectionUtils.isEmpty(response.getData())) {
 			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
@@ -159,15 +163,15 @@ public class NSEStockWatchController {
 		return stocks;
 	}
 
-	@RequestMapping("/intraday/downstocks/{limit}")
-	public ResponseEntity<?> intradayDownStocks(@PathVariable final int limit) {
+	@RequestMapping("/intraday/downstocks")
+	public ResponseEntity<?> intradayDownStocks() {
 		final List<StockWatch> stocks = findDownstocks();
 		if (CollectionUtils.isEmpty(stocks)) {
 			return ResponseEntity.badRequest().body(HttpStatus.NO_CONTENT);
 		}
 		List<StockWatch> data = stocks.stream().distinct().collect(Collectors.toList());
 		List<StockWatch> result = data.stream().sorted(Comparator.comparing(StockWatch::getTrdVol).reversed())
-				.limit(limit == 0 ? 5 : limit).collect(Collectors.toList());
+				.collect(Collectors.toList());
 		return new ResponseEntity<List<StockWatch>>(result, HttpStatus.OK);
 	}
 

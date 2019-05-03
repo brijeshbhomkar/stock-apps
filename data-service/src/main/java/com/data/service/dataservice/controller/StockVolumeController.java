@@ -1,7 +1,9 @@
 package com.data.service.dataservice.controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +23,9 @@ import com.data.service.dataservice.repository.VolumeGainerRepository;
 
 @RestController
 @RequestMapping("/api/nse/volume")
-public class DateVolumeController {
+public class StockVolumeController {
 
-	private static final Logger log = LoggerFactory.getLogger(DateVolumeController.class);
+	private static final Logger log = LoggerFactory.getLogger(StockVolumeController.class);
 
 	@Autowired
 	private VolumeGainerRepository repository;
@@ -47,7 +49,8 @@ public class DateVolumeController {
 			return ResponseEntity.badRequest().body("Failed to find volume gainers");
 		}
 
-		return ResponseEntity.ok(volumeGainers);
+		return ResponseEntity.ok(volumeGainers.stream().sorted(Comparator.comparing(VolumeGainer::getTurnoverLakhs).reversed())
+				.collect(Collectors.toList()));
 	}
 
 	private List<VolumeGainerData> copy(final List<VolumeGainer> data) {

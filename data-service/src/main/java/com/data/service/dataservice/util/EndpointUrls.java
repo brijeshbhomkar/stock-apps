@@ -18,4 +18,14 @@ public interface EndpointUrls {
 	final String NSE_NIFTY_STOCKWATCH_SMALCAP_50 = "https://www.nseindia.com/live_market/dynaContent/live_watch/stock_watch/niftySmallcap50OnlineStockWatch.json";
 	final String NSE_NIFTY_STOCKWATCH_SMALCAP_250 = "https://www.nseindia.com/live_market/dynaContent/live_watch/stock_watch/niftySmallcap250OnlineStockWatch.json";
 	final String NSE_NIFTY_STOCKWATCH_MIDCAP_400 = "https://www.nseindia.com/live_market/dynaContent/live_watch/stock_watch/niftyMidsml400OnlineStockWatch.json";
+
+	//gainers
+	final String NSE_NIFTY_TOP_GAINER_1 = "https://www.nseindia.com/live_market/dynaContent/live_analysis/gainers/niftyGainers1.json";
+	final String NSE_NIFTY_TOP_GAINER_2 = "https://www.nseindia.com/live_market/dynaContent/live_analysis/gainers/jrNiftyGainers1.json";
+	
+	//loosers
+	final String NSE_NIFTY_LOSER_1 = "https://www.nseindia.com/live_market/dynaContent/live_analysis/losers/niftyLosers1.json";
+	final String NSE_NIFTY_LOSER_2 = "https://www.nseindia.com/live_market/dynaContent/live_analysis/losers/jrNiftyLosers1.json";
+	
+	
 }

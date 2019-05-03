@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.data.service.dataservice.response.GainerLoserResponse;
 import com.data.service.dataservice.response.PreOpenResponse;
 import com.data.service.dataservice.response.StockWatchResponse;
 import com.data.service.dataservice.util.RestfulSupport;
@@ -42,6 +43,36 @@ public class NSEService extends RestfulSupport {
 		} catch (Exception e) {
 			logger.error("Failed to get the nifty live stock watch ");
 			throw new RuntimeException("Failed to get the nifty live stock watch ");
+		}
+		return result;
+	}
+	
+	public GainerLoserResponse getGainers(final String url) {
+		logger.debug("Find the nifty live stock watch ");
+		GainerLoserResponse result = null;
+		try {
+			final HttpEntity<String> entity = new HttpEntity<String>("parameters", httpHeaders);
+			ResponseEntity<GainerLoserResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity,
+					GainerLoserResponse.class);
+			result = response.getBody();
+		} catch (Exception e) {
+			logger.error("Failed to get the nifty gainers ");
+			throw new RuntimeException("Failed to get the nifty gainers ");
+		}
+		return result;
+	}
+	
+	public GainerLoserResponse getLosers(final String url) {
+		logger.debug("Find the nifty live stock watch ");
+		GainerLoserResponse result = null;
+		try {
+			final HttpEntity<String> entity = new HttpEntity<String>("parameters", httpHeaders);
+			ResponseEntity<GainerLoserResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity,
+					GainerLoserResponse.class);
+			result = response.getBody();
+		} catch (Exception e) {
+			logger.error("Failed to get the nifty gainers ");
+			throw new RuntimeException("Failed to get the nifty gainers ");
 		}
 		return result;
 	}

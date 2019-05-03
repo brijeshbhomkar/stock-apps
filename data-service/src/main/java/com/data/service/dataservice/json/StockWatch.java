@@ -14,18 +14,18 @@ public class StockWatch implements Serializable, Comparable<StockWatch> {
 	private Double high;
 	private Double low;
 	private Double ltP;
-	private Double ptsC;
-	private Double per;
+//	private Double ptsC;
+//	private Double per;
 	private Double trdVol;
 	private Double trdVolM;
-	private Double ntP;
-	private Double mVal;
-	private Double wkhi;
-	private Double wklo;
-	private Double previousClose;
-	private Double dayEndClose;
-	private Double iislPtsChange;
-	private Double iislPercChange;
+//	private Double ntP;
+//	private Double mVal;
+//	private Double wkhi;
+//	private Double wklo;
+//	private Double previousClose;
+//	private Double dayEndClose;
+//	private Double iislPtsChange;
+//	private Double iislPercChange;
 
 	public String getSymbol() {
 		return symbol;
@@ -47,13 +47,13 @@ public class StockWatch implements Serializable, Comparable<StockWatch> {
 		return ltP;
 	}
 
-	public Double getPtsC() {
-		return ptsC;
-	}
-
-	public Double getPer() {
-		return per;
-	}
+//	public Double getPtsC() {
+//		return ptsC;
+//	}
+//
+//	public Double getPer() {
+//		return per;
+//	}
 
 	public Double getTrdVol() {
 		return trdVol;
@@ -63,37 +63,37 @@ public class StockWatch implements Serializable, Comparable<StockWatch> {
 		return trdVolM;
 	}
 
-	public Double getNtP() {
-		return ntP;
-	}
+//	public Double getNtP() {
+//		return ntP;
+//	}
+//
+//	public Double getmVal() {
+//		return mVal;
+//	}
+//
+//	public Double getWkhi() {
+//		return wkhi;
+//	}
 
-	public Double getmVal() {
-		return mVal;
-	}
+//	public Double getWklo() {
+//		return wklo;
+//	}
 
-	public Double getWkhi() {
-		return wkhi;
-	}
+//	public Double getPreviousClose() {
+//		return previousClose;
+//	}
 
-	public Double getWklo() {
-		return wklo;
-	}
+//	public Double getDayEndClose() {
+//		return dayEndClose;
+//	}
+//
+//	public Double getIislPtsChange() {
+//		return iislPtsChange;
+//	}
 
-	public Double getPreviousClose() {
-		return previousClose;
-	}
-
-	public Double getDayEndClose() {
-		return dayEndClose;
-	}
-
-	public Double getIislPtsChange() {
-		return iislPtsChange;
-	}
-
-	public Double getIislPercChange() {
-		return iislPercChange;
-	}
+//	public Double getIislPercChange() {
+//		return iislPercChange;
+//	}
 
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
@@ -115,13 +115,13 @@ public class StockWatch implements Serializable, Comparable<StockWatch> {
 		this.ltP = ltP;
 	}
 
-	public void setPtsC(Double ptsC) {
-		this.ptsC = ptsC;
-	}
-
-	public void setPer(Double per) {
-		this.per = per;
-	}
+//	public void setPtsC(Double ptsC) {
+//		this.ptsC = ptsC;
+//	}
+//
+//	public void setPer(Double per) {
+//		this.per = per;
+//	}
 
 	public void setTrdVol(Double trdVol) {
 		this.trdVol = trdVol;
@@ -131,37 +131,37 @@ public class StockWatch implements Serializable, Comparable<StockWatch> {
 		this.trdVolM = trdVolM;
 	}
 
-	public void setNtP(Double ntP) {
-		this.ntP = ntP;
-	}
+//	public void setNtP(Double ntP) {
+//		this.ntP = ntP;
+//	}
+//
+//	public void setmVal(Double mVal) {
+//		this.mVal = mVal;
+//	}
+//
+//	public void setWkhi(Double wkhi) {
+//		this.wkhi = wkhi;
+//	}
+//
+//	public void setWklo(Double wklo) {
+//		this.wklo = wklo;
+//	}
 
-	public void setmVal(Double mVal) {
-		this.mVal = mVal;
-	}
+//	public void setPreviousClose(Double previousClose) {
+//		this.previousClose = previousClose;
+//	}
 
-	public void setWkhi(Double wkhi) {
-		this.wkhi = wkhi;
-	}
-
-	public void setWklo(Double wklo) {
-		this.wklo = wklo;
-	}
-
-	public void setPreviousClose(Double previousClose) {
-		this.previousClose = previousClose;
-	}
-
-	public void setDayEndClose(Double dayEndClose) {
-		this.dayEndClose = dayEndClose;
-	}
-
-	public void setIislPtsChange(Double iislPtsChange) {
-		this.iislPtsChange = iislPtsChange;
-	}
-
-	public void setIislPercChange(Double iislPercChange) {
-		this.iislPercChange = iislPercChange;
-	}
+//	public void setDayEndClose(Double dayEndClose) {
+//		this.dayEndClose = dayEndClose;
+//	}
+//
+//	public void setIislPtsChange(Double iislPtsChange) {
+//		this.iislPtsChange = iislPtsChange;
+//	}
+//
+//	public void setIislPercChange(Double iislPercChange) {
+//		this.iislPercChange = iislPercChange;
+//	}
 
 	@Override
 	public int hashCode() {
@@ -192,7 +192,7 @@ public class StockWatch implements Serializable, Comparable<StockWatch> {
 
 	@Override
 	public int compareTo(StockWatch o) {
-		return trdVol.compareTo(o.trdVol);
+		return ltP.compareTo(o.ltP);
 	}
 
 }

@@ -14,7 +14,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "CANDLE")
-public class CandleTick implements Serializable {
+public class CandleTick implements Serializable, Comparable<CandleTick> {
 
 	private static final long serialVersionUID = 5954818622290494162L;
 
@@ -117,5 +117,10 @@ public class CandleTick implements Serializable {
 
 	public void setPeriod(String period) {
 		this.period = period;
+	}
+
+	@Override
+	public int compareTo(CandleTick o) {
+		return volume.compareTo(o.getVolume());
 	}
 }

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class VolumeGainer implements Serializable {
+public class VolumeGainer implements Serializable, Comparable<VolumeGainer> {
 
 	private static final long serialVersionUID = -453927105322107909L;
 
@@ -99,4 +99,11 @@ public class VolumeGainer implements Serializable {
 	public void setNetChangePercentage(Double netChangePercentage) {
 		this.netChangePercentage = netChangePercentage;
 	}
+
+	@Override
+	public int compareTo(VolumeGainer o) {
+		return turnoverLakhs.compareTo(o.turnoverLakhs);
+	}
+	
+	
 }
