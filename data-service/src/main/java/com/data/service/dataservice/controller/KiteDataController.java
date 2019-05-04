@@ -1,11 +1,8 @@
 package com.data.service.dataservice.controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,8 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.data.service.dataservice.entity.CandleTick;
 import com.data.service.dataservice.entity.Symbol;
 import com.data.service.dataservice.external.KiteDataService;
-import com.data.service.dataservice.json.Candles;
-import com.data.service.dataservice.json.Ohlc;
 import com.data.service.dataservice.pojo.DataSearchCriteria;
 import com.data.service.dataservice.repository.KiteDataRepository;
 import com.data.service.dataservice.repository.SymbolRepository;
@@ -60,7 +55,7 @@ public class KiteDataController {
 			}
 
 			// insert into db
-			candleTicks = extractData(data.getData(), symbol.getSymbolId(), symbol.getSymbol(),
+			candleTicks = kiteDataService.extractData(data.getData(), symbol.getSymbolId(), symbol.getSymbol(),
 					dataSearchCriteria.getPeriod());
 			if (candleTicks != null && !candleTicks.isEmpty()) {
 				for (CandleTick candleTick : candleTicks) {
@@ -95,8 +90,8 @@ public class KiteDataController {
 			symbols.forEach(s -> {
 				dataSearchCriteria.setSymbol(s.getSymbol());
 				CandleResponse data = kiteDataService.get(dataSearchCriteria, s.getSymbolId());
-				final List<CandleTick> candleTicks = extractData(data.getData(), s.getSymbolId(), s.getSymbol(),
-						dataSearchCriteria.getPeriod());
+				final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), s.getSymbolId(),
+						s.getSymbol(), dataSearchCriteria.getPeriod());
 				final List<CandleTick> output = candleTicks.stream().filter(i -> i.getOpen().equals(i.getLow()))
 						.sorted(Comparator.comparing(CandleTick::getVolume).reversed()).collect(Collectors.toList());
 				result.addAll(output);
@@ -126,8 +121,8 @@ public class KiteDataController {
 			symbols.forEach(s -> {
 				dataSearchCriteria.setSymbol(s.getSymbol());
 				CandleResponse data = kiteDataService.get(dataSearchCriteria, s.getSymbolId());
-				final List<CandleTick> candleTicks = extractData(data.getData(), s.getSymbolId(), s.getSymbol(),
-						dataSearchCriteria.getPeriod());
+				final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), s.getSymbolId(),
+						s.getSymbol(), dataSearchCriteria.getPeriod());
 				final List<CandleTick> output = candleTicks.stream().filter(i -> i.getOpen().equals(i.getHigh()))
 						.sorted(Comparator.comparing(CandleTick::getVolume).reversed()).collect(Collectors.toList());
 				result.addAll(output);
@@ -151,32 +146,4 @@ public class KiteDataController {
 		}
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
-
-	private List<CandleTick> extractData(final Candles candles, final Long id, final String symbolName,
-										 final String period) {
-		final List<CandleTick> ticks = new ArrayList<>();
-		if (candles != null && candles.getCandles() != null) {
-			final List<Ohlc> ohlcData = candles.getCandles();
-			for (Ohlc ohlc : ohlcData) {
-				final CandleTick tick = new CandleTick();
-				tick.setSymbol(symbolName);
-				tick.setOpen(ohlc.getOpen());
-				tick.setHigh(ohlc.getHigh());
-				tick.setLow(ohlc.getLow());
-				tick.setClose(ohlc.getClose());
-				tick.setTickTime(convertToDate(ohlc.getTime()));
-				tick.setVolume(ohlc.getVolume());
-				tick.setPeriod(period);
-				ticks.add(tick);
-			}
-		}
-
-		return ticks;
-	}
-
-	private static Date convertToDate(final String date) {
-		LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ"));
-		return java.sql.Timestamp.valueOf(localDateTime);
-	}
-
 }

@@ -43,7 +43,7 @@ public class StockWatchDeserializer extends JsonDeserializer<StockWatchResponse>
 //			stock.setWkhi(getDouble(record.get("wkhi").asText()));
 //			stock.setWklo(getDouble(record.get("wklo").asText()));
 //			stock.setWklo(getDouble(record.get("wklo").asText()));
-//			stock.setPreviousClose(getDouble(record.get("previousClose").asText()));
+			stock.setPreviousClose(getDouble(record.get("previousClose").asText()));
 			//stock.setDayEndClose(getDouble(record.get("dayEndClose").asText()));
 			//stock.setIislPtsChange(getDouble(record.get("iislPtsChange").asText()));
 			//stock.setIislPercChange(getDouble(record.get("iislPercChange").asText()));

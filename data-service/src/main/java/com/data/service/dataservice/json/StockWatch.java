@@ -22,7 +22,7 @@ public class StockWatch implements Serializable, Comparable<StockWatch> {
 //	private Double mVal;
 //	private Double wkhi;
 //	private Double wklo;
-//	private Double previousClose;
+	private Double previousClose;
 //	private Double dayEndClose;
 //	private Double iislPtsChange;
 //	private Double iislPercChange;
@@ -79,9 +79,9 @@ public class StockWatch implements Serializable, Comparable<StockWatch> {
 //		return wklo;
 //	}
 
-//	public Double getPreviousClose() {
-//		return previousClose;
-//	}
+	public Double getPreviousClose() {
+		return previousClose;
+	}
 
 //	public Double getDayEndClose() {
 //		return dayEndClose;
@@ -193,6 +193,10 @@ public class StockWatch implements Serializable, Comparable<StockWatch> {
 	@Override
 	public int compareTo(StockWatch o) {
 		return ltP.compareTo(o.ltP);
+	}
+
+	public void setPreviousClose(Double previousClose) {
+		this.previousClose = previousClose;
 	}
 
 }

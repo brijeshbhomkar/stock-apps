@@ -1,5 +1,11 @@
 package com.data.service.dataservice.external;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -8,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import com.data.service.dataservice.entity.CandleTick;
+import com.data.service.dataservice.json.Candles;
+import com.data.service.dataservice.json.Ohlc;
 import com.data.service.dataservice.pojo.DataSearchCriteria;
 import com.data.service.dataservice.response.CandleResponse;
 import com.data.service.dataservice.util.RestfulSupport;
@@ -32,5 +41,33 @@ public class KiteDataService extends RestfulSupport {
 			throw new RuntimeException("Failed to find data for symbol ", e);
 		}
 		return candleResponse;
+	}
+	
+
+	public List<CandleTick> extractData(final Candles candles, final Long id, final String symbolName,
+										 final String period) {
+		final List<CandleTick> ticks = new ArrayList<>();
+		if (candles != null && candles.getCandles() != null) {
+			final List<Ohlc> ohlcData = candles.getCandles();
+			for (Ohlc ohlc : ohlcData) {
+				final CandleTick tick = new CandleTick();
+				tick.setSymbol(symbolName);
+				tick.setOpen(ohlc.getOpen());
+				tick.setHigh(ohlc.getHigh());
+				tick.setLow(ohlc.getLow());
+				tick.setClose(ohlc.getClose());
+				tick.setTickTime(convertToDate(ohlc.getTime()));
+				tick.setVolume(ohlc.getVolume());
+				tick.setPeriod(period);
+				ticks.add(tick);
+			}
+		}
+
+		return ticks;
+	}
+
+	private static Date convertToDate(final String date) {
+		LocalDateTime localDateTime = LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ"));
+		return java.sql.Timestamp.valueOf(localDateTime);
 	}
 }
