@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.data.service.dataservice.entity.Symbol;
 import com.data.service.dataservice.repository.SymbolRepository;
+import com.data.service.dataservice.util.StockSymbolMapper;
 
 @RestController
 @RequestMapping("/api/symbol")
@@ -30,8 +31,19 @@ public class SymbolController {
 	@Autowired
 	private SymbolRepository repository;
 
-	@RequestMapping(value = "/ping", method = RequestMethod.GET)
+	@RequestMapping(value = "/nifty50", method = RequestMethod.GET)
 	public ResponseEntity<String> ping() {
+		try {
+			StockSymbolMapper.getSymbolMapper().entrySet().forEach(s -> {
+				final Symbol symbol = new Symbol();
+				symbol.setExchange("nse");
+				symbol.setSymbol(s.getKey());
+				symbol.setSymbolId(Long.parseLong(s.getValue()));
+				repository.saveAndFlush(symbol);
+			});
+		} catch (Exception e) {
+			logger.error("Failed to add symbols");
+		}
 		return ResponseEntity.ok("sucess");
 	}
 

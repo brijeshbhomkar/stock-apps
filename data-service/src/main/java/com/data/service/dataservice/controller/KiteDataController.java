@@ -108,7 +108,7 @@ public class KiteDataController {
 		}
 		return new ResponseEntity<List<CandleTick>>(result, HttpStatus.OK);
 	}
-	
+
 	/**
 	 * @return The list of stocks which has same open and low, basically those which
 	 *         are in uptrend with a period of a day.
@@ -153,7 +153,7 @@ public class KiteDataController {
 	}
 
 	private List<CandleTick> extractData(final Candles candles, final Long id, final String symbolName,
-			final String period) {
+										 final String period) {
 		final List<CandleTick> ticks = new ArrayList<>();
 		if (candles != null && candles.getCandles() != null) {
 			final List<Ohlc> ohlcData = candles.getCandles();
