@@ -72,39 +72,39 @@ public class NSEStockWatchController {
 		}
 //
 //		// NSE_NIFTY_STOCKWATCH_MIDCAP_50
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_50);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
-					.collect(Collectors.toList()));
-		}
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_50);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
+//					.collect(Collectors.toList()));
+//		}
 //
 //		// NSE_NIFTY_STOCKWATCH_MIDCAP_150
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_150);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
-					.collect(Collectors.toList()));
-		}
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_150);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
+//					.collect(Collectors.toList()));
+//		}
 //
 //		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_50);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
-					.collect(Collectors.toList()));
-		}
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_50);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
+//					.collect(Collectors.toList()));
+//		}
 //
 //		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_250);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
-					.collect(Collectors.toList()));
-		}
-
-		// NSE_NIFTY_STOCKWATCH_MIDCAP_400
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_400);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
-					.collect(Collectors.toList()));
-		}
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_250);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
+//					.collect(Collectors.toList()));
+//		}
+//
+//		// NSE_NIFTY_STOCKWATCH_MIDCAP_400
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_400);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getLow()))
+//					.collect(Collectors.toList()));
+//		}
 		return stocks;
 	}
 
@@ -127,39 +127,39 @@ public class NSEStockWatchController {
 		}
 //
 //		// NSE_NIFTY_STOCKWATCH_MIDCAP_50
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_50);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
-					.collect(Collectors.toList()));
-		}
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_50);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
+//					.collect(Collectors.toList()));
+//		}
+////
+////		// NSE_NIFTY_STOCKWATCH_MIDCAP_150
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_150);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
+//					.collect(Collectors.toList()));
+//		}
+////
+////		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_50);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
+//					.collect(Collectors.toList()));
+//		}
+////
+////		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_250);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
+//					.collect(Collectors.toList()));
+//		}
 //
-//		// NSE_NIFTY_STOCKWATCH_MIDCAP_150
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_150);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
-					.collect(Collectors.toList()));
-		}
-//
-//		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_50);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
-					.collect(Collectors.toList()));
-		}
-//
-//		// NSE_NIFTY_STOCKWATCH_SMALCAP_50
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_250);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
-					.collect(Collectors.toList()));
-		}
-
-		// NSE_NIFTY_STOCKWATCH_MIDCAP_400
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_400);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
-					.collect(Collectors.toList()));
-		}
+//		// NSE_NIFTY_STOCKWATCH_MIDCAP_400
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_400);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().filter(s -> s.getOpen().equals(s.getHigh()))
+//					.collect(Collectors.toList()));
+//		}
 		return stocks;
 	}
 

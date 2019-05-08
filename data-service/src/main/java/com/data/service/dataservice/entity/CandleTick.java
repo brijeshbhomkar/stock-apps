@@ -21,8 +21,8 @@ public class CandleTick implements Serializable, Comparable<CandleTick> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	@Column(name="SYMBOL")
+
+	@Column(name = "SYMBOL")
 	private String symbol;
 
 	@Column(name = "TICK_TIME")
@@ -43,8 +43,8 @@ public class CandleTick implements Serializable, Comparable<CandleTick> {
 
 	@Column(name = "VOLUME")
 	private Long volume;
-	
-	@Column(name="PERIOD")
+
+	@Column(name = "PERIOD")
 	private String period;
 
 	public Long getId() {
@@ -122,5 +122,12 @@ public class CandleTick implements Serializable, Comparable<CandleTick> {
 	@Override
 	public int compareTo(CandleTick o) {
 		return volume.compareTo(o.getVolume());
+	}
+
+	public boolean filterByPrice() {
+		final Float high = new Float(getHigh());
+		final Float low = new Float(getLow());
+		 Float result = (high + low) / 2;
+		return result.equals(new Float(close));
 	}
 }

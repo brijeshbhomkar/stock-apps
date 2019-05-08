@@ -199,4 +199,8 @@ public class StockWatch implements Serializable, Comparable<StockWatch> {
 		this.previousClose = previousClose;
 	}
 
+	public boolean filterByPrice() {
+		double result = (getHigh() + getLow()) / 2;
+		return result == getLtP();
+	}
 }

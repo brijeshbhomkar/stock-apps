@@ -33,7 +33,7 @@ import com.data.service.dataservice.util.EndpointUrls;
  *
  */
 @RestController
-@RequestMapping("/api/nse/gapup")
+@RequestMapping("/api/nse")
 public class GapUpAndGapDownController {
 
 	@Autowired
@@ -81,12 +81,19 @@ public class GapUpAndGapDownController {
 				HttpStatus.OK);
 	}
 
-	@RequestMapping("/all")
+	@RequestMapping("/gapup/all")
 	public ResponseEntity<?> findGapUpStocks() {
-		return new ResponseEntity<List<StockWatch>>(findStocks(), HttpStatus.OK);
+		final List<StockWatch> stocks = findGapUp(true);
+		return new ResponseEntity<List<StockWatch>>(stocks, HttpStatus.OK);
 	}
 
-	private List<StockWatch> findStocks() {
+	@RequestMapping("/gapdown/all")
+	public ResponseEntity<?> findGapDownStocks() {
+		final List<StockWatch> stocks = findGapUp(false);
+		return new ResponseEntity<List<StockWatch>>(stocks, HttpStatus.OK);
+	}
+
+	private List<StockWatch> findGapUp(final boolean type) {
 		StockWatchResponse response = null;
 
 		List<StockWatch> stocks = new ArrayList<>();
@@ -102,43 +109,56 @@ public class GapUpAndGapDownController {
 			stocks.addAll(response.getData().stream().collect(Collectors.toList()));
 		}
 
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_50);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().collect(Collectors.toList()));
-		}
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_50);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().collect(Collectors.toList()));
+//		}
+//
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_150);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().collect(Collectors.toList()));
+//		}
 
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_150);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().collect(Collectors.toList()));
-		}
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_50);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().collect(Collectors.toList()));
+//		}
+//
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_250);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().collect(Collectors.toList()));
+//		}
 
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_50);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().collect(Collectors.toList()));
-		}
-
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_SMALCAP_250);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().collect(Collectors.toList()));
-		}
-
-		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_400);
-		if (!CollectionUtils.isEmpty(response.getData())) {
-			stocks.addAll(response.getData().stream().collect(Collectors.toList()));
-		}
+//		response = nseService.fetchNseStockWatch(EndpointUrls.NSE_NIFTY_STOCKWATCH_MIDCAP_400);
+//		if (!CollectionUtils.isEmpty(response.getData())) {
+//			stocks.addAll(response.getData().stream().collect(Collectors.toList()));
+//		}
 
 		if (!CollectionUtils.isEmpty(stocks)) {
-			stocks.forEach(s -> {
-				Float open = new Float(s.getOpen());
-				Float prevClose = new Float(s.getPreviousClose());
-				Float result = (open - prevClose) / prevClose;
-				result = result * 100;
-				if (result >= 2) {
-					data.add(s);
-				}
-			});
+			if (type) {
+				stocks.forEach(s -> {
+					Float open = new Float(s.getOpen());
+					Float prevClose = new Float(s.getPreviousClose());
+					Float result = (open - prevClose) / prevClose;
+					result = result * 100;
+					if (result >= 1) {
+						data.add(s);
+					}
+				});
+			} else {
+				stocks.forEach(s -> {
+					Float open = new Float(s.getOpen());
+					Float prevClose = new Float(s.getPreviousClose());
+					Float result = (open - prevClose) / prevClose;
+					result = result * 100;
+					if (result <= -1) {
+						data.add(s);
+					}
+				});
+			}
 		}
 
 		return data;
 	}
+
 }
