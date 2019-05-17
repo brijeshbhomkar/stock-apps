@@ -3,14 +3,17 @@ package com.data.service.dataservice.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,32 +69,65 @@ public class VolumeSpreadAnalysisController {
 		return new ResponseEntity<List<StockWatch>>(output, HttpStatus.OK);
 	}
 
-	@RequestMapping("/uptrend")
+	@RequestMapping("/downtrend")
 	public ResponseEntity<?> scan() {
-		final List<CandleTick> result = new ArrayList<CandleTick>();
+		final List<CandleTick> result = new CopyOnWriteArrayList<CandleTick>();
 		final List<Symbol> symbols = symbolRepository.findAll();
 		if (!CollectionUtils.isEmpty(symbols)) {
 			final DataSearchCriteria dataSearchCriteria = new DataSearchCriteria();
 			dataSearchCriteria.setKiteId("RB1822");
-			dataSearchCriteria.setPeriod("15minute");
-			dataSearchCriteria.setStartDate(LocalDate.now().toString());
+			dataSearchCriteria.setPeriod("day");
+			dataSearchCriteria.setStartDate(LocalDate.now().minusDays(5).toString());
 			dataSearchCriteria.setEndDate(LocalDate.now().toString());
-			symbols.forEach(s -> {
+			symbols.parallelStream().forEach(s -> {
 				dataSearchCriteria.setSymbol(s.getSymbol());
 				CandleResponse data = kiteDataService.get(dataSearchCriteria, s.getSymbolId());
 				final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), s.getSymbolId(),
 						s.getSymbol(), dataSearchCriteria.getPeriod());
-				final List<CandleTick> output = candleTicks.stream().filter(CandleTick::filterByPrice)
-						.sorted(Comparator.comparing(CandleTick::getVolume).reversed()).collect(Collectors.toList());
-				result.addAll(output);
+				final Set<CandleTick> candleSet = checkOpenCloseStrategy(candleTicks);
+				if (!CollectionUtils.isEmpty(candleSet))
+					result.addAll(candleSet);
 			});
 		}
 		if (CollectionUtils.isEmpty(result)) {
 			return ResponseEntity.ok(HttpStatus.NO_CONTENT);
 		}
-		final List<CandleTick> output = result.stream().filter(CandleTick::filterByPrice)
-				.sorted(Comparator.comparing(CandleTick::getVolume).reversed()).collect(Collectors.toList());
-		return new ResponseEntity<List<CandleTick>>(output, HttpStatus.OK);
+		
+		//return based on the highesh volume
+		return new ResponseEntity<List<CandleTick>>(result.stream()
+				.sorted(Comparator.comparing(CandleTick::getVolume).reversed()).collect(Collectors.toList()),
+				HttpStatus.OK);
+	}
+
+	private Set<CandleTick> checkOpenCloseStrategy(final List<CandleTick> candleTicks) {
+		final Set<CandleTick> result = new LinkedHashSet<>();
+		final LinkedList<CandleTick> ticks = new LinkedList<>(candleTicks);
+		int count = 0;
+		CandleTick prev = null;
+		while (ticks.size() > count) {
+			if (prev == null) {
+				prev = ticks.getFirst();
+			} else {
+				CandleTick curr = ticks.get(count);
+				if (curr.getOpen() > prev.getOpen() && curr.getClose() < prev.getClose()) {
+					// find candles which has prev open < next day open
+					// and next day close < prev close
+					prev = curr;
+					int i = count;
+					i++;
+					CandleTick next = null;
+
+					if (i < ticks.size())
+						next = ticks.get(i);
+
+					if (next != null && next.getOpen() < curr.getClose() && next.getClose() < next.getOpen()) {
+						result.add(ticks.get(count));
+					}
+				}
+			}
+			count++;
+		}
+		return result;
 	}
 
 	private List<StockWatch> nse(final boolean type) {

@@ -41,4 +41,9 @@ public class Symbol implements Serializable {
 		this.symbolId = symbolId;
 	}
 
+	@Override
+	public String toString() {
+		return "Symbol [symbolId=" + symbolId + ", symbol=" + symbol + ", exchange=" + exchange + "]";
+	}
+
 }

@@ -127,7 +127,7 @@ public class CandleTick implements Serializable, Comparable<CandleTick> {
 	public boolean filterByPrice() {
 		final Float high = new Float(getHigh());
 		final Float low = new Float(getLow());
-		 Float result = (high + low) / 2;
+		Float result = (high + low) / 2;
 		return result.equals(new Float(close));
 	}
 }
