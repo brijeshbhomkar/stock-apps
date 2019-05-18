@@ -20,7 +20,7 @@ public class RestfulSupport {
 	public RestfulSupport() {
 		this.restTemplate = new RestTemplate();
 		this.httpHeaders = new HttpHeaders();
-
+		httpHeaders.setAccessControlAllowOrigin("*");
 		restTemplate.setMessageConverters(getMessageConverters());
 		httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		httpHeaders.add("user-agent",

@@ -3,7 +3,7 @@ package com.data.service.dataservice.util;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class StockSymbolMapper {
+public final class SymbolMapper {
 	
 	private static final Map<String, String> symbolMapper = new HashMap<>();
 	
@@ -397,34 +397,34 @@ public final class StockSymbolMapper {
 		symbolMapper.put("SCHAEFFLER","258817");
 		symbolMapper.put("ASHOKA","5166593");
 		symbolMapper.put("PARAGMILK","4385281");
-//		symbolMapper.put("ALLCARGO","3456257");
-//		symbolMapper.put("FINPIPE
-//		symbolMapper.put("NESCO
-//		symbolMapper.put("LAURUSLABS
-//		symbolMapper.put("TATACOFFEE
-//		symbolMapper.put("TTKPRESTIG
-//		symbolMapper.put("JKPAPER
-//		symbolMapper.put("SADBHAV
-//		symbolMapper.put("DBCORP
-//		symbolMapper.put("AKZOINDIA
-//		symbolMapper.put("JINDALSAW
-//		symbolMapper.put("JUSTDIAL
-//		symbolMapper.put("CENTURYPLY
-//		symbolMapper.put("LINDEINDIA
-//		symbolMapper.put("IRCON
-//		symbolMapper.put("ZYDUSWELL
-//		symbolMapper.put("MAHSCOOTER
-//		symbolMapper.put("GESHIP
-//		symbolMapper.put("HIMATSEIDE
-//		symbolMapper.put("GAYAPROJ
-//		symbolMapper.put("KOLTEPATIL
-//		symbolMapper.put("GSFC
-//		symbolMapper.put("GRANULES
-//		symbolMapper.put("ASTRAZEN
-//		symbolMapper.put("MAHSEAMLES
-//		symbolMapper.put("ECLERX
-//		symbolMapper.put("INDIACEM
-//		symbolMapper.put("SUVEN
+		symbolMapper.put("ALLCARGO","3456257");
+		symbolMapper.put("FINPIPE","266497");
+		symbolMapper.put("NESCO","3944705");
+		symbolMapper.put("LAURUSLABS","4923905");
+		symbolMapper.put("TATACOFFEE","185345");
+		symbolMapper.put("TTKPRESTIG","907777");
+		symbolMapper.put("JKPAPER","3036161");
+		symbolMapper.put("SADBHAV","3388417");
+		symbolMapper.put("DBCORP","4577537");
+		symbolMapper.put("AKZOINDIA","375553");
+		symbolMapper.put("JINDALSAW","774145");
+		symbolMapper.put("JUSTDIAL","7670273");
+		symbolMapper.put("CENTURYPLY","3406081");
+		symbolMapper.put("LINDEINDIA","416513");
+		symbolMapper.put("IRCON","1276417");
+		symbolMapper.put("ZYDUSWELL","1276417");
+		symbolMapper.put("MAHSCOOTER","533761");
+		symbolMapper.put("GESHIP","3526657");
+		symbolMapper.put("HIMATSEIDE","348161");
+		symbolMapper.put("GAYAPROJ","6405889");
+		symbolMapper.put("KOLTEPATIL","3871745");
+		symbolMapper.put("GSFC","319233");
+		symbolMapper.put("GRANULES","3039233");
+		symbolMapper.put("ASTRAZEN","1436161");
+		symbolMapper.put("MAHSEAMLES","534529");
+		symbolMapper.put("ECLERX","3885825");
+		symbolMapper.put("INDIACEM","387841");
+//		symbolMapper.put("SUVEN","");
 //		symbolMapper.put("SOUTHBANK
 //		symbolMapper.put("TATAELXSI
 //		symbolMapper.put("REPCOHOME

@@ -130,4 +130,12 @@ public class CandleTick implements Serializable, Comparable<CandleTick> {
 		Float result = (high + low) / 2;
 		return result.equals(new Float(close));
 	}
+
+	@Override
+	public String toString() {
+		return "CandleTick [symbol=" + symbol + ", tickTime=" + tickTime + ", open=" + open + ", high=" + high
+				+ ", low=" + low + ", close=" + close + ", volume=" + volume + ", period=" + period + "]";
+	}
+	
+	
 }

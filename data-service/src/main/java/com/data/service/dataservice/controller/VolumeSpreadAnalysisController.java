@@ -77,7 +77,7 @@ public class VolumeSpreadAnalysisController {
 			final DataSearchCriteria dataSearchCriteria = new DataSearchCriteria();
 			dataSearchCriteria.setKiteId("RB1822");
 			dataSearchCriteria.setPeriod("day");
-			dataSearchCriteria.setStartDate(LocalDate.now().minusDays(5).toString());
+			dataSearchCriteria.setStartDate(LocalDate.now().minusDays(7).toString());
 			dataSearchCriteria.setEndDate(LocalDate.now().toString());
 			symbols.parallelStream().forEach(s -> {
 				dataSearchCriteria.setSymbol(s.getSymbol());
@@ -117,9 +117,10 @@ public class VolumeSpreadAnalysisController {
 					i++;
 					CandleTick next = null;
 
-					if (i < ticks.size())
+					if (i < ticks.size()) {
 						next = ticks.get(i);
-
+					}
+					
 					if (next != null && next.getOpen() < curr.getClose() && next.getClose() < next.getOpen()) {
 						result.add(ticks.get(count));
 					}
