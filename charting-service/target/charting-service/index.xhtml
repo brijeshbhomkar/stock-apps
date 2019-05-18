@@ -1,0 +1,56 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Automation configuration</title>
+</h:head>
+<h:body>
+	<h:form id="configForm">
+		<p:panel id="basic" header="Automation Configuration" footer="V1.0"
+			style="margin-bottom:20px">
+			<h:panelGrid columns="2" cellpadding="10">
+				<p:outputLabel for="brwType" value="Browser Type:" />
+				<p:selectOneMenu id="brwType" value="#{config.browserType}"
+					dynamic="true" style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItems value="#{config.browserTypes}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="appType" value="Application:" />
+				<p:selectOneMenu id="appType" value="#{config.appType}"
+					dynamic="true" style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItems value="#{config.appTypes}" />
+				</p:selectOneMenu>
+				
+				<p:outputLabel for="suite" value="Automation Suite:" />
+				<p:selectOneMenu id="suite" value="#{config.suite}"
+					dynamic="true" style="width:125px">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItems value="#{config.suites}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="ipAddress" value="Server IP Address:" />
+				<p:inputText id="ipAddress" value="#{config.ipAddress}" />
+
+				<p:outputLabel for="port" value="Server Port:" />
+				<p:inputText id="port" value="#{config.port}" />
+
+				<p:outputLabel for="userId" value="Username :" />
+				<p:inputText id="userId" value="#{config.username}" />
+
+				<p:outputLabel for="passId" value="Password:" />
+				<p:password id="passId" value="#{config.password}" />
+
+				<p:outputLabel for="timeout" value="Test case timeout:" />
+				<p:inputText id="timeout" value="#{config.timeout}" />
+
+				<p:commandButton id="start" title="Start Automation"
+					actionListener="#{config.start()}">
+				</p:commandButton>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>
