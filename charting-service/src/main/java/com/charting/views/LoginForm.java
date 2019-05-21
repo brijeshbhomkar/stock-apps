@@ -1,9 +1,12 @@
 package com.charting.views;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.charting.services.LoginService;
@@ -37,9 +40,13 @@ public class LoginForm implements Serializable {
 	}
 
 	public void login() {
-		//loginService.login(username, password); //TODO: injection not working
-		
-		
+	    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+        	//TOOD: Need to go through pretty config
+			externalContext.redirect("/charting-service/main/dashboard.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

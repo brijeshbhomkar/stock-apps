@@ -1,10 +1,13 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
 <h:head>
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		rel="stylesheet"></link>
 
 	<link rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
@@ -13,25 +16,23 @@
 	<script src="https://d3js.org/d3.v4.min.js" />
 
 </h:head>
-<h:body>
-	<h:form>
-		<ul id="slide-out" class="sidenav sidenav-fixed">
-			<div class="row">
-				<div class="input-field col s12">
-					<input placeholder="Search symbol" id="symbol" type="text"
-						class="validate" />
+<ui:composition>
+	<h:body>
+		<h:form>
+			<ul id="slide-out" class="sidenav sidenav-fixed">
+				<div class="row">
+					<div class="input-field col s12">
+						<input placeholder="Search symbol" id="symbol" type="text"
+							class="validate" />
+					</div>
+					<div class="input-field col s12">
+						<ui:repeat value="#{symbolListView.symbols}" var="symbol">
+							<li><a href="#!">#{symbol.symbolId}</a></li>
+						</ui:repeat>
+					</div>
 				</div>
-				<div class="input-field col s12">
-					<li><a href="#!"><i class="material-icons">insert_chart</i> Adani</a> </li>
-					<li><a href="#!"><i class="material-icons">insert_chart</i>Infy</a></li>
-					<li><a href="#!"><i class="material-icons">insert_chart</i>TataMotors</a></li>
-					<li><a href="#!"><i class="material-icons">insert_chart</i>SBIN</a></li>
-					<li><a href="#!"><i class="material-icons">insert_chart</i>ICICI</a></li>
-					<li><a href="#!"><i class="material-icons">insert_chart</i>SUNPHARMA</a></li>
-					<li><a href="#!"><i class="material-icons">insert_chart</i>TATASTEEL</a></li>
-				</div>
-			</div>
-		</ul>
-	</h:form>
-</h:body>
+			</ul>
+		</h:form>
+	</h:body>
+</ui:composition>
 </html>
