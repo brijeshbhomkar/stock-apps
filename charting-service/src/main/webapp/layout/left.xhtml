@@ -5,33 +5,40 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-		rel="stylesheet"></link>
-
 	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js" />
-	<script src="https://d3js.org/d3.v4.min.js" />
-
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </h:head>
 <ui:composition>
 	<h:body>
-		<h:form>
-			<ul id="slide-out" class="sidenav sidenav-fixed">
-				<div class="row">
-					<div class="input-field col s12">
-						<input placeholder="Search symbol" id="symbol" type="text"
-							class="validate" />
-					</div>
-					<div class="input-field col s12">
-						<ui:repeat value="#{symbolListView.symbols}" var="symbol">
-							<li><a href="#!">#{symbol.symbolId}</a></li>
-						</ui:repeat>
-					</div>
-				</div>
-			</ul>
+		<style>
+.ui-selectlistbox-filter-container {
+	width: 270px !important;
+}
+
+.ui-widget-content {
+	border: 0px !important
+}
+
+.ui-selectonelistbox {
+	width: 280px !important
+}
+
+.ui-selectlistbox-listcontainer {
+	height: 100% !important
+}
+</style>
+		<h:form id="symbolForm">
+			<p:selectOneListbox id="symbolList" value="#{symbolListView.symbol}"
+				var="t" filter="true" filterMatchMode="contains">
+				<f:selectItems value="#{symbolListView.symbols}" var="sym"
+					itemLabel="#{sym.symbol}" itemValue="#{symbol}" />
+				<p:column>
+					<h:outputText value="#{t.symbol}" />
+				</p:column>
+				<p:column>
+					 <p:commandButton action="#{symbolListView.showChart}" icon="ui-icon-check" />
+				</p:column>
+			</p:selectOneListbox>
 		</h:form>
 	</h:body>
 </ui:composition>

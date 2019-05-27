@@ -1,24 +1,38 @@
 package com.charting.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
 
 import org.springframework.http.ResponseEntity;
 
+import com.charting.endpoints.DataServiceEndpoint;
+import com.charting.json.SymbolResponse;
+import com.charting.pojo.Symbol;
 import com.charting.utils.RestfulSupport;
 
+@ManagedBean(name = "symbolService", eager = true)
 public class SymbolService extends RestfulSupport {
 
-	public List<String> getSymbols() {
-		List<String> symbols = new ArrayList<String>();
+	private List<Symbol> symbols;
+
+	@PostConstruct
+	public void init() {
+		symbols = new ArrayList<Symbol>();
 		try {
-		ResponseEntity<String[]> response = restTemplate.getForEntity("http://localhost:12020/api/symbol/",
-				String[].class);
-		symbols =  Arrays.asList(response.getBody());
+			ResponseEntity<SymbolResponse> response = restTemplate.getForEntity(DataServiceEndpoint.GET_SYMBOL_URL,
+					SymbolResponse.class);
+			final SymbolResponse symbolResponse = response.getBody();
+			symbols = symbolResponse.getSymbols();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public List<Symbol> getSymbols() {
 		return symbols;
 	}
+
 }

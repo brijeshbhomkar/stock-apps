@@ -1,50 +1,37 @@
 package com.charting.pojo;
 
 import java.io.Serializable;
-import java.util.List;
 
-import com.charting.json.SymbolDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-@JsonDeserialize(using = SymbolDeserializer.class)
 public class Symbol implements Serializable {
 
 	private static final long serialVersionUID = -3752643643240322276L;
 
-	private List<Symbol> symbols;
-	
-	private String symbolId;
-	
-	private String symbolName;
+	private Long symbolId;
+	private String symbol;
+	private String exchange;
 
-	public Symbol() {
+	public String getSymbol() {
+		return symbol;
 	}
 
-	public Symbol(final List<Symbol> symbols) {
-		this.symbols = symbols;
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
 	}
 
-	public List<Symbol> getSymbols() {
-		return symbols;
+	public String getExchange() {
+		return exchange;
 	}
 
-	public void setSymbols(List<Symbol> symbols) {
-		this.symbols = symbols;
+	public void setExchange(String exchange) {
+		this.exchange = exchange;
 	}
 
-	public String getSymbolName() {
-		return symbolName;
-	}
-
-	public void setSymbolName(String symbolName) {
-		this.symbolName = symbolName;
-	}
-
-	public String getSymbolId() {
+	public Long getSymbolId() {
 		return symbolId;
 	}
 
-	public void setSymbolId(String symbolId) {
+	public void setSymbolId(Long symbolId) {
 		this.symbolId = symbolId;
 	}
+
 }

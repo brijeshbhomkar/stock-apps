@@ -12,31 +12,33 @@
 
 </h:head>
 <h:body>
-	<div id="header">
+	<div id="headerContainer" class="ui-g-12">
 		<ui:insert name="header">
 			<ui:include src="/layout/header.xhtml" />
 		</ui:insert>
 	</div>
 	<br />
-
-	<div id="left">
+ 
+	<div id="leftContainer" class="ui-g-6" style="width:300px; height:700px">
 		<ui:insert name="left">
 			<ui:include src="/layout/left.xhtml" />
 		</ui:insert>
 	</div>
 	<br />
 
-	<div id="content" style="width: 100%; height: 600px; padding-left: 320px;">
+	<div id="mainContainer" class="ui-g-6">
 		<ui:insert name="content">
 			<ui:include src="/layout/content.xhtml" />
 		</ui:insert>
 	</div>
 	<br />
-<!-- 
-	<div id="footer">
+	
+	<!-- 
+	<div id="footerContainer" class="ui-g-12">
 		<ui:insert name="footer">
 			<ui:include src="/layout/footer.xhtml" />
 		</ui:insert>
-	</div> -->
+	</div>
+	 -->
 </h:body>
 </html>
