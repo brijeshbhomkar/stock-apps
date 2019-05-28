@@ -45,7 +45,7 @@ public class MovingAverageController {
 		dataSearchCriteria.setPeriod("day");
 
 		CandleResponse data = kiteDataService.get(dataSearchCriteria, sym.getSymbolId());
-		final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), sym.getSymbolId(), sym.getSymbol(),
+		final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), sym.getSymbol(),
 				dataSearchCriteria.getPeriod());
 		final MovingAverage movingAverage = new MovingAverage(candleTicks.size());
 		final List<Double> result = new ArrayList<Double>(1);

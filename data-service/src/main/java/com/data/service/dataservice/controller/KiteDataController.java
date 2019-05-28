@@ -55,7 +55,7 @@ public class KiteDataController {
 			}
 
 			// insert into db
-			candleTicks = kiteDataService.extractData(data.getData(), symbol.getSymbolId(), symbol.getSymbol(),
+			candleTicks = kiteDataService.extractData(data.getData(), symbol.getSymbol(),
 					dataSearchCriteria.getPeriod());
 			if (candleTicks != null && !candleTicks.isEmpty()) {
 				for (CandleTick candleTick : candleTicks) {
@@ -90,8 +90,8 @@ public class KiteDataController {
 			symbols.forEach(s -> {
 				dataSearchCriteria.setSymbol(s.getSymbol());
 				CandleResponse data = kiteDataService.get(dataSearchCriteria, s.getSymbolId());
-				final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), s.getSymbolId(),
-						s.getSymbol(), dataSearchCriteria.getPeriod());
+				final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), s.getSymbol(),
+						dataSearchCriteria.getPeriod());
 				final List<CandleTick> output = candleTicks.stream().filter(i -> i.getOpen().equals(i.getLow()))
 						.sorted(Comparator.comparing(CandleTick::getVolume).reversed()).collect(Collectors.toList());
 				result.addAll(output);
@@ -121,8 +121,8 @@ public class KiteDataController {
 			symbols.forEach(s -> {
 				dataSearchCriteria.setSymbol(s.getSymbol());
 				CandleResponse data = kiteDataService.get(dataSearchCriteria, s.getSymbolId());
-				final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), s.getSymbolId(),
-						s.getSymbol(), dataSearchCriteria.getPeriod());
+				final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), s.getSymbol(),
+						dataSearchCriteria.getPeriod());
 				final List<CandleTick> output = candleTicks.stream().filter(i -> i.getOpen().equals(i.getHigh()))
 						.sorted(Comparator.comparing(CandleTick::getVolume).reversed()).collect(Collectors.toList());
 				result.addAll(output);

@@ -1,10 +1,7 @@
 package com.data.service.dataservice.controller;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.data.service.dataservice.entity.Symbol;
 import com.data.service.dataservice.repository.SymbolRepository;
+import com.data.service.dataservice.response.SymbolResponse;
 import com.data.service.dataservice.util.SymbolMapper;
 
 @RestController
@@ -95,8 +93,9 @@ public class SymbolController {
 			logger.error("Failed to get the symbols", e);
 			return ResponseEntity.badRequest().body("Failed to get symbols ");
 		}
-		return ResponseEntity.ok(symbols.stream().map(Symbol::getSymbol).sorted()
-				.collect(Collectors.toList()).toArray());
+//		return ResponseEntity.ok(symbols.stream().map(Symbol::getSymbol).sorted()
+//				.collect(Collectors.toList()).toArray());
+		return ResponseEntity.ok(new SymbolResponse(symbols));
 	}
 
 	@PutMapping

@@ -2,6 +2,7 @@ package com.data.service.dataservice.json;
 
 import java.io.Serializable;
 
+import com.data.service.dataservice.util.DateUtil;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -60,6 +61,6 @@ public class Ohlc implements Serializable {
 	}
 
 	public void setTime(String time) {
-		this.time = time;
+		this.time = DateUtil.convertToDateString(time); //this is required otherwise data is lost
 	}
 }

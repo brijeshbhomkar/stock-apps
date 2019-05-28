@@ -14,6 +14,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -69,6 +70,30 @@ public class VolumeSpreadAnalysisController {
 		return new ResponseEntity<List<StockWatch>>(output, HttpStatus.OK);
 	}
 
+	@RequestMapping("/volumescan/{symbol}")
+	public ResponseEntity<?> scanVolume(@PathVariable final String symbol) {
+		final Symbol sym = symbolRepository.findSymbol(symbol);
+		final DataSearchCriteria dataSearchCriteria = new DataSearchCriteria();
+		dataSearchCriteria.setKiteId("RB1822");
+		dataSearchCriteria.setPeriod("day");
+		dataSearchCriteria.setStartDate(LocalDate.now().minusDays(120).toString());
+		dataSearchCriteria.setEndDate(LocalDate.now().toString());
+		dataSearchCriteria.setSymbol(sym.getSymbol());
+		CandleResponse data = kiteDataService.get(dataSearchCriteria, sym.getSymbolId());
+		final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), sym.getSymbol(),
+				dataSearchCriteria.getPeriod());
+
+		// step 1:
+		// Find list of stocks with ultra high volume from last 6 months
+		final List<CandleTick> result = candleTicks.stream().sorted(Comparator.comparing(CandleTick::getVolume)).limit(1).collect(Collectors.toList());
+		return new ResponseEntity<List<CandleTick>>(result, HttpStatus.OK);
+
+	}
+
+	private List<CandleTick> findUltraHighVolume(final List<CandleTick> ticks) {
+		return ticks;
+	}
+
 	@RequestMapping("/downtrend")
 	public ResponseEntity<?> scan() {
 		final List<CandleTick> result = new CopyOnWriteArrayList<CandleTick>();
@@ -77,13 +102,13 @@ public class VolumeSpreadAnalysisController {
 			final DataSearchCriteria dataSearchCriteria = new DataSearchCriteria();
 			dataSearchCriteria.setKiteId("RB1822");
 			dataSearchCriteria.setPeriod("day");
-			dataSearchCriteria.setStartDate(LocalDate.now().minusDays(7).toString());
+			dataSearchCriteria.setStartDate(LocalDate.now().minusDays(3).toString());
 			dataSearchCriteria.setEndDate(LocalDate.now().toString());
 			symbols.parallelStream().forEach(s -> {
 				dataSearchCriteria.setSymbol(s.getSymbol());
 				CandleResponse data = kiteDataService.get(dataSearchCriteria, s.getSymbolId());
-				final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), s.getSymbolId(),
-						s.getSymbol(), dataSearchCriteria.getPeriod());
+				final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), s.getSymbol(),
+						dataSearchCriteria.getPeriod());
 				final Set<CandleTick> candleSet = checkOpenCloseStrategy(candleTicks);
 				if (!CollectionUtils.isEmpty(candleSet))
 					result.addAll(candleSet);
@@ -92,11 +117,12 @@ public class VolumeSpreadAnalysisController {
 		if (CollectionUtils.isEmpty(result)) {
 			return ResponseEntity.ok(HttpStatus.NO_CONTENT);
 		}
-		
-		//return based on the highesh volume
-		return new ResponseEntity<List<CandleTick>>(result.stream()
-				.sorted(Comparator.comparing(CandleTick::getVolume).reversed()).collect(Collectors.toList()),
-				HttpStatus.OK);
+
+		// return based on the highesh volume
+		/// return new ResponseEntity<List<CandleTick>>(result.stream()
+		/// .sorted(Comparator.comparing(CandleTick::getVolume).reversed()).collect(Collectors.toList()),
+///				HttpStatus.OK);
+		return new ResponseEntity<List<CandleTick>>(result, HttpStatus.OK);
 	}
 
 	private Set<CandleTick> checkOpenCloseStrategy(final List<CandleTick> candleTicks) {
@@ -120,7 +146,7 @@ public class VolumeSpreadAnalysisController {
 					if (i < ticks.size()) {
 						next = ticks.get(i);
 					}
-					
+
 					if (next != null && next.getOpen() < curr.getClose() && next.getClose() < next.getOpen()) {
 						result.add(ticks.get(count));
 					}

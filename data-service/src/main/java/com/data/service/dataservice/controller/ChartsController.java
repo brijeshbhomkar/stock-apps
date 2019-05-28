@@ -19,7 +19,7 @@ import com.data.service.dataservice.util.RestfulSupport;
 
 @RestController
 @RequestMapping("/api/nse")
-public class OhlcController extends RestfulSupport {
+public class ChartsController extends RestfulSupport {
 
 	@Autowired
 	private SymbolRepository symbolRepository;
@@ -34,7 +34,7 @@ public class OhlcController extends RestfulSupport {
 			final DataSearchCriteria dataSearchCriteria = new DataSearchCriteria();
 			dataSearchCriteria.setKiteId("RB1822");
 			dataSearchCriteria.setPeriod("day");
-			dataSearchCriteria.setStartDate(LocalDate.now().minusDays(7).toString());
+			dataSearchCriteria.setStartDate(LocalDate.now().minusYears(1).toString());
 			dataSearchCriteria.setEndDate(LocalDate.now().toString());
 			CandleResponse data = kiteDataService.get(dataSearchCriteria, symbol.getSymbolId());
 			return ResponseEntity.ok(data.getData().getCandles());
