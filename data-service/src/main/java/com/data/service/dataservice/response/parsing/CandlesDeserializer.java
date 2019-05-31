@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.data.service.dataservice.json.Candles;
-import com.data.service.dataservice.json.Ohlc;
+import com.data.service.dataservice.json.Candle;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -21,11 +21,11 @@ public class CandlesDeserializer extends JsonDeserializer<Candles> {
 		ObjectCodec oc = jsonParser.getCodec();
 		JsonNode node = oc.readTree(jsonParser);
 		JsonNode candles = node.get("candles");
-		List<Ohlc> ohlcList = new ArrayList<>();
+		List<Candle> ohlcList = new ArrayList<>();
 		for (int i = 0; i < candles.size(); i++) {
 			JsonNode tick = candles.get(i);
-			final Ohlc ohlc = new Ohlc();
-			ohlc.setTime(tick.get(0).asText());
+			final Candle ohlc = new Candle();
+			ohlc.setDate(tick.get(0).asText());
 			ohlc.setOpen(tick.get(1).asLong());
 			ohlc.setHigh(tick.get(2).asLong());
 			ohlc.setLow(tick.get(3).asLong());

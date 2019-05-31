@@ -1,7 +1,5 @@
 package com.data.service.dataservice.external;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,12 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.data.service.dataservice.entity.CandleTick;
+import com.data.service.dataservice.json.Candle;
 import com.data.service.dataservice.json.Candles;
-import com.data.service.dataservice.json.Ohlc;
 import com.data.service.dataservice.pojo.DataSearchCriteria;
 import com.data.service.dataservice.response.CandleResponse;
 import com.data.service.dataservice.util.RestfulSupport;
-import com.data.service.dataservice.util.DateUtil;
 
 @Service
 public class KiteDataService extends RestfulSupport {
@@ -47,15 +44,15 @@ public class KiteDataService extends RestfulSupport {
 	public List<CandleTick> extractData(final Candles candles, final String symbolName, final String period) {
 		final List<CandleTick> ticks = new ArrayList<>();
 		if (candles != null && candles.getCandles() != null) {
-			final List<Ohlc> ohlcData = candles.getCandles();
-			for (Ohlc ohlc : ohlcData) {
+			final List<Candle> ohlcData = candles.getCandles();
+			for (Candle ohlc : ohlcData) {
 				final CandleTick tick = new CandleTick();
 				tick.setSymbol(symbolName);
 				tick.setOpen(ohlc.getOpen());
 				tick.setHigh(ohlc.getHigh());
 				tick.setLow(ohlc.getLow());
 				tick.setClose(ohlc.getClose());
-				tick.setTickTime(DateUtil.convertToDate(ohlc.getTime()));
+				tick.setTickTime(new Date(ohlc.getDate()));
 				tick.setVolume(ohlc.getVolume());
 				tick.setPeriod(period);
 				ticks.add(tick);

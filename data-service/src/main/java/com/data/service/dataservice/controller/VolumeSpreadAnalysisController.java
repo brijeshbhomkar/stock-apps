@@ -85,14 +85,11 @@ public class VolumeSpreadAnalysisController {
 
 		// step 1:
 		// Find list of stocks with ultra high volume from last 6 months
-		final List<CandleTick> result = candleTicks.stream().sorted(Comparator.comparing(CandleTick::getVolume)).limit(1).collect(Collectors.toList());
+		final List<CandleTick> result = candleTicks.stream().sorted(Comparator.comparing(CandleTick::getVolume).reversed()).limit(5).collect(Collectors.toList());
 		return new ResponseEntity<List<CandleTick>>(result, HttpStatus.OK);
 
 	}
 
-	private List<CandleTick> findUltraHighVolume(final List<CandleTick> ticks) {
-		return ticks;
-	}
 
 	@RequestMapping("/downtrend")
 	public ResponseEntity<?> scan() {

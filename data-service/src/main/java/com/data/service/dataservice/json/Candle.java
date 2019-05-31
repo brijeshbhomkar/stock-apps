@@ -6,10 +6,10 @@ import com.data.service.dataservice.util.DateUtil;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Ohlc implements Serializable {
+public class Candle implements Serializable {
 
 	private static final long serialVersionUID = -9203025149233793325L;
-	private String time;
+	private long date;
 	private long open;
 	private long high;
 	private long low;
@@ -56,11 +56,12 @@ public class Ohlc implements Serializable {
 		this.volume = volume;
 	}
 
-	public String getTime() {
-		return time;
+	public long getDate() {
+		return date;
 	}
 
-	public void setTime(String time) {
-		this.time = DateUtil.convertToDateString(time); //this is required otherwise data is lost
+	public void setDate(String date) {
+		this.date = DateUtil.convertToDate(date).getTime();
 	}
+
 }

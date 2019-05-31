@@ -5,8 +5,7 @@ const xScale = fc.scaleDiscontinuous(d3.scaleTime())
 const priceScale = d3.scaleLinear();
 const volumeScale = d3.scaleLinear();
 
-// a candlestick series, by default it expects the provided data to have open,
-// low, high, close, date properties
+// a candlestick series, by default it expects the provided data to have open, low, high, close, date properties
 const candlestickSeries = fc.autoBandwidth(fc.seriesSvgOhlc())
 	.xScale(xScale)
 	.yScale(priceScale);
@@ -57,8 +56,7 @@ d3.select('#x-axis')
       .call(xAxis);
   });
 
-// handle the y-axis measure event in order to offset the SVG to the left, and
-// the
+// handle the y-axis measure event in order to offset the SVG to the left, and the
 // draw event for rendering
 d3.select('#y-axis')
   .on('measure', (d, i, nodes) => {
@@ -79,10 +77,10 @@ d3.select('#y-axis')
       .call(volumeAxis);
   });
 
-d3.json('http://localhost:12020/api/nse/symbol/SBIN')
-	.header("Access-Control-Allow-Origin" , "*")
-	.get(function(data){
-	d3.select('#plot-area')
+d3.json('http://localhost:12020/api/nse/symbol/SBIN').then(function(data) {
+	console.log(data)
+    // handle the plot area draw event, supplying the data and rendering the seroes
+    d3.select('#plot-area')
       .on('draw', (d, i, nodes) => {
          const sel = d3.select(nodes[i])
           .select('svg')

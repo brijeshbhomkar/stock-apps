@@ -13,19 +13,19 @@ public class Candles implements Serializable {
 	private static final long serialVersionUID = -7196280638065763633L;
 	
 	@JsonProperty(value="candles")
-	private List<Ohlc> candles;
+	private List<Candle> candles;
 	
 	public Candles() {}
 	
-	public Candles(final List<Ohlc> ohlc) {
+	public Candles(final List<Candle> ohlc) {
 		this.candles = ohlc;
 	}
 
-	public List<Ohlc> getCandles() {
+	public List<Candle> getCandles() {
 		return candles;
 	}
 
-	public void setCandles(List<Ohlc> candles) {
+	public void setCandles(List<Candle> candles) {
 		this.candles = candles;
 	}
 

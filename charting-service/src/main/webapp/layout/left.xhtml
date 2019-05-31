@@ -13,6 +13,7 @@
 		<style>
 .ui-selectlistbox-filter-container {
 	width: 270px !important;
+	overflow-x: hidden;
 }
 
 .ui-widget-content {
@@ -27,7 +28,7 @@
 	height: 100% !important
 }
 </style>
-		<h:form id="symbolForm">
+		<h:form id="symbolForm" style="height:800px">
 			<p:selectOneListbox id="symbolList" value="#{symbolListView.symbol}"
 				var="t" filter="true" filterMatchMode="contains">
 				<f:selectItems value="#{symbolListView.symbols}" var="sym"
@@ -35,9 +36,9 @@
 				<p:column>
 					<h:outputText value="#{t.symbol}" />
 				</p:column>
-				<p:column>
+				<!-- <p:column>
 					 <p:commandButton action="#{symbolListView.showChart}" icon="ui-icon-check" />
-				</p:column>
+				</p:column> -->
 			</p:selectOneListbox>
 		</h:form>
 	</h:body>

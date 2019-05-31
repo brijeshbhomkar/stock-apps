@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ public class ChartsController extends RestfulSupport {
 	@Autowired
 	private KiteDataService kiteDataService;
 
+	@CrossOrigin
 	@GetMapping("/symbol/{id}")
 	public ResponseEntity<?> getStockDate(@PathVariable final String id) {
 		if (id != null && !id.isEmpty()) {
@@ -34,7 +36,7 @@ public class ChartsController extends RestfulSupport {
 			final DataSearchCriteria dataSearchCriteria = new DataSearchCriteria();
 			dataSearchCriteria.setKiteId("RB1822");
 			dataSearchCriteria.setPeriod("day");
-			dataSearchCriteria.setStartDate(LocalDate.now().minusYears(1).toString());
+			dataSearchCriteria.setStartDate(LocalDate.now().minusYears(3).toString());
 			dataSearchCriteria.setEndDate(LocalDate.now().toString());
 			CandleResponse data = kiteDataService.get(dataSearchCriteria, symbol.getSymbolId());
 			return ResponseEntity.ok(data.getData().getCandles());

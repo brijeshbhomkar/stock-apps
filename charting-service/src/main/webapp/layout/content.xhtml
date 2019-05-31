@@ -5,48 +5,32 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-	<script src="//unpkg.com/babel-polyfill@6.26.0/dist/polyfill.js"></script>
+	<link rel="stylesheet" type="text/css"
+		href="https://code.highcharts.com/css/stocktools/gui.css"/>
+	<link rel="stylesheet" type="text/css"
+		href="https://code.highcharts.com/css/annotations/popup.css"/>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.highcharts.com/stock/highstock.js"></script>
+
 	<script
-		src="//unpkg.com/custom-event-polyfill@0.3.0/custom-event-polyfill.js"></script>
+		src="https://code.highcharts.com/stock/indicators/indicators-all.js"></script>
+	<script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+
 	<script
-		src="//cdnjs.cloudflare.com/ajax/libs/document-register-element/1.8.0/document-register-element.js"></script>
+		src="https://code.highcharts.com/modules/annotations-advanced.js"></script>
+	<script src="https://code.highcharts.com/modules/price-indicator.js"></script>
+	<script src="https://code.highcharts.com/modules/full-screen.js"></script>
 
-	<!-- use babel so that we can use arrow functions and other goodness in this block! -->
-	<script src="//unpkg.com/babel-standalone@6/babel.min.js"></script>
+	<script src="https://code.highcharts.com/modules/stock-tools.js"></script>
 
-	<script src="//unpkg.com/d3@5.5.0"></script>
-	<script src="//unpkg.com/d3fc@14.0.3"></script>
-
-	<style>
-.vertical-text {
-	transform: rotate(90deg) translate(10px, -40px);
-	transform-origin: bottom% right;
-}
-
-.volume {
-	opacity: 0.2;
-}
-</style>
 </h:head>
 <h:body>
-	<div style="height: 500px">
-		<d3fc-group id="chart"
-			style="display: flex; height: 100%; width: 100%; overflow: hidden">
-		<div
-			style="flex: 1; display: flex; flex-direction: column; padding-right: 1em">
-			<div style="flex: 1; display: flex; flex-direction: row">
-				<div style="width: 1em;">
-					<div class='vertical-text'>Price</div>
-				</div>
-				<d3fc-svg id='y-axis' style='width: 1em'></d3fc-svg>
-				<d3fc-svg id="plot-area" style="flex: 1; overflow:hidden"></d3fc-svg>
-			</div>
-			<d3fc-svg id="x-axis" style="height: 2em; margin-left: 2em"></d3fc-svg>
-		</div>
-		</d3fc-group>
-	</div>
-
-	<script src='../js/ohlc.js' type='text/babel'></script>
-
+	<p:panel id="custom" header="Charts"
+		style="margin-bottom:20px; width: 1560px ">
+		<h:panelGrid columns="2" cellpadding="10">
+			<div id="container" class="chart" style="width:1550px; height:760px"></div>
+			<script src='../js/candleChart.js'></script>
+		</h:panelGrid>
+	</p:panel>
 </h:body>
 </html>
