@@ -21,6 +21,7 @@ public class DateUtil {
 
 	public static Date convertToDate(final String date) {
 		Date output = null;	
+
 		String formattedDate;
 		try {
 			formattedDate = outputPattern.format(inputPattern.parse(date));
