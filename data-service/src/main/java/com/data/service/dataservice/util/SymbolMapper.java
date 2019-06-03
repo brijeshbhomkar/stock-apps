@@ -8,6 +8,7 @@ public final class SymbolMapper {
 	private static final Map<String, String> symbolMapper = new HashMap<>();
 	
 	private static void init() {
+		symbolMapper.put("NIFTY50", "256265");
 		symbolMapper.put("IOC", "415745");
 		symbolMapper.put("SUNPHARMA", "857857");
 		symbolMapper.put("HINDALCO", "348929");

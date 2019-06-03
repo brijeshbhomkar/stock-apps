@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -17,7 +16,7 @@ public class RestfulSupport {
 	protected HttpHeaders httpHeaders;
 
 	protected static String BASE_URL = "https://kitecharts-aws.zerodha.com/api/chart/";
-
+	
 	public RestfulSupport() {
 		this.restTemplate = new RestTemplate();
 		this.httpHeaders = new HttpHeaders();

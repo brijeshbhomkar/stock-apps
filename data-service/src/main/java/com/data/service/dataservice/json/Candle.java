@@ -15,6 +15,7 @@ public class Candle implements Serializable {
 	private long low;
 	private long close;
 	private long volume;
+	private long signal = 0;
 
 	public long getOpen() {
 		return open;
@@ -64,4 +65,15 @@ public class Candle implements Serializable {
 		this.date = DateUtil.convertToDate(date).getTime();
 	}
 
+	public long getSignal() {
+		return signal;
+	}
+
+	public void setSignal(long signal) {
+		this.signal = signal;
+	}
+
+	public void setDate(long date) {
+		this.date = date;
+	}
 }

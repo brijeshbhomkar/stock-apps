@@ -6,11 +6,11 @@
 
 <h:head>
 	<link rel="stylesheet" type="text/css"
-		href="https://code.highcharts.com/css/stocktools/gui.css"/>
+		href="https://code.highcharts.com/css/stocktools/gui.css" />
 	<link rel="stylesheet" type="text/css"
-		href="https://code.highcharts.com/css/annotations/popup.css"/>
+		href="https://code.highcharts.com/css/annotations/popup.css" />
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://code.highcharts.com/stock/highstock.js"></script>
+	<script src="../js/highstock.js"></script>
 
 	<script
 		src="https://code.highcharts.com/stock/indicators/indicators-all.js"></script>
@@ -25,12 +25,22 @@
 
 </h:head>
 <h:body>
-	<p:panel id="custom" header="Charts"
-		style="margin-bottom:20px; width: 1560px ">
-		<h:panelGrid columns="2" cellpadding="10">
-			<div id="container" class="chart" style="width:1550px; height:760px"></div>
-			<script src='../js/candleChart.js'></script>
-		</h:panelGrid>
-	</p:panel>
+	<script src='../js/candleChart.js'></script>
+	<h:form id="charts" rendered="#{chartingView.symbolId != null}">
+		<p:panel id="custom" header="Charts"
+			style="margin-bottom:20px; width: 1560px">
+			<h:panelGrid columns="2" cellpadding="10">
+				<div id="container" class="chart"
+					style="width: 1550px; height: 800px">
+					<div class="loading">
+						<i class="icon-spinner icon-spin icon-large"></i> Loading data </div>
+				</div>
+			</h:panelGrid>
+		</p:panel>
+		
+	</h:form>
 </h:body>
+<script>
+	$('#container').onload = loadChart('#{chartingView.symbolId}');
+</script>
 </html>

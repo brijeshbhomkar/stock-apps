@@ -1,11 +1,15 @@
 package com.charting.views;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import com.charting.pojo.Symbol;
 import com.charting.services.SymbolService;
@@ -15,7 +19,7 @@ public class SymbolListView implements Serializable {
 
 	private static final long serialVersionUID = 4661936682192914234L;
 
-	private Symbol symbol;
+	private Symbol selectedSymbol;
 
 	private List<Symbol> symbols;
 
@@ -24,11 +28,21 @@ public class SymbolListView implements Serializable {
 
 	@PostConstruct
 	void init() {
-		symbols = symbolService.getSymbols();
+		if (symbols == null) {
+			symbols = symbolService.getSymbols();
+		}
 	}
 
 	public List<Symbol> getSymbols() {
 		return symbols;
+	}
+
+	public Symbol getSelectedSymbol() {
+		return selectedSymbol;
+	}
+
+	public void setSelectedSymbol(Symbol selectedSymbol) {
+		this.selectedSymbol = selectedSymbol;
 	}
 
 	public void setSymbols(List<Symbol> symbols) {
@@ -43,15 +57,23 @@ public class SymbolListView implements Serializable {
 		this.symbolService = symbolService;
 	}
 
-	public Symbol getSymbol() {
-		return symbol;
-	}
-
-	public void setSymbol(Symbol symbol) {
-		this.symbol = symbol;
-	}
-
 	public void showChart() {
-		System.out.println("selected item " + symbol.getSymbol());
+		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		Map<String, Object> sessionMap = externalContext.getSessionMap();
+		sessionMap.put("symbolId", selectedSymbol.getSymbol());
+		try {
+			externalContext.redirect("./dashboard.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Symbol getSymbolById(Long id) {
+		for (Symbol symbol : symbols) {
+			if (id.equals(symbol.getSymbolId())) {
+				return symbol;
+			}
+		}
+		return null;
 	}
 }

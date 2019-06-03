@@ -19,6 +19,7 @@ import com.data.service.dataservice.json.Candle;
 import com.data.service.dataservice.pojo.DataSearchCriteria;
 import com.data.service.dataservice.repository.SymbolRepository;
 import com.data.service.dataservice.response.CandleResponse;
+import com.data.service.dataservice.strategies.VSAStrategy;
 import com.data.service.dataservice.util.RestfulSupport;
 
 @RestController
@@ -42,9 +43,11 @@ public class ChartsController extends RestfulSupport {
 				dataSearchCriteria.setKiteId("RB1822");
 				dataSearchCriteria.setPeriod("day");
 				dataSearchCriteria.setStartDate(LocalDate.now().minusYears(3).toString());
+			//	dataSearchCriteria.setStartDate(LocalDate.now().minusMonths(6).toString());
 				dataSearchCriteria.setEndDate(LocalDate.now().toString());
 				CandleResponse data = kiteDataService.get(dataSearchCriteria, symbol.getSymbolId());
-				candles = data.getData().getCandles();
+				//candles = VSAStrategy.findWideSpreadCandles(data.getData().getCandles(), 5);
+				candles = VSAStrategy.openCloseStrategy(data.getData().getCandles());
 				if (CollectionUtils.isEmpty(candles)) {
 					return ResponseEntity.badRequest().body("No data found!" + HttpStatus.NO_CONTENT);
 				}

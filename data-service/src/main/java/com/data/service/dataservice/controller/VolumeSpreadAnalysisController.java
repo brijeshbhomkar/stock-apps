@@ -27,6 +27,7 @@ import com.data.service.dataservice.pojo.DataSearchCriteria;
 import com.data.service.dataservice.repository.SymbolRepository;
 import com.data.service.dataservice.response.CandleResponse;
 import com.data.service.dataservice.response.StockWatchResponse;
+import com.data.service.dataservice.strategies.VSAStrategy;
 import com.data.service.dataservice.util.EndpointUrls;
 
 @RestController
@@ -95,25 +96,25 @@ public class VolumeSpreadAnalysisController {
 	public ResponseEntity<?> scan() {
 		final List<CandleTick> result = new CopyOnWriteArrayList<CandleTick>();
 		final List<Symbol> symbols = symbolRepository.findAll();
-		if (!CollectionUtils.isEmpty(symbols)) {
-			final DataSearchCriteria dataSearchCriteria = new DataSearchCriteria();
-			dataSearchCriteria.setKiteId("RB1822");
-			dataSearchCriteria.setPeriod("day");
-			dataSearchCriteria.setStartDate(LocalDate.now().minusDays(3).toString());
-			dataSearchCriteria.setEndDate(LocalDate.now().toString());
-			symbols.parallelStream().forEach(s -> {
-				dataSearchCriteria.setSymbol(s.getSymbol());
-				CandleResponse data = kiteDataService.get(dataSearchCriteria, s.getSymbolId());
-				final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), s.getSymbol(),
-						dataSearchCriteria.getPeriod());
-				final Set<CandleTick> candleSet = checkOpenCloseStrategy(candleTicks);
-				if (!CollectionUtils.isEmpty(candleSet))
-					result.addAll(candleSet);
-			});
-		}
-		if (CollectionUtils.isEmpty(result)) {
-			return ResponseEntity.ok(HttpStatus.NO_CONTENT);
-		}
+//		if (!CollectionUtils.isEmpty(symbols)) {
+//			final DataSearchCriteria dataSearchCriteria = new DataSearchCriteria();
+//			dataSearchCriteria.setKiteId("RB1822");
+//			dataSearchCriteria.setPeriod("day");
+//			dataSearchCriteria.setStartDate(LocalDate.now().minusDays(3).toString());
+//			dataSearchCriteria.setEndDate(LocalDate.now().toString());
+//			symbols.parallelStream().forEach(s -> {
+//				dataSearchCriteria.setSymbol(s.getSymbol());
+//				CandleResponse data = kiteDataService.get(dataSearchCriteria, s.getSymbolId());
+//				final List<CandleTick> candleTicks = kiteDataService.extractData(data.getData(), s.getSymbol(),
+//						dataSearchCriteria.getPeriod());
+//				final List<Candle> candleSet = VSAStrategy.checkOpenCloseStrategy(candleTicks);
+//				if (!CollectionUtils.isEmpty(candleSet))
+//					result.addAll(candleSet);
+//			});
+//		}
+//		if (CollectionUtils.isEmpty(result)) {
+//			return ResponseEntity.ok(HttpStatus.NO_CONTENT);
+//		}
 
 		// return based on the highesh volume
 		/// return new ResponseEntity<List<CandleTick>>(result.stream()
@@ -122,37 +123,6 @@ public class VolumeSpreadAnalysisController {
 		return new ResponseEntity<List<CandleTick>>(result, HttpStatus.OK);
 	}
 
-	private Set<CandleTick> checkOpenCloseStrategy(final List<CandleTick> candleTicks) {
-		final Set<CandleTick> result = new LinkedHashSet<>();
-		final LinkedList<CandleTick> ticks = new LinkedList<>(candleTicks);
-		int count = 0;
-		CandleTick prev = null;
-		while (ticks.size() > count) {
-			if (prev == null) {
-				prev = ticks.getFirst();
-			} else {
-				CandleTick curr = ticks.get(count);
-				if (curr.getOpen() > prev.getOpen() && curr.getClose() < prev.getClose()) {
-					// find candles which has prev open < next day open
-					// and next day close < prev close
-					prev = curr;
-					int i = count;
-					i++;
-					CandleTick next = null;
-
-					if (i < ticks.size()) {
-						next = ticks.get(i);
-					}
-
-					if (next != null && next.getOpen() < curr.getClose() && next.getClose() < next.getOpen()) {
-						result.add(ticks.get(count));
-					}
-				}
-			}
-			count++;
-		}
-		return result;
-	}
 
 	private List<StockWatch> nse(final boolean type) {
 		StockWatchResponse response = null;

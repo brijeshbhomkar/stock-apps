@@ -30,7 +30,7 @@ public class SymbolService extends RestfulSupport {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public List<Symbol> getSymbols() {
 		return symbols;
 	}
