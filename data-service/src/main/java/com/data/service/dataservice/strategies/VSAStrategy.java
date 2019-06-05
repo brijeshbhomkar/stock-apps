@@ -49,19 +49,17 @@ public class VSAStrategy {
 	 */
 	public static List<Candle> findWideSpreadCandles(final List<Candle> ohlcs, final int spread) {
 		final List<Candle> result = new CopyOnWriteArrayList<Candle>(ohlcs);
-		result.forEach(o -> {
-			if ((o.getHigh() - o.getLow()) > spread) {
-				o.setSignal(1);
-			} else {
-				o.setSignal(0);
-			}
-		});
+//		result.forEach(o -> {
+//			if ((o.getHigh() - o.getLow()) > spread) {
+//				o.setSignal(1);
+//			} else {
+//				o.setSignal(0);
+//			}
+//		});
 		return result;
 	}
-	
 
 	public static LinkedList<Candle> openCloseStrategy(final List<Candle> candleTicks) {
-		//final List<Candle> result = new CopyOnWriteArrayList<Candle>(candleTicks);
 		final LinkedList<Candle> ticks = new LinkedList<>(candleTicks);
 		int count = 0;
 		Candle prev = null;
@@ -70,7 +68,7 @@ public class VSAStrategy {
 				prev = ticks.getFirst();
 			} else {
 				Candle curr = ticks.get(count);
-				if (curr.getOpen() > prev.getOpen() && curr.getClose() < prev.getClose()) {
+				if (curr.getOpen() >= prev.getHigh() && curr.getClose() <= prev.getLow()) {
 					// find candles which has prev open < next day open
 					// and next day close < prev close
 					prev = curr;
@@ -82,17 +80,48 @@ public class VSAStrategy {
 						next = ticks.get(i);
 					}
 
-					if (next != null && next.getOpen() < curr.getClose() && next.getClose() < next.getOpen()) {
-						//result.add(ticks.get(count));
+					if (next != null && next.getOpen() <= curr.getLow() && next.getOpen() >= next.getClose()) {
 						Candle c = ticks.get(count);
-						c.setSignal(c.getDate());
+						c.setDown(c.getDate());
 					}
-					//ticks.get(count).setSignal(curr.getDate());
+					// if (next != null && next.getOpen() < curr.getClose() && next.getClose() <
+					// next.getOpen()) {
+					// result.add(ticks.get(count));
+					// Candle c = ticks.get(count);
+					// c.setDown(c.getDate());
+					// }
+					// ticks.get(count).setSignal(curr.getDate());
 				}
+//				else if (curr.getClose() == prev.getClose() && curr.getClose() > curr.getOpen()) {
+//					Candle c = ticks.get(count);
+//					c.setUp(c.getDate());
+//				}
 				prev = curr;
 			}
 			count++;
 		}
 		return ticks;
 	}
-}
+
+	public static List<Candle> highVolumeLowBody(final List<Candle> candle) {
+		final List<Candle> candles = new ArrayList<Candle>(candle);
+		List<Candle> volumes = candles.stream().sorted(Comparator.comparing(Candle::getVolume).reversed()).limit(10)
+				.collect(Collectors.toList());
+		volumes.forEach(v -> {
+			for (int i = 0; i < candle.size(); i++) {
+				Candle curr = candle.get(i);
+				if (v.getDate() == curr.getDate()) {
+					if (i <= candle.size()) {
+						Candle next = candle.get(i++);
+						if (next != null && next.getOpen() > next.getClose()) {
+							curr.setDown(curr.getDate());
+					} else {
+						curr.setUp(curr.getDate());
+					}
+					
+				}
+			}
+			}
+		});
+		return candle;
+}}

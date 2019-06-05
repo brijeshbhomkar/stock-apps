@@ -42,12 +42,14 @@ public class ChartsController extends RestfulSupport {
 				final DataSearchCriteria dataSearchCriteria = new DataSearchCriteria();
 				dataSearchCriteria.setKiteId("RB1822");
 				dataSearchCriteria.setPeriod("day");
-				dataSearchCriteria.setStartDate(LocalDate.now().minusYears(3).toString());
-			//	dataSearchCriteria.setStartDate(LocalDate.now().minusMonths(6).toString());
+				dataSearchCriteria.setStartDate(LocalDate.now().minusYears(1).toString());
+				//dataSearchCriteria.setStartDate(LocalDate.now().minusMonths(6).toString());
+				//dataSearchCriteria.setStartDate(LocalDate.now().minusDays(6).toString());
 				dataSearchCriteria.setEndDate(LocalDate.now().toString());
 				CandleResponse data = kiteDataService.get(dataSearchCriteria, symbol.getSymbolId());
 				//candles = VSAStrategy.findWideSpreadCandles(data.getData().getCandles(), 5);
 				candles = VSAStrategy.openCloseStrategy(data.getData().getCandles());
+				candles = VSAStrategy.highVolumeLowBody(candles);
 				if (CollectionUtils.isEmpty(candles)) {
 					return ResponseEntity.badRequest().body("No data found!" + HttpStatus.NO_CONTENT);
 				}
