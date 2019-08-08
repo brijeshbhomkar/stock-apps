@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.algo.trading.external.api.RestfulSupport;
-import com.algo.trading.pojos.CandleResponse;
-import com.algo.trading.pojos.DataRequest;
+import com.algo.trading.jsons.CandleResponse;
+import com.algo.trading.jsons.DataRequest;
 
 @Service
 public class DataFetchService extends RestfulSupport {

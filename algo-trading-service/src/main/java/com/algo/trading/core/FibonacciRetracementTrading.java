@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.algo.trading.executors.TaskExecutorImpl;
-import com.algo.trading.pojos.Candle;
-import com.algo.trading.pojos.CandleResponse;
-import com.algo.trading.pojos.DataRequest;
+import com.algo.trading.jsons.Candle;
+import com.algo.trading.jsons.CandleResponse;
+import com.algo.trading.jsons.DataRequest;
 import com.algo.trading.services.DataFetchService;
 
 @Service
@@ -36,7 +36,8 @@ public class FibonacciRetracementTrading {
 		dataRequest.setUserId("RB1822");
 		dataRequest.setFromDate(LocalDate.now().toString());
 		dataRequest.setToDate(LocalDate.now().toString());
-		CandleResponse response = dataService.exchange(dataRequest);
+
+		final CandleResponse response = dataService.exchange(dataRequest);
 		if (response != null && response.getData() != null
 				&& !CollectionUtils.isEmpty(response.getData().getCandles())) {
 			List<Candle> candles = response.getData().getCandles();

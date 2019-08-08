@@ -7,8 +7,8 @@ import java.util.concurrent.Future;
 
 import org.springframework.stereotype.Component;
 
-import com.algo.trading.pojos.CandleResponse;
-import com.algo.trading.pojos.DataRequest;
+import com.algo.trading.jsons.CandleResponse;
+import com.algo.trading.jsons.DataRequest;
 
 @Component
 public class TaskExecutorImpl implements TaskExecutor {

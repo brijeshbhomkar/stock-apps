@@ -3,7 +3,7 @@ package com.algo.trading.executors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.algo.trading.pojos.DataRequest;
+import com.algo.trading.jsons.DataRequest;
 import com.algo.trading.services.DataFetchService;
 
 @Component

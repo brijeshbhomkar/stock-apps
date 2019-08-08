@@ -15,7 +15,7 @@ public class ApplicationController {
 	@Autowired
 	private FibonacciRetracementTrading fibonacciService;
 
-	@RequestMapping("/{id}")
+	@RequestMapping("/fibo/{id}")
 	public ResponseEntity<?> start(@PathVariable final String id) {
 		fibonacciService.process(id);
 		return ResponseEntity.ok("Started processing " + id);
