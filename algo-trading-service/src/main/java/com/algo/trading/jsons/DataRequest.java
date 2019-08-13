@@ -13,6 +13,7 @@ public class DataRequest implements Serializable {
 	private static final long serialVersionUID = -7090018390967227392L;
 
 	private String symbol;
+	private String symbolName;
 	private String userId;
 	private String timeframe;
 	private String fromDate;
@@ -56,5 +57,13 @@ public class DataRequest implements Serializable {
 
 	public void setToDate(String toDate) {
 		this.toDate = toDate;
+	}
+
+	public String getSymbolName() {
+		return symbolName;
+	}
+
+	public void setSymbolName(String symbolName) {
+		this.symbolName = symbolName;
 	}
 }
