@@ -55,27 +55,11 @@ public class ApplicationController {
 		return ResponseEntity.ok("Started processing " + id);
 	}
 
-	@PostMapping("/all/{timeframe}")
-	public ResponseEntity<?> findFibonacciRetracementNiftyStocks(@PathVariable final String timeframe) {
-		final List<DataRequest> requests = new ArrayList<>();
-		final List<Symbol> symbols = symbolRepository.findAll();
-		if (!CollectionUtils.isEmpty(symbols)) {
-			symbols.forEach(s -> {
-				final DataRequest dataRequest = new DataRequest();
-				dataRequest.setSymbolName(s.getSymbol());
-				dataRequest.setSymbol(Long.toString(s.getSymbolId()));
-				dataRequest.setTimeframe(timeframe);
-				dataRequest.setUserId("RB1822");
-				dataRequest.setFromDate(LocalDate.now().minusDays(6).toString());
-				dataRequest.setToDate(LocalDate.now().minusDays(6).toString());
-				requests.add(dataRequest);
-			});
-		}
-
-		retracementService.process(requests);
-
-		return ResponseEntity.ok(HttpStatus.OK);
-	}
+//	@PostMapping("/all/{timeframe}")
+//	public ResponseEntity<?> findFibonacciRetracementNiftyStocks(@PathVariable final String timeframe) {
+//		
+//		return ResponseEntity.ok(HttpStatus.OK);
+//	}
 
 	@PostMapping("/add/{id}/{timeframe}")
 	public ResponseEntity<?> addActiveJob(@PathVariable final String id, @PathVariable final String timeframe) {

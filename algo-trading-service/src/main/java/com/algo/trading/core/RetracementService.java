@@ -1,16 +1,21 @@
 package com.algo.trading.core;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.algo.trading.entities.Retracement;
+import com.algo.trading.entities.Symbol;
 import com.algo.trading.jsons.Candle;
 import com.algo.trading.jsons.CandleResponse;
 import com.algo.trading.jsons.DataRequest;
 import com.algo.trading.repositories.RetracementRepository;
+import com.algo.trading.repositories.SymbolRepository;
 import com.algo.trading.services.DataFetchService;
 
 @Component
@@ -22,15 +27,32 @@ public class RetracementService {
 	@Autowired
 	private DataFetchService dataService;
 
-	public void process(final List<DataRequest> requests) {
-		// 1. find the daily candle stick
-		// 2. find open and close
-		// 2. calculate different levels of fibonacci
-		// 3. schedule thread to fetch 2 mins data
-		// 4. validate against different levels
-		// 5. if level matches, then place order
-		// 6.
+	@Autowired
+	private SymbolRepository symbolRepository;
 
+	@Scheduled(cron = "0 0/10 * * * 1-5")
+	public void calculateRetracement() {
+		System.out.println(" Calculating retracment levels ");
+		final List<DataRequest> requests = new ArrayList<>();
+		final List<Symbol> symbols = symbolRepository.findAll();
+		if (!CollectionUtils.isEmpty(symbols)) {
+			symbols.forEach(s -> {
+				final DataRequest dataRequest = new DataRequest();
+				dataRequest.setSymbolName(s.getSymbol());
+				dataRequest.setSymbol(Long.toString(s.getSymbolId()));
+				dataRequest.setTimeframe("day");
+				dataRequest.setUserId("RB1822");
+				dataRequest.setFromDate(LocalDate.now().toString());
+				dataRequest.setToDate(LocalDate.now().toString());
+				requests.add(dataRequest);
+			});
+		}
+		
+		cleanup();
+		process(requests);
+	}
+
+	public void process(final List<DataRequest> requests) {
 		if (requests != null) {
 			requests.forEach(re -> {
 				Candle candle = null;
@@ -69,7 +91,10 @@ public class RetracementService {
 
 			});
 		}
+	}
 
+	public void cleanup() {
+		retracementRepository.deleteAll();
 	}
 
 	/**

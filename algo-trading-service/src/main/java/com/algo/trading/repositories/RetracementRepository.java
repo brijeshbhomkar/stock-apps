@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.algo.trading.entities.Retracement;
 
 @Repository
-public interface RetracementRepository extends JpaRepository<Retracement, Long> {
+public interface RetracementRepository extends JpaRepository<Retracement, Long>, RetracementCrudRepository {
 
 }
