@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.algo.trading.entities.Retracement;
 import com.algo.trading.entities.StockJob;
-import com.algo.trading.entities.StockOrder;
+import com.algo.trading.entities.OrderJob;
 import com.algo.trading.jsons.Candle;
 import com.algo.trading.jsons.CandleResponse;
 import com.algo.trading.jsons.DataRequest;
@@ -30,12 +30,12 @@ public class SchedulingService {
 
 	@Autowired
 	private RetracementRepository retracementRepository;
-	
+
 	@Autowired
 	private OrderPlaceService orderPlaceService;
-	
+
 	private BlockingQueue<StockJob> arrayBlockingQueue = new ArrayBlockingQueue<>(20);
-	
+
 	Retracement retracement = null;
 
 	@Scheduled(cron = "0 0/2 * * * 1-5")
@@ -54,11 +54,10 @@ public class SchedulingService {
 			}
 			if (response != null) {
 				final List<Candle> candles = response.getData().getCandles().stream()
-						.filter(s -> s.getLow() >= Double.parseDouble(retracement.getDailyLevel61()) //check retracement between 50 and 61.8
-								&& s.getLow() <= Double.parseDouble(retracement.getDailyLevel50()))
+						.filter(s -> s.getOpen() == Double.parseDouble(retracement.getTriggerPrice()))
 						.collect(Collectors.toList());
 				candles.forEach(c -> {
-					final StockOrder stockOrder = new StockOrder();
+					final OrderJob stockOrder = new OrderJob();
 					stockOrder.setSymbolId(request.getSymbol());
 					stockOrder.setSymbolName(request.getSymbolName());
 					orderPlaceService.saveOrder(stockOrder);

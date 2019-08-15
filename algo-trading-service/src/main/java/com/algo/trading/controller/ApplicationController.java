@@ -55,12 +55,6 @@ public class ApplicationController {
 		return ResponseEntity.ok("Started processing " + id);
 	}
 
-//	@PostMapping("/all/{timeframe}")
-//	public ResponseEntity<?> findFibonacciRetracementNiftyStocks(@PathVariable final String timeframe) {
-//		
-//		return ResponseEntity.ok(HttpStatus.OK);
-//	}
-
 	@PostMapping("/add/{id}/{timeframe}")
 	public ResponseEntity<?> addActiveJob(@PathVariable final String id, @PathVariable final String timeframe) {
 		final Symbol symbol = symbolRepository.findSymbol(id);

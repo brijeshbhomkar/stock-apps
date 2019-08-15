@@ -23,6 +23,7 @@ public class Retracement implements Serializable {
 	private String weeklyLevel38;
 	private String weeklyLevel50;
 	private String weeklyLevel61;
+	private String triggerPrice;
 
 	public long getSymbol() {
 		return symbol;
@@ -86,6 +87,14 @@ public class Retracement implements Serializable {
 
 	public void setSymbolName(String symbolName) {
 		this.symbolName = symbolName;
+	}
+
+	public String getTriggerPrice() {
+		return triggerPrice;
+	}
+
+	public void setTriggerPrice(String triggerPrice) {
+		this.triggerPrice = triggerPrice;
 	}
 
 	@Override

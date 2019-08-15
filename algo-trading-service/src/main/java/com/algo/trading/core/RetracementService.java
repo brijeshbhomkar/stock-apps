@@ -47,7 +47,7 @@ public class RetracementService {
 				requests.add(dataRequest);
 			});
 		}
-		
+
 		cleanup();
 		process(requests);
 	}
@@ -63,23 +63,15 @@ public class RetracementService {
 					candle = candles.get(0);
 				}
 
-				// double open = candle.getOpen();
-				// double close = candle.getClose();
 				double diff = candle.getHigh() - candle.getLow();
 
 				Double retrace38 = null;
 				Double retrace50 = null;
 				Double retrace61 = null;
 
-				if (diff > 20) {
-					retrace38 = calculateDownRetracment(diff, candle.getHigh(), 38.2);
-					retrace50 = calculateDownRetracment(diff, candle.getHigh(), 50);
-					retrace61 = calculateDownRetracment(diff, candle.getHigh(), 61.8);
-				} else {
-					retrace38 = calculateUpRetracment(diff, candle.getLow(), 38.2);
-					retrace50 = calculateUpRetracment(diff, candle.getLow(), 50);
-					retrace61 = calculateUpRetracment(diff, candle.getLow(), 61.8);
-				}
+				retrace38 = calculateRetracment(diff, candle.getHigh(), 38.2);
+				retrace50 = calculateRetracment(diff, candle.getHigh(), 50);
+				retrace61 = calculateRetracment(diff, candle.getHigh(), 61.8);
 
 				final Retracement retracment = new Retracement();
 				retracment.setSymbolName(re.getSymbolName());
@@ -87,6 +79,10 @@ public class RetracementService {
 				retracment.setDailyLevel38(Double.toString(retrace38));
 				retracment.setDailyLevel50(Double.toString(retrace50));
 				retracment.setDailyLevel61(Double.toString(retrace61));
+
+				final double triggerPrice = Math.round((retrace50 + retrace61) / 2);
+				retracment.setTriggerPrice(Double.toString(triggerPrice));
+
 				retracementRepository.save(retracment);
 
 			});
@@ -103,17 +99,17 @@ public class RetracementService {
 	 * @param percentage
 	 * @return
 	 */
-	private double calculateDownRetracment(final double diff, final double open, final double percentage) {
-		return (open - (diff * percentage) / 100);
+	private double calculateRetracment(final double diff, final double open, final double percentage) {
+		return Math.round((open - (diff * percentage) / 100));
 	}
 
-	/**
-	 * @param diff
-	 * @param open
-	 * @param percentage
-	 * @return
-	 */
-	private double calculateUpRetracment(final double diff, final double open, final double percentage) {
-		return (open + (diff * percentage) / 100);
-	}
+//	/**
+//	 * @param diff
+//	 * @param open
+//	 * @param percentage
+//	 * @return
+//	 */
+//	private double calculateUpRetracment(final double diff, final double open, final double percentage) {
+//		return (open + (diff * percentage) / 100);
+//	}
 }
