@@ -126,7 +126,7 @@ public class OrderPlaceService {
 				request.setToDate(LocalDate.now().toString());
 				
 				final StockRequest stockRequest = new StockRequest(order.getTriggerPrice(), request);
-				dataPoolingService.addToQueue(request);
+				dataPoolingService.addToQueue(stockRequest);
 			}
 		}
 	}
