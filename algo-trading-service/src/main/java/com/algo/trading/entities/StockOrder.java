@@ -108,4 +108,60 @@ public class StockOrder implements Serializable {
 		this.status = status;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		long temp;
+		temp = Double.doubleToLongBits(price);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + quantity;
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		temp = Double.doubleToLongBits(stopLoss);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((symbolId == null) ? 0 : symbolId.hashCode());
+		result = prime * result + ((symbolName == null) ? 0 : symbolName.hashCode());
+		result = prime * result + ((tradeType == null) ? 0 : tradeType.hashCode());
+		temp = Double.doubleToLongBits(triggerPrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StockOrder other = (StockOrder) obj;
+		if (id != other.id)
+			return false;
+		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
+			return false;
+		if (quantity != other.quantity)
+			return false;
+		if (status != other.status)
+			return false;
+		if (Double.doubleToLongBits(stopLoss) != Double.doubleToLongBits(other.stopLoss))
+			return false;
+		if (symbolId == null) {
+			if (other.symbolId != null)
+				return false;
+		} else if (!symbolId.equals(other.symbolId))
+			return false;
+		if (symbolName == null) {
+			if (other.symbolName != null)
+				return false;
+		} else if (!symbolName.equals(other.symbolName))
+			return false;
+		if (tradeType != other.tradeType)
+			return false;
+		if (Double.doubleToLongBits(triggerPrice) != Double.doubleToLongBits(other.triggerPrice))
+			return false;
+		return true;
+	}
+
 }

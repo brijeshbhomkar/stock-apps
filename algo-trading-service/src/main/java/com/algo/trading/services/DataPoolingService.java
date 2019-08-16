@@ -40,7 +40,7 @@ public class DataPoolingService {
 		if (!requestQueue.isEmpty()) {
 			final DataPoolThread dataPoolThread = new DataPoolThread();
 			dataPoolThread.setDataRequest(requestQueue.poll());
-			service.schedule(dataPoolThread, 1, TimeUnit.MINUTES);
+			service.schedule(dataPoolThread, 30, TimeUnit.SECONDS);
 		}
 	}
 

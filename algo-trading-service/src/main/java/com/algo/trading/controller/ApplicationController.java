@@ -1,10 +1,8 @@
 package com.algo.trading.controller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +20,7 @@ import com.algo.trading.jsons.DataRequest;
 import com.algo.trading.repositories.StockJobRepository;
 import com.algo.trading.repositories.SymbolRepository;
 import com.algo.trading.services.SchedulingService;
+import com.algo.trading.utils.TradeStatus;
 
 @RestController
 @RequestMapping("/api/trading")
@@ -72,7 +71,7 @@ public class ApplicationController {
 	@PostMapping("/start/{id}")
 	public ResponseEntity<?> startActiveJob(@PathVariable final String id) {
 		final StockJob job = jobService.findStockJobById(id);
-		if (job != null && job.getStatus() != null && job.getStatus().equals("Active")) {
+		if (job != null && job.getStatus() != null && job.getStatus().equals(TradeStatus.ACTIVE.getStatus())) {
 			schedulingService.start();
 		}
 		return ResponseEntity.ok(HttpStatus.OK);
@@ -87,7 +86,7 @@ public class ApplicationController {
 				job.setSymbolId(Long.toString(s.getSymbolId()));
 				job.setSymbol(s.getSymbol());
 				job.setTimeframe(timeframe);
-				job.setStatus("Active");
+				job.setStatus(TradeStatus.ACTIVE.getStatus());
 				jobService.delete(job);
 				jobService.save(job);
 			});

@@ -34,14 +34,18 @@ public class RetracementService {
 
 	List<Symbol> symbols = null;
 
-	@Scheduled(cron = "0 0/2 * * * 1-5")
+	@Scheduled(cron = "0 14 * * * 1-5")
 	public void calculateRetracement() {
-		System.out.println(" Calculating retracment levels ");
+		System.out.println(" Calculate fibonacci retracment of all the available symbols after market 4  ");
 		final List<DataRequest> requests = new ArrayList<>();
 		if (symbols == null) {
 			symbols = symbolRepository.findAll();
 			if (!CollectionUtils.isEmpty(symbols)) {
 				symbols.forEach(s -> {
+					
+					//delete existing all retracement
+					retracementRepository.deleteAll();
+
 					final DataRequest dataRequest = new DataRequest();
 					dataRequest.setSymbolName(s.getSymbol());
 					dataRequest.setSymbol(Long.toString(s.getSymbolId()));
@@ -93,7 +97,7 @@ public class RetracementService {
 			});
 		}
 	}
-	
+
 	@PostConstruct
 	public void cleanup() {
 		retracementRepository.deleteAll();
@@ -108,14 +112,4 @@ public class RetracementService {
 	private double calculateRetracment(final double diff, final double open, final double percentage) {
 		return Math.round((open - (diff * percentage) / 100));
 	}
-
-//	/**
-//	 * @param diff
-//	 * @param open
-//	 * @param percentage
-//	 * @return
-//	 */
-//	private double calculateUpRetracment(final double diff, final double open, final double percentage) {
-//		return (open + (diff * percentage) / 100);
-//	}
 }

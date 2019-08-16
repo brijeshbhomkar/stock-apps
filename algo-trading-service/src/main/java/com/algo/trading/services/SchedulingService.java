@@ -11,15 +11,19 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import com.algo.trading.entities.OrderJob;
 import com.algo.trading.entities.Retracement;
 import com.algo.trading.entities.StockJob;
-import com.algo.trading.entities.OrderJob;
+import com.algo.trading.entities.Symbol;
 import com.algo.trading.jsons.Candle;
 import com.algo.trading.jsons.CandleResponse;
 import com.algo.trading.jsons.DataRequest;
 import com.algo.trading.repositories.RetracementRepository;
 import com.algo.trading.repositories.StockJobRepository;
+import com.algo.trading.repositories.SymbolRepository;
+import com.algo.trading.utils.TradeStatus;
 
 @Service
 public class SchedulingService {
@@ -28,7 +32,7 @@ public class SchedulingService {
 	private DataFetchService dataService;
 
 	@Autowired
-	private StockJobRepository jobRepository;
+	private StockJobRepository stockJobRepository;
 
 	@Autowired
 	private RetracementRepository retracementRepository;
@@ -36,16 +40,19 @@ public class SchedulingService {
 	@Autowired
 	private OrderPlaceService orderPlaceService;
 
+	@Autowired
+	private SymbolRepository symbolRepository;
+
 	private BlockingQueue<StockJob> arrayBlockingQueue = new ArrayBlockingQueue<>(50);
 
 	Retracement retracement = null;
-	
+
 	@PostConstruct
 	public void clean() {
-		jobRepository.deleteAll();
+		stockJobRepository.deleteAll();
 	}
 
-	@Scheduled(cron = "0 0/2 * * * 1-5")
+	@Scheduled(cron = "30 9 * * * 1-5")
 	public void start() {
 		if (!arrayBlockingQueue.isEmpty()) {
 			final StockJob stockJob = arrayBlockingQueue.poll();
@@ -74,15 +81,32 @@ public class SchedulingService {
 		}
 	}
 
-	@Scheduled(cron = "0 0/2 * * * 1-5")
+	@Scheduled(cron = "30 9 * * * 1-5")
 	public void activeJobs() {
-		System.out.println(" Running cron job to get the jobs every 10 minutes ");
-		final List<StockJob> jobs = jobRepository.findAll().stream().filter(j -> j.getStatus().equals("Active"))
+		System.out.println(" Find the jobs at the start of market 9:30 am ");
+		final List<StockJob> jobs = stockJobRepository.findAll().stream().filter(j -> j.getStatus().equals("Active"))
 				.collect(Collectors.toList());
 		jobs.forEach(j -> {
 			if (!arrayBlockingQueue.contains(j)) {
 				arrayBlockingQueue.add(j);
 			}
 		});
+	}
+
+	@Scheduled(cron = "15 9 * * * 1-5")
+	public void startJobCreation() {
+		System.out.println(" Creating jobs at the start of market 9:15 am ");
+		final List<Symbol> symbols = symbolRepository.findAll();
+		if (!CollectionUtils.isEmpty(symbols)) {
+			symbols.forEach(s -> {
+				final StockJob job = new StockJob();
+				job.setSymbolId(Long.toString(s.getSymbolId()));
+				job.setSymbol(s.getSymbol());
+				job.setTimeframe("1minute");
+				job.setStatus(TradeStatus.ACTIVE.getStatus());
+				stockJobRepository.delete(job);
+				stockJobRepository.save(job);
+			});
+		}
 	}
 }
