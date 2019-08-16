@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -30,26 +32,29 @@ public class RetracementService {
 	@Autowired
 	private SymbolRepository symbolRepository;
 
-	@Scheduled(cron = "0 0/10 * * * 1-5")
+	List<Symbol> symbols = null;
+
+	@Scheduled(cron = "0 0/2 * * * 1-5")
 	public void calculateRetracement() {
 		System.out.println(" Calculating retracment levels ");
 		final List<DataRequest> requests = new ArrayList<>();
-		final List<Symbol> symbols = symbolRepository.findAll();
-		if (!CollectionUtils.isEmpty(symbols)) {
-			symbols.forEach(s -> {
-				final DataRequest dataRequest = new DataRequest();
-				dataRequest.setSymbolName(s.getSymbol());
-				dataRequest.setSymbol(Long.toString(s.getSymbolId()));
-				dataRequest.setTimeframe("day");
-				dataRequest.setUserId("RB1822");
-				dataRequest.setFromDate(LocalDate.now().toString());
-				dataRequest.setToDate(LocalDate.now().toString());
-				requests.add(dataRequest);
-			});
-		}
+		if (symbols == null) {
+			symbols = symbolRepository.findAll();
+			if (!CollectionUtils.isEmpty(symbols)) {
+				symbols.forEach(s -> {
+					final DataRequest dataRequest = new DataRequest();
+					dataRequest.setSymbolName(s.getSymbol());
+					dataRequest.setSymbol(Long.toString(s.getSymbolId()));
+					dataRequest.setTimeframe("day");
+					dataRequest.setUserId("RB1822");
+					dataRequest.setFromDate(LocalDate.now().toString());
+					dataRequest.setToDate(LocalDate.now().toString());
+					requests.add(dataRequest);
+				});
+			}
 
-		cleanup();
-		process(requests);
+			process(requests);
+		}
 	}
 
 	public void process(final List<DataRequest> requests) {
@@ -88,7 +93,8 @@ public class RetracementService {
 			});
 		}
 	}
-
+	
+	@PostConstruct
 	public void cleanup() {
 		retracementRepository.deleteAll();
 	}

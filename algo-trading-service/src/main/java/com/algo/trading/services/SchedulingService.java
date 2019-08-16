@@ -6,6 +6,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -34,9 +36,14 @@ public class SchedulingService {
 	@Autowired
 	private OrderPlaceService orderPlaceService;
 
-	private BlockingQueue<StockJob> arrayBlockingQueue = new ArrayBlockingQueue<>(20);
+	private BlockingQueue<StockJob> arrayBlockingQueue = new ArrayBlockingQueue<>(50);
 
 	Retracement retracement = null;
+	
+	@PostConstruct
+	public void clean() {
+		jobRepository.deleteAll();
+	}
 
 	@Scheduled(cron = "0 0/2 * * * 1-5")
 	public void start() {
@@ -60,19 +67,22 @@ public class SchedulingService {
 					final OrderJob stockOrder = new OrderJob();
 					stockOrder.setSymbolId(request.getSymbol());
 					stockOrder.setSymbolName(request.getSymbolName());
+					stockOrder.setTriggerPrice(c.getOpen());
 					orderPlaceService.saveOrder(stockOrder);
 				});
 			}
 		}
 	}
 
-	@Scheduled(cron = "0 0/5 * * * 1-5")
+	@Scheduled(cron = "0 0/2 * * * 1-5")
 	public void activeJobs() {
 		System.out.println(" Running cron job to get the jobs every 10 minutes ");
 		final List<StockJob> jobs = jobRepository.findAll().stream().filter(j -> j.getStatus().equals("Active"))
 				.collect(Collectors.toList());
 		jobs.forEach(j -> {
-			arrayBlockingQueue.add(j);
+			if (!arrayBlockingQueue.contains(j)) {
+				arrayBlockingQueue.add(j);
+			}
 		});
 	}
 }

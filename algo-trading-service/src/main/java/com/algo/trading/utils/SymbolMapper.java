@@ -11,15 +11,15 @@ public final class SymbolMapper {
 
 	private static void init() {
 		symbolMapper.put("NIFTY50", "256265");
-//		symbolMapper.put("IOC", "415745");
-//		symbolMapper.put("SUNPHARMA", "857857");
-//		symbolMapper.put("HINDALCO", "348929");
-//		symbolMapper.put("COALINDIA", "5215745");
-//		symbolMapper.put("VEDL", "784129");
-//		symbolMapper.put("SBIN", "779521");
-//		symbolMapper.put("ICICIBANK", "1270529");
-//		symbolMapper.put("CIPLA", "177665");
-//		symbolMapper.put("HINDPETRO", "359937");
+		symbolMapper.put("IOC", "415745");
+		symbolMapper.put("SUNPHARMA", "857857");
+		symbolMapper.put("HINDALCO", "348929");
+		symbolMapper.put("COALINDIA", "5215745");
+		symbolMapper.put("VEDL", "784129");
+		symbolMapper.put("SBIN", "779521");
+		symbolMapper.put("ICICIBANK", "1270529");
+		symbolMapper.put("CIPLA", "177665");
+		symbolMapper.put("HINDPETRO", "359937");
 //		symbolMapper.put("BPCL", "134657");
 //		symbolMapper.put("NTPC", "2977281");
 //		symbolMapper.put("BHEL", "112129");

@@ -71,4 +71,50 @@ public class StockJob implements Serializable {
 				+ ", status=" + status + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
+		result = prime * result + ((symbolId == null) ? 0 : symbolId.hashCode());
+		result = prime * result + ((timeframe == null) ? 0 : timeframe.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StockJob other = (StockJob) obj;
+		if (id != other.id)
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (symbol == null) {
+			if (other.symbol != null)
+				return false;
+		} else if (!symbol.equals(other.symbol))
+			return false;
+		if (symbolId == null) {
+			if (other.symbolId != null)
+				return false;
+		} else if (!symbolId.equals(other.symbolId))
+			return false;
+		if (timeframe == null) {
+			if (other.timeframe != null)
+				return false;
+		} else if (!timeframe.equals(other.timeframe))
+			return false;
+		return true;
+	}
+
 }

@@ -2,10 +2,14 @@ package com.algo.trading.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +21,11 @@ import org.springframework.util.CollectionUtils;
 import com.algo.trading.entities.OrderJob;
 import com.algo.trading.entities.StockOrder;
 import com.algo.trading.entities.StockRequest;
+import com.algo.trading.jsons.Candle;
 import com.algo.trading.jsons.DataRequest;
-import com.algo.trading.repositories.OrderAuditRepository;
 import com.algo.trading.repositories.OrderJobRepository;
 import com.algo.trading.repositories.OrderRepository;
+import com.algo.trading.repositories.OrderResultRepository;
 import com.algo.trading.utils.TradeStatus;
 import com.algo.trading.utils.TradeType;
 
@@ -36,7 +41,7 @@ public class OrderPlaceService {
 	private OrderRepository orderRepository;
 
 	@Autowired
-	private OrderAuditRepository orderAuditRepository;
+	private OrderResultRepository orderAuditRepository;
 
 	@Autowired
 	private ZerodhaService zerodhaService;
@@ -49,6 +54,12 @@ public class OrderPlaceService {
 	private BlockingQueue<StockOrder> activeOrderQueue = new ArrayBlockingQueue<>(5);
 
 	final List<StockOrder> orders = new ArrayList<>();
+	
+	@PostConstruct
+	public void clean() {
+		orderJobRepository.deleteAll();
+		orderRepository.deleteAll();
+	}
 
 	public void saveOrder(final OrderJob stockOrder) {
 		logger.debug(" Saving stock order ", stockOrder.getSymbolId());
@@ -56,6 +67,14 @@ public class OrderPlaceService {
 			orderJobRepository.save(stockOrder);
 		} catch (Exception e) {
 			logger.error("Failed to save stock order", e);
+		}
+	}
+	
+	@Scheduled(cron="0 0/2 * * * 1-5")
+	public void profitLoss() {
+		final BlockingQueue<Candle> candle = dataPoolingService.getResponseQueue();
+		if (candle != null && !candle.isEmpty()) {
+			System.out.println(candle.poll().toString());
 		}
 	}
 
@@ -67,7 +86,7 @@ public class OrderPlaceService {
 			System.out.println(" Placing order " + job.toString());
 
 			final StockOrder order = new StockOrder();
-			final Double price = Double.parseDouble(job.getTriggerPrice());
+			final Double price = job.getTriggerPrice();
 			order.setPrice(price);
 			order.setQuantity(300);
 			order.setSymbolId(job.getSymbolId());
@@ -88,7 +107,9 @@ public class OrderPlaceService {
 	@Scheduled(cron = "0 0/2 * * * 1-5") //pull jobs every 2 minutes
 	public void findJobs() {
 		System.out.println(" Find orders available in the system ");
-		final List<OrderJob> orders = orderJobRepository.findAll();
+		final Set<OrderJob> unique = new HashSet<>();
+		final List<OrderJob> orders = orderJobRepository.findAll()
+				.stream().filter(e -> unique.add(e)).collect(Collectors.toList());
 		try {
 			if (!CollectionUtils.isEmpty(orders)) {
 				orders.forEach(s -> stockOrderQueue.add(s));
@@ -98,7 +119,7 @@ public class OrderPlaceService {
 		}
 	}
 
-	@Scheduled(cron = "0 0/5 * * * 1-5") //pull orders every 5 minutes
+	@Scheduled(cron = "0 0/2 * * * 1-5") //pull orders every 5 minutes
 	public void triggerOrder() {
 		List<StockOrder> activeOrders = null;
 		if (orders.isEmpty()) {
@@ -127,6 +148,7 @@ public class OrderPlaceService {
 				
 				final StockRequest stockRequest = new StockRequest(order.getTriggerPrice(), request);
 				dataPoolingService.addToQueue(stockRequest);
+				dataPoolingService.start();
 			}
 		}
 	}

@@ -77,4 +77,21 @@ public class ApplicationController {
 		}
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
+
+	@PostMapping("/all/{timeframe}")
+	public ResponseEntity<?> startNiftyAll(@PathVariable final String timeframe) {
+		final List<Symbol> symbols = symbolRepository.findAll();
+		if (!CollectionUtils.isEmpty(symbols)) {
+			symbols.forEach(s -> {
+				final StockJob job = new StockJob();
+				job.setSymbolId(Long.toString(s.getSymbolId()));
+				job.setSymbol(s.getSymbol());
+				job.setTimeframe(timeframe);
+				job.setStatus("Active");
+				jobService.delete(job);
+				jobService.save(job);
+			});
+		}
+		return ResponseEntity.ok(HttpStatus.OK);
+	}
 }
