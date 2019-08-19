@@ -9,12 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.algo.trading.utils.TradeStatus;
 import com.algo.trading.utils.TradeType;
 
 @Entity
-@Table(name = "Stock_Order")
+@Table(name = "Stock_Order", uniqueConstraints = { @UniqueConstraint(columnNames = { "symbolName" }),
+		@UniqueConstraint(columnNames = { "symbolId" }) })
 public class StockOrder implements Serializable {
 
 	private static final long serialVersionUID = -8654950769012584187L;

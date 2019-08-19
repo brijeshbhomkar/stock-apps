@@ -21,7 +21,6 @@ import org.springframework.util.CollectionUtils;
 import com.algo.trading.entities.OrderJob;
 import com.algo.trading.entities.StockOrder;
 import com.algo.trading.entities.StockRequest;
-import com.algo.trading.jsons.Candle;
 import com.algo.trading.jsons.DataRequest;
 import com.algo.trading.repositories.OrderJobRepository;
 import com.algo.trading.repositories.OrderRepository;
@@ -69,16 +68,8 @@ public class OrderPlaceService {
 			logger.error("Failed to save stock order", e);
 		}
 	}
-	
-	@Scheduled(cron="0 0/2 * * * 1-5")
-	public void profitLoss() {
-		final BlockingQueue<Candle> candle = dataPoolingService.getResponseQueue();
-		if (candle != null && !candle.isEmpty()) {
-			System.out.println(candle.poll().toString());
-		}
-	}
 
-	@Scheduled(cron = "0 0/1 * * * 1-5")
+	@Scheduled(cron = "* 0/1 * * * 1-5")
 	public void placeOrder() {
 		if (!stockOrderQueue.isEmpty()) {
 			final OrderJob job = stockOrderQueue.poll();
@@ -94,9 +85,10 @@ public class OrderPlaceService {
 			order.setTradeType(TradeType.BUY);
 
 			// calculate stop loss
-			order.setStopLoss((price - price * 10) / 100);
+			double stoploss  = price;
+			order.setStopLoss(price - ((stoploss * 5) / 100));
 			order.setStatus(TradeStatus.ACTIVE);
-
+			order.setTriggerPrice(price);
 			orderRepository.save(order);
 
 			// call the zerodha order placement service to live place orders
@@ -104,9 +96,8 @@ public class OrderPlaceService {
 		}
 	}
 
-	@Scheduled(cron = "0 0/1 * * * 1-5") //pull jobs every 2 minutes
+	@Scheduled(cron = "* 0/1 * * * 1-5") //pull jobs every 2 minutes
 	public void findJobs() {
-		System.out.println(" Find orders available in the system ");
 		final Set<OrderJob> unique = new HashSet<>();
 		final List<OrderJob> orders = orderJobRepository.findAll()
 				.stream().filter(e -> unique.add(e)).collect(Collectors.toList());
@@ -119,7 +110,7 @@ public class OrderPlaceService {
 		}
 	}
 
-	@Scheduled(cron = "0 0/1 * * * 1-5") //pull orders every 5 minutes
+	@Scheduled(cron = "* 0/1 * * * 1-5") //pull orders every 5 minutes
 	public void triggerOrder() {
 		List<StockOrder> activeOrders = null;
 		if (orders.isEmpty()) {
@@ -134,7 +125,7 @@ public class OrderPlaceService {
 		}
 	}
 
-	@Scheduled(cron = "0 0/1 * * * 1-5") //check whether stop loss is triggered, only when on 9.15am 
+	@Scheduled(cron = "* 0/1 * * * 1-5") //check whether stop loss is triggered, only when on 9.15am 
 	public void executeOrder() {
 		if (!activeOrderQueue.isEmpty()) {
 			final StockOrder order = activeOrderQueue.poll();
@@ -143,7 +134,7 @@ public class OrderPlaceService {
 				request.setSymbol(order.getSymbolId());
 				request.setSymbolName(order.getSymbolName());
 				request.setUserId("RB1822");
-				request.setTimeframe("1minute");
+				request.setTimeframe("day");
 				request.setFromDate(LocalDate.now().toString());
 				request.setToDate(LocalDate.now().toString());
 				

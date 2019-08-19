@@ -8,10 +8,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableJpaRepositories
 @EnableScheduling
-public class AlgoTradingServiceApplication {
+public class AlgorithmicTrading {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AlgoTradingServiceApplication.class, args);
+		SpringApplication.run(AlgorithmicTrading.class, args);
 	}
 
 }

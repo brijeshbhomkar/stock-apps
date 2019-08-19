@@ -52,7 +52,7 @@ public class SchedulingService {
 		stockJobRepository.deleteAll();
 	}
 
-	@Scheduled(cron = "30 9 * * * 1-5")
+	@Scheduled(cron = "* 0/5 * * * 1-5")
 	public void start() {
 		if (!arrayBlockingQueue.isEmpty()) {
 			final StockJob stockJob = arrayBlockingQueue.poll();
@@ -63,9 +63,7 @@ public class SchedulingService {
 			request.setFromDate(LocalDate.now().toString());
 			request.setToDate(LocalDate.now().toString());
 			final CandleResponse response = dataService.dataExchange(request); // live data
-			if (retracement == null) {
-				retracement = retracementRepository.findRetracementById(stockJob.getSymbolId()); // find the retracement
-			}
+			retracement = retracementRepository.findRetracementById(stockJob.getSymbolId()); // find the retracement
 			if (response != null) {
 				final List<Candle> candles = response.getData().getCandles().stream()
 						.filter(s -> s.getOpen() == Double.parseDouble(retracement.getTriggerPrice()))
@@ -81,7 +79,7 @@ public class SchedulingService {
 		}
 	}
 
-	@Scheduled(cron = "30 9 * * * 1-5")
+	@Scheduled(cron = "* 0/5 * * * 1-5")
 	public void activeJobs() {
 		System.out.println(" Find the jobs at the start of market 9:30 am ");
 		final List<StockJob> jobs = stockJobRepository.findAll().stream().filter(j -> j.getStatus().equals("Active"))
@@ -93,7 +91,7 @@ public class SchedulingService {
 		});
 	}
 
-	@Scheduled(cron = "15 9 * * * 1-5")
+	@Scheduled(cron = "* 0/5 * * * 1-5")
 	public void startJobCreation() {
 		System.out.println(" Creating jobs at the start of market 9:15 am ");
 		final List<Symbol> symbols = symbolRepository.findAll();
