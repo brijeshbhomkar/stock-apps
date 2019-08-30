@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Candle implements Serializable {
 
 	private static final long serialVersionUID = -9203025149233793325L;
-	private long date;
+	private String date;
 	private double open;
 	private double high;
 	private double low;
@@ -18,14 +18,13 @@ public class Candle implements Serializable {
 	private double down = 0;
 	private double up = 0;
 
-	public long getDate() {
+
+	public String getDate() {
 		return date;
 	}
 
 	public void setDate(String date) {
-		this.date = DateUtil.convertToDate(date).getTime();
-		// LocalDateTime.parse(date, formatter);
-
+		this.date = date;
 	}
 
 	public double getOpen() {
