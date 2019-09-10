@@ -1,0 +1,4 @@
+FROM java:8
+Expose 8080
+ADD /target/data-service.jar data-service.jar
+ENTRYPOINT ["java", "-jar", "data-service.jar"]

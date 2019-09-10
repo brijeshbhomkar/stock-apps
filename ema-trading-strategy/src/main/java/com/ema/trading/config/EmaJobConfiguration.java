@@ -47,9 +47,6 @@ public class EmaJobConfiguration {
 				.reader(ir)
 				.processor(pr)
 				.writer(iw)
-				.faultTolerant()
-				.skipLimit(10)
-				.skip(Exception.class)
 				.build();
 	}
 }

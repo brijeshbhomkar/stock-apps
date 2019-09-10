@@ -1,7 +1,8 @@
 package com.ema.trading.steps;
 
-import java.util.List;
-
+import com.ema.trading.model.Symbol;
+import com.ema.trading.repository.SymbolRepository;
+import com.ema.trading.utils.SymbolInitializer;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
@@ -11,21 +12,25 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import com.ema.trading.model.Symbol;
-import com.ema.trading.repository.SymbolRepository;
+import java.util.List;
 
 @Component
 @Qualifier("symbolReader")
 public class SymbolReader implements ItemReader<List<Symbol>> {
 
-	@Autowired
-	private SymbolRepository symbolRepository;
+    @Autowired
+    private SymbolRepository symbolRepository;
 
-	@Override
-	public List<Symbol> read()
-			throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-		final List<Symbol> symbols = symbolRepository.findAll();
-		return CollectionUtils.isEmpty(symbols) != Boolean.FALSE ? symbols : null;
-	}
+    @Autowired
+    private SymbolInitializer symbolInitializer;
+
+    @Override
+    public List<Symbol> read() {
+        final List<Symbol> symbols = symbolRepository.findAll();
+        if (CollectionUtils.isEmpty(symbols)) {
+            symbolInitializer.initApplication();
+        }
+        return symbols;
+    }
 
 }

@@ -2,105 +2,114 @@ package com.ema.trading.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name="EMA_15")
+@Table(name = "EMA_15")
 public class EMA15 implements Serializable {
 
-	private static final long serialVersionUID = -3495863250483933575L;
-	
-	@Id
-	private String symbolId;
-	private String symbolName;
-	private String timeframe;
-	private double open;
-	private double high;
-	private double low;
-	private double close;
-	private double ema15;
-	private double ema15prev;
-	private String timestamp;
+    private static final long serialVersionUID = -3495863250483933575L;
 
-	public String getSymbolId() {
-		return symbolId;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-	public void setSymbolId(String symbolId) {
-		this.symbolId = symbolId;
-	}
+    private String symbolId;
+    private String symbolName;
+    private String timeframe;
+    private double open;
+    private double high;
+    private double low;
+    private double close;
+    private double ema15;
+    private double ema15prev;
+    private String timestamp;
 
-	public String getSymbolName() {
-		return symbolName;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setSymbolName(String symbolName) {
-		this.symbolName = symbolName;
-	}
-	
-	public String getTimeframe() {
-		return timeframe;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public void setTimeframe(String timeframe) {
-		this.timeframe = timeframe;
-	}
+    public String getSymbolId() {
+        return symbolId;
+    }
 
-	public String getTimestamp() {
-		return timestamp;
-	}
+    public void setSymbolId(String symbolId) {
+        this.symbolId = symbolId;
+    }
 
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
-	}
+    public String getSymbolName() {
+        return symbolName;
+    }
 
-	public double getEma15() {
-		return ema15;
-	}
+    public void setSymbolName(String symbolName) {
+        this.symbolName = symbolName;
+    }
 
-	public void setEma15(double ema15) {
-		this.ema15 = ema15;
-	}
+    public String getTimeframe() {
+        return timeframe;
+    }
 
-	public double getEma15prev() {
-		return ema15prev;
-	}
+    public void setTimeframe(String timeframe) {
+        this.timeframe = timeframe;
+    }
 
-	public void setEma15prev(double ema15prev) {
-		this.ema15prev = ema15prev;
-	}
+    public String getTimestamp() {
+        return timestamp;
+    }
 
-	public double getOpen() {
-		return open;
-	}
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
 
-	public void setOpen(double open) {
-		this.open = open;
-	}
+    public double getEma15() {
+        return ema15;
+    }
 
-	public double getHigh() {
-		return high;
-	}
+    public void setEma15(double ema15) {
+        this.ema15 = ema15;
+    }
 
-	public void setHigh(double high) {
-		this.high = high;
-	}
+    public double getEma15prev() {
+        return ema15prev;
+    }
 
-	public double getLow() {
-		return low;
-	}
+    public void setEma15prev(double ema15prev) {
+        this.ema15prev = ema15prev;
+    }
 
-	public void setLow(double low) {
-		this.low = low;
-	}
+    public double getOpen() {
+        return open;
+    }
 
-	public double getClose() {
-		return close;
-	}
+    public void setOpen(double open) {
+        this.open = open;
+    }
 
-	public void setClose(double close) {
-		this.close = close;
-	}
+    public double getHigh() {
+        return high;
+    }
+
+    public void setHigh(double high) {
+        this.high = high;
+    }
+
+    public double getLow() {
+        return low;
+    }
+
+    public void setLow(double low) {
+        this.low = low;
+    }
+
+    public double getClose() {
+        return close;
+    }
+
+    public void setClose(double close) {
+        this.close = close;
+    }
 }

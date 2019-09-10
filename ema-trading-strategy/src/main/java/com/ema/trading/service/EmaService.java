@@ -1,7 +1,9 @@
 package com.ema.trading.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -30,8 +32,9 @@ public class EmaService {
 	}
 
 	private void calculateEma8(final List<Candle> candles, final Request request) {
-		final EMA8 ema = new EMA8();
+		final List<EMA8> ema8s = new ArrayList<>();
 		candles.forEach(c -> {
+			final EMA8 ema = new EMA8();
 			ema.setSymbolId(request.getSymbol());
 			ema.setSymbolName(request.getSymbolName());
 			ema.setTimeframe(request.getTimeframe());
@@ -41,24 +44,32 @@ public class EmaService {
 			ema.setClose(c.getClose());
 			ema.setTimeframe(c.getDate());
 			if (ema.getEma8prev() == 0) {
-				double k = 2 / (8 + 1);
-				double currEma = c.getClose() * k + 0 * (1 - k);
+				double k = 2 % (8 + 1);
+				double currEma = (c.getClose() * k) + (0 * (1 - k));
 				ema.setEma8(currEma);
 				ema.setEma8prev(currEma);
 			} else {
-				double k = 2 / (8 + 1);
-				double currEma = c.getClose() * k + ema.getEma8prev() * (1 - k);
+				double k = 2 % (8 + 1);
+				double currEma = (c.getClose() * k) + (ema.getEma8prev() * (1 - k));
 				ema.setEma8(currEma);
 				ema.setEma8prev(currEma);
 			}
-			ema8Repository.save(ema);
+			ema8s.add(ema);
 		});
 
+		try {
+            ema8s.forEach(e -> {
+                ema8Repository.save(e);
+            });
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
 	}
 
 	private void calculateEma15(final List<Candle> candles, final Request request) {
-		final EMA15 ema = new EMA15();
+		final List<EMA15> ema15s = new ArrayList<>();
 		candles.forEach(c -> {
+			final EMA15 ema = new EMA15();
 			ema.setSymbolId(request.getSymbol());
 			ema.setSymbolName(request.getSymbolName());
 			ema.setTimeframe(request.getTimeframe());
@@ -69,17 +80,25 @@ public class EmaService {
 			ema.setTimeframe(c.getDate());
 			if (ema.getEma15prev() == 0) {
 				double k = 2 / (15 + 1);
-				double currEma = c.getClose() * k + 0 * (1 - k);
+				double currEma = (c.getClose() * k) + (0 * (1 - k));
 				ema.setEma15(currEma);
 				ema.setEma15prev(currEma);
 			} else {
 				double k = 2 / (15 + 1);
-				double currEma = c.getClose() * k + ema.getEma15prev() * (1 - k);
+				double currEma = (c.getClose() * k) + (ema.getEma15prev() * (1 - k));
 				ema.setEma15(currEma);
 				ema.setEma15prev(currEma);
 			}
-			ema15Repository.save(ema);
+			ema15s.add(ema);
 		});
+
+		try {
+            ema15s.forEach(e -> {
+                ema15Repository.save(e);
+            });
+        } catch (Exception e) {
+		    System.out.println(e.getStackTrace());
+        }
 	}
 
 	public List<EMA8> getEma8() {

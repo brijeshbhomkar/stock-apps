@@ -2,105 +2,115 @@ package com.ema.trading.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name="EMA_8")
+@Table(name = "EMA_8")
 public class EMA8 implements Serializable {
 
-	private static final long serialVersionUID = -3495863250483933575L;
-	
-	@Id
-	private String symbolId;
-	private String symbolName;
-	private String timeframe;
-	private double open;
-	private double high;
-	private double low;
-	private double close;
-	private double ema8;
-	private double ema8prev;
-	private String timestamp;
+    private static final long serialVersionUID = -3495863250483933575L;
 
-	public String getSymbolId() {
-		return symbolId;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-	public void setSymbolId(String symbolId) {
-		this.symbolId = symbolId;
-	}
+    private String symbolId;
+    private String symbolName;
+    private String timeframe;
+    private double open;
+    private double high;
+    private double low;
+    private double close;
+    private double ema8;
+    private double ema8prev;
+    private String timestamp;
 
-	public String getSymbolName() {
-		return symbolName;
-	}
 
-	public void setSymbolName(String symbolName) {
-		this.symbolName = symbolName;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public double getEma8() {
-		return ema8;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public void setEma8(double ema8) {
-		this.ema8 = ema8;
-	}
+    public String getSymbolId() {
+        return symbolId;
+    }
 
-	public String getTimeframe() {
-		return timeframe;
-	}
+    public void setSymbolId(String symbolId) {
+        this.symbolId = symbolId;
+    }
 
-	public void setTimeframe(String timeframe) {
-		this.timeframe = timeframe;
-	}
+    public String getSymbolName() {
+        return symbolName;
+    }
 
-	public double getEma8prev() {
-		return ema8prev;
-	}
+    public void setSymbolName(String symbolName) {
+        this.symbolName = symbolName;
+    }
 
-	public void setEma8prev(double ema8prev) {
-		this.ema8prev = ema8prev;
-	}
+    public double getEma8() {
+        return ema8;
+    }
 
-	public String getTimestamp() {
-		return timestamp;
-	}
+    public void setEma8(double ema8) {
+        this.ema8 = ema8;
+    }
 
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
-	}
+    public String getTimeframe() {
+        return timeframe;
+    }
 
-	public double getOpen() {
-		return open;
-	}
+    public void setTimeframe(String timeframe) {
+        this.timeframe = timeframe;
+    }
 
-	public void setOpen(double open) {
-		this.open = open;
-	}
+    public double getEma8prev() {
+        return ema8prev;
+    }
 
-	public double getHigh() {
-		return high;
-	}
+    public void setEma8prev(double ema8prev) {
+        this.ema8prev = ema8prev;
+    }
 
-	public void setHigh(double high) {
-		this.high = high;
-	}
+    public String getTimestamp() {
+        return timestamp;
+    }
 
-	public double getLow() {
-		return low;
-	}
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
 
-	public void setLow(double low) {
-		this.low = low;
-	}
+    public double getOpen() {
+        return open;
+    }
 
-	public double getClose() {
-		return close;
-	}
+    public void setOpen(double open) {
+        this.open = open;
+    }
 
-	public void setClose(double close) {
-		this.close = close;
-	}
+    public double getHigh() {
+        return high;
+    }
+
+    public void setHigh(double high) {
+        this.high = high;
+    }
+
+    public double getLow() {
+        return low;
+    }
+
+    public void setLow(double low) {
+        this.low = low;
+    }
+
+    public double getClose() {
+        return close;
+    }
+
+    public void setClose(double close) {
+        this.close = close;
+    }
 }
