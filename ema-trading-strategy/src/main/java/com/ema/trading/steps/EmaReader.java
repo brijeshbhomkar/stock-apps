@@ -15,8 +15,8 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 @Component
-@Qualifier("symbolReader")
-public class SymbolReader implements ItemReader<List<Symbol>> {
+@Qualifier("EmaReader")
+public class EmaReader implements ItemReader<List<Symbol>> {
 
     @Autowired
     private SymbolRepository symbolRepository;

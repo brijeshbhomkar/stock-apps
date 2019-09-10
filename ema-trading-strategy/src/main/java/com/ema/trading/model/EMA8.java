@@ -12,9 +12,9 @@ public class EMA8 implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
-    private String symbolId;
+    private String symbol;
     private String symbolName;
     private String timeframe;
     private double open;
@@ -23,23 +23,17 @@ public class EMA8 implements Serializable {
     private double close;
     private double ema8;
     private double ema8prev;
-    private String timestamp;
 
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getSymbolId() {
-        return symbolId;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setSymbolId(String symbolId) {
-        this.symbolId = symbolId;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public String getSymbolName() {
@@ -72,14 +66,6 @@ public class EMA8 implements Serializable {
 
     public void setEma8prev(double ema8prev) {
         this.ema8prev = ema8prev;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
     }
 
     public double getOpen() {

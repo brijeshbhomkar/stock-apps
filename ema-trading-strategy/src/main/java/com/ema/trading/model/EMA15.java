@@ -11,7 +11,7 @@ public class EMA15 implements Serializable {
     private static final long serialVersionUID = -3495863250483933575L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private long id;
 
     private String symbolId;
@@ -23,7 +23,6 @@ public class EMA15 implements Serializable {
     private double close;
     private double ema15;
     private double ema15prev;
-    private String timestamp;
 
     public long getId() {
         return id;
@@ -55,14 +54,6 @@ public class EMA15 implements Serializable {
 
     public void setTimeframe(String timeframe) {
         this.timeframe = timeframe;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
     }
 
     public double getEma15() {
