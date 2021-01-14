@@ -61,12 +61,21 @@ public class DataController {
         return INDICES;
     }
 
-    @GetMapping("/{symbol}")
-    public Map<String, List<OptionOpenInterest>> openInterest(@PathVariable final String symbol) {
+    @GetMapping("/equity/{symbol}")
+    public Map<String, List<OptionOpenInterest>> equitiesOpenInterest(@PathVariable final String symbol) {
+       return process(symbol,LAST_THRSDAY_OF_MONTH);
+    }
+
+    @GetMapping("/index/{symbol}")
+    public Map<String, List<OptionOpenInterest>> indicesOpenInterest(@PathVariable final String symbol) {
+        return process(symbol, CURRENT_WEEK_THRSDAY);
+    }
+
+    private  Map<String, List<OptionOpenInterest>> process(String symbol, String expiryDate) {
         Map<String, List<OptionOpenInterest>> result = new HashMap<>();
         MongoCollection<Document> collection = mongoTemplate.getCollection(symbol);
         BasicDBObject whereQuery = new BasicDBObject();
-        whereQuery.put("expiryDate", CURRENT_WEEK_THRSDAY);
+        whereQuery.put("expiryDate", expiryDate);
         FindIterable<Document> findIterable = collection.find(whereQuery);
         Document document = findIterable.first();
         List<Document> chains = (List<Document>) document.get("chains");
