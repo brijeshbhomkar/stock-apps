@@ -40,7 +40,7 @@ public class GmailSender {
 	private void sendEmail() throws MessagingException {
 		String emailHost = "smtp.gmail.com";
 		String fromUser = "brijesh.bhomkar@gmail.com";
-		String fromUserEmailPassword = "t0aster/trustee";
+		String fromUserEmailPassword = "@@@@@";
 
 		Transport transport = mailSession.getTransport("smtp");
 
@@ -51,13 +51,13 @@ public class GmailSender {
 	}
 
 	private void createEmailMessage(final List<StockWatch> stock) throws AddressException, MessagingException {
-		String[] toEmails = { "brijesh.bhomkar@gmail.com", "drtripti.gaunkar@gmail.com" };
+		String[] toEmails = { "brijesh.bhomkar@gmail.com"};
 		String emailSubject = "Intraday Upstocks";
 		String emailBody = "Sample email.. dont panic";
 
 		mailSession = Session.getInstance(emailProperties, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("brijesh.bhomkar@gmail.com", "t0aster/trustee");
+				return new PasswordAuthentication("brijesh.bhomkar@gmail.com", "@@@@@");
 			}
 		});
 		emailMessage = new MimeMessage(mailSession);
