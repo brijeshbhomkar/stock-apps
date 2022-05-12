@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.stocks.oi.OpenInterestApiApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.603 s - in com.stocks.oi.OpenInterestApiApplicationTests

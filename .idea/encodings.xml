@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/algo-trading-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backtesting-ui/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/backtesting-ui/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/charting-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/charting-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common-connector/connector-groww/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common-connector/connector-yahoo/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common-utils/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core-data-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nse-services/nse-52wk-low-high/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nse-services/nse-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nse-services/nse-data-consumer-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nse-services/nse-data-consumer-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nse-services/nse-fii-dii-data-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nse-services/nse-top-gainers/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nse-services/nse-top-gainers/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nse-services/nse-top-losers/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nse-services/nse-top-losers/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nse-services/nse-volume-gainers/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-strategies/bearish-market-strategy/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-strategies/bullish-market-strategy/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-strategies/bullish-market-strategy/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-strategies/ema-trading-strategy/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-strategies/gann-trading-strategy/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-strategies/open-interest-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/trading-strategies/vwap-trading-strategy/src/main/java" charset="UTF-8" />
+  </component>
+</project>

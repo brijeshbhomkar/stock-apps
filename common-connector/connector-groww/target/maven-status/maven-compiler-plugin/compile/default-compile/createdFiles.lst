@@ -1,0 +1,9 @@
+com\connector\groww\json\common\JsonData.class
+com\connector\groww\json\losers\TopLosers.class
+com\connector\groww\json\losers\TopLosersResponse.class
+com\connector\groww\IGrowwConnector.class
+com\connector\groww\json\common\Company.class
+com\connector\groww\GrowwConnector.class
+com\connector\groww\json\common\Items.class
+com\connector\groww\json\common\Stats.class
+com\connector\groww\json\losers\TopLosersResponseWrapper.class

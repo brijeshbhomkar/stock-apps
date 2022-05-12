@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/algo-trading-service/algo-trading-service.iml" filepath="$PROJECT_DIR$/algo-trading-service/algo-trading-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backtesting-ui/backtesting-ui.iml" filepath="$PROJECT_DIR$/backtesting-ui/backtesting-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trading-strategies/bearish-market-strategy/bearish-market-strategy.iml" filepath="$PROJECT_DIR$/trading-strategies/bearish-market-strategy/bearish-market-strategy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trading-strategies/bullish-market-strategy/bullish-market-strategy.iml" filepath="$PROJECT_DIR$/trading-strategies/bullish-market-strategy/bullish-market-strategy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/charting-service/charting-service.iml" filepath="$PROJECT_DIR$/charting-service/charting-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-connector/common-connector.iml" filepath="$PROJECT_DIR$/common-connector/common-connector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-utils/common-utils.iml" filepath="$PROJECT_DIR$/common-utils/common-utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-connector/connector-groww/connector-groww.iml" filepath="$PROJECT_DIR$/common-connector/connector-groww/connector-groww.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-connector/connector-yahoo/connector-yahoo.iml" filepath="$PROJECT_DIR$/common-connector/connector-yahoo/connector-yahoo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core-data-service/data-service.iml" filepath="$PROJECT_DIR$/core-data-service/data-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trading-strategies/ema-trading-strategy/ema-trading-strategy.iml" filepath="$PROJECT_DIR$/trading-strategies/ema-trading-strategy/ema-trading-strategy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trading-strategies/gann-trading-strategy/gann-trading-strategy.iml" filepath="$PROJECT_DIR$/trading-strategies/gann-trading-strategy/gann-trading-strategy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nse-services/nse-52wk-low-high/nse-52wk-low-high.iml" filepath="$PROJECT_DIR$/nse-services/nse-52wk-low-high/nse-52wk-low-high.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nse-services/nse-common/nse-common.iml" filepath="$PROJECT_DIR$/nse-services/nse-common/nse-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nse-services/nse-data-consumer-service/nse-data-host-service.iml" filepath="$PROJECT_DIR$/nse-services/nse-data-consumer-service/nse-data-host-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nse-services/nse-fii-dii-data-service/nse-fii-dii-data-service.iml" filepath="$PROJECT_DIR$/nse-services/nse-fii-dii-data-service/nse-fii-dii-data-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nse-services/nse-services.iml" filepath="$PROJECT_DIR$/nse-services/nse-services.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nse-services/nse-top-gainers/nse-top-gainers.iml" filepath="$PROJECT_DIR$/nse-services/nse-top-gainers/nse-top-gainers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nse-services/nse-top-losers/nse-top-losers.iml" filepath="$PROJECT_DIR$/nse-services/nse-top-losers/nse-top-losers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nse-services/nse-volume-gainers/nse-volume-gainers.iml" filepath="$PROJECT_DIR$/nse-services/nse-volume-gainers/nse-volume-gainers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trading-strategies/open-interest-api/open-interest-api.iml" filepath="$PROJECT_DIR$/trading-strategies/open-interest-api/open-interest-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/option-backtesting/option-backtesting.iml" filepath="$PROJECT_DIR$/option-backtesting/option-backtesting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parent-pom/parent-pom.iml" filepath="$PROJECT_DIR$/parent-pom/parent-pom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/stock-apps.iml" filepath="$PROJECT_DIR$/.idea/stock-apps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trading-strategies/vwap-trading-strategy/stock-trading-service.iml" filepath="$PROJECT_DIR$/trading-strategies/vwap-trading-strategy/stock-trading-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trading-strategies/trading-strategies.iml" filepath="$PROJECT_DIR$/trading-strategies/trading-strategies.iml" />
+    </modules>
+  </component>
+</project>

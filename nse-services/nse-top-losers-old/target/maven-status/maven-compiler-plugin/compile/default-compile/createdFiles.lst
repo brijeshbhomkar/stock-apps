@@ -1,0 +1,4 @@
+com\nse\application\controllers\TopLoserController.class
+com\nse\application\scheduling\DailyLosersScheduler.class
+com\nse\application\criteria\RequestCriteria.class
+com\nse\application\TopLosersApplication.class
