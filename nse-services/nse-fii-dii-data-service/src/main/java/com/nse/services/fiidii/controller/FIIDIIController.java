@@ -9,10 +9,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/nse/participant")
@@ -26,24 +23,29 @@ public class FIIDIIController {
         return "ok";
     }
 
+    @GetMapping("/{day}")
+    public Map<Date, List<FiiDiiParticipant>> loadFiiDiiDataForDay(@PathVariable final String day) {
+        return fiidiiService.loadFiiDiiDataForDay(day);
+    }
+
     @GetMapping("/daily")
-    public Map<Date, List<FiiDiiParticipant>> getFiiDiiDataDaily() {
-        return fiidiiService.getFiiDiiParticipantsDaily();
+    public Map<Date, List<FiiDiiParticipant>> loadFiiDiiDataDaily() {
+        return fiidiiService.loadFiiDiiParticipantsDaily();
     }
 
     @GetMapping("/weekly")
-    public Map<Date, List<FiiDiiParticipant>> getFiiDiiDataWeekly() {
-        return fiidiiService.getFiiDiiParticipantsWeekly();
+    public Map<Date, List<FiiDiiParticipant>> loadFiiDiiDataWeekly() {
+        return fiidiiService.loadFiiDiiParticipantsWeekly();
     }
 
     @GetMapping("/monthly")
-    public Map<Date, List<FiiDiiParticipant>> getFiiDiiDataMonthly() {
-        return fiidiiService.getFiiDiiParticipantsMonthly();
+    public Map<Date, List<FiiDiiParticipant>> loadFiiDiiDataMonthly() {
+        return fiidiiService.loadFiiDiiParticipantsMonthly();
     }
 
-    @GetMapping("/{days}")
-    public Map<Date, List<FiiDiiParticipant>> getFiiDiiParticipantForXdays(@PathVariable final String days) {
-        return fiidiiService.getFiiDiiParticipantForXdays(days);
+    @GetMapping("/range/{days}")
+    public Map<Date, List<FiiDiiParticipant>> loadFiiDiiParticipantForXdays(@PathVariable final String days) {
+        return fiidiiService.loadFiiDiiParticipantForXdays(days);
     }
 
     @GetMapping("/fii/{days}")
@@ -67,26 +69,32 @@ public class FIIDIIController {
     private FiiDiiJsonResponse generateResponse(Map<Date, FiiDiiParticipant> request) {
         ParticipantJson resultPercentage = new ParticipantJson();
         FiiDiiJsonResponse response = new FiiDiiJsonResponse();
-        response.setDate(request.entrySet().stream().findFirst().get().getKey());
+        response.setDate(request.keySet().stream().findAny().get());
 
         FiiDiiParticipant participant = request.entrySet().stream().findFirst().get().getValue();
         resultPercentage.setClientType(participant.getClientType());
 
         //future index long
         resultPercentage.setFutureIndexLong(participant.getFutureIndexLong());
-        resultPercentage.setFutureIndexLongPer(findFuturePercentageIncrease(participant.getFutureIndexLong(), participant.getFutureIndexShort()));
-
+        Double futureIndexLongPer = findFuturePercentageIncrease(participant.getFutureIndexLong(), participant.getFutureIndexShort());
+        resultPercentage.setFutureIndexLongPer(futureIndexLongPer);
         //future index short
         resultPercentage.setFutureIndexShort(participant.getFutureIndexShort());
-        resultPercentage.setFutureIndexShortPer(findFuturePercentageIncrease(participant.getFutureIndexShort(), participant.getFutureIndexLong()));
+        Double futureIndexShortPer = findFuturePercentageIncrease(participant.getFutureIndexShort(), participant.getFutureIndexLong());
+        resultPercentage.setFutureIndexShortPer(futureIndexShortPer);
+        // future index short long ratio
+        resultPercentage.setFutureIndexShortLongRatio(getShortLongRation(Double.toString(futureIndexShortPer), Double.toString(futureIndexLongPer)));
 
         //future stock long
         resultPercentage.setFutureStockLong(participant.getFutureStockLong());
-        resultPercentage.setFutureStockLongPer(findFuturePercentageIncrease(participant.getFutureStockLong(), participant.getFutureStockShort()));
+        Double futureStockLongPer = findFuturePercentageIncrease(participant.getFutureStockLong(), participant.getFutureStockShort());
+        resultPercentage.setFutureStockLongPer(futureStockLongPer);
 
         //future stock short
         resultPercentage.setFutureStockShort(participant.getFutureIndexShort());
-        resultPercentage.setFutureStockShortPer(findFuturePercentageIncrease(participant.getFutureStockShort(), participant.getFutureStockLong()));
+        Double futureStockShortPer = findFuturePercentageIncrease(participant.getFutureStockShort(), participant.getFutureStockLong());
+        resultPercentage.setFutureStockShortPer(futureStockShortPer);
+        resultPercentage.setFutureStockShortLongRatio(getShortLongRation(Double.toString(futureStockShortPer), Double.toString(futureStockLongPer)));
 
         //option index call long
         resultPercentage.setOptionIndexCallLong(participant.getOptionIndexCallLong());
@@ -96,7 +104,7 @@ public class FIIDIIController {
         //option index put long
         resultPercentage.setOptionIndexPutLong(participant.getOptionIndexPutLong());
         resultPercentage.setOptionIndexPutLongPer(findOptionPercentageIncrease(participant.getOptionIndexPutLong(),
-                participant.getOptionIndexCallLong(), participant.getOptionIndexCallShort(), participant.getOptionIndexPutShort()));
+               participant.getOptionIndexCallLong(), participant.getOptionIndexCallShort(), participant.getOptionIndexPutShort()));
 
         //option index call short
         resultPercentage.setOptionIndexCallShort(participant.getOptionIndexCallShort());
@@ -130,18 +138,41 @@ public class FIIDIIController {
 
         resultPercentage.setTotalLongContracts(participant.getTotalLongContracts());
         resultPercentage.setTotalShortContracts(participant.getTotalShortContracts());
-        resultPercentage.setTotalLongShortRatio(getLongShortRation(participant.getTotalLongContracts(), participant.getTotalShortContracts()));
+        resultPercentage.setTotalShortLongRatio(getShortLongRation(participant.getTotalLongContracts(), participant.getTotalShortContracts()));
+
+        //find out option index bullish and bearish ratio
+        Double optionIndexBearish = Double.parseDouble(participant.getOptionIndexPutLong()) + Double.parseDouble(participant.getOptionIndexCallShort());
+        Double optionIndexBullish = Double.parseDouble(participant.getOptionIndexCallLong()) + Double.parseDouble(participant.getOptionIndexPutShort());
+        Double optionIndexBullishRatio = (optionIndexBullish / (optionIndexBullish + optionIndexBearish) ) * 100;
+        DecimalFormat df = new DecimalFormat("#.##");
+        resultPercentage.setOptionIndexBullishRatio(Double.valueOf(df.format(optionIndexBullishRatio)));
+        Double optionIndexBearishRatio = (optionIndexBearish / (optionIndexBearish + optionIndexBullish)) * 100;
+        resultPercentage.setOptionIndexBearishRatio(Double.valueOf(df.format(optionIndexBearishRatio)));
+        resultPercentage.setOptionIndexRatioDiff(Double.valueOf(df.format(optionIndexBearishRatio - optionIndexBullishRatio)));
+        resultPercentage.setOptionIndexBearishByBullishRatio(getShortLongRation(Double.toString(optionIndexBearishRatio), Double.toString(optionIndexBullishRatio)));
+
+        //find out option stock bullish and bearish ratio
+        Double optionStockBearish = Double.parseDouble(participant.getOptionStockPutLong()) + Double.parseDouble(participant.getOptionStockCallShort());
+        Double optionStockBullish = Double.parseDouble(participant.getOptionStockCallLong()) + Double.parseDouble(participant.getOptionStockPutShort());
+        Double optionStockBullishRatio = (optionStockBullish / (optionStockBullish + optionStockBearish) ) * 100;
+        resultPercentage.setOptionStockBullishRatio(Double.valueOf(df.format(optionStockBullishRatio)));
+        Double optionStockBearishRatio = (optionStockBearish / (optionStockBearish + optionStockBullish)) * 100;
+        resultPercentage.setOptionStockBearishRatio(Double.valueOf(df.format(optionStockBearishRatio)));
+        resultPercentage.setOptionStockRatioDiff(Double.valueOf(df.format(optionStockBearishRatio - optionStockBullishRatio)));
+
+        resultPercentage.setOptionStockBearishByBullishRation(getShortLongRation(Double.toString(optionStockBearishRatio), Double.toString(optionStockBullishRatio)));
 
         response.setResult(resultPercentage);
         return response;
     }
 
-    private double getLongShortRation(String totalLongContracts, String totalShortContracts) {
-        Double totalLong = Double.parseDouble(totalLongContracts);
-        Double totalShort = Double.parseDouble(totalShortContracts);
-        Double result = (totalLong / totalShort);
+    private double getShortLongRation(String shortContracts, String longContracts) {
+        Double totalLong = Double.parseDouble(longContracts);
+        Double totalShort = Double.parseDouble(shortContracts);
+        Double result = (totalShort / totalLong);
         DecimalFormat df = new DecimalFormat("#.##");
-        return Double.valueOf(df.format(result));
+        System.out.println(result);
+        return (result.isNaN() || result.isInfinite() ) ? 0.0 : Double.valueOf(df.format(result));
     }
 
     private Double findOptionPercentageIncrease(String optionIndexCallLong, String optionIndexPutLong, String optionIndexCallShort, String optionIndexPutShort) {
@@ -151,7 +182,7 @@ public class FIIDIIController {
         Double putShort = Double.parseDouble(optionIndexPutShort);
         Double percent = (callLong / (callLong + putLong + callShort + putShort)) * 100;
         DecimalFormat df = new DecimalFormat("#.##");
-        return Double.valueOf(df.format(percent));
+        return (percent.isNaN() || percent.isInfinite() ) ? 0.0 : Double.valueOf(df.format(percent));
     }
 
     private Double findFuturePercentageIncrease(String first, String second) {
@@ -159,6 +190,6 @@ public class FIIDIIController {
         Double s = Double.parseDouble(second);
         Double percent = (f / (f + s)) * 100;
         DecimalFormat df = new DecimalFormat("#.##");
-        return Double.valueOf(df.format(percent));
+        return  (percent.isNaN() || percent.isInfinite() ) ? 0.0 : Double.valueOf(df.format(percent));
     }
 }

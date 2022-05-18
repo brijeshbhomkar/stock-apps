@@ -39,16 +39,29 @@ public class FIIDIIService {
 
     private String FILE_TYPE = "csv";
 
-    public Map<Date, List<FiiDiiParticipant>> getFiiDiiParticipantsDaily() {
-        Map<Date, List<FiiDiiParticipant>> fiidiiMap = getFII(getDaily().stream().map(this::localDateToDate).collect(Collectors.toList()));
+    public Map<Date, List<FiiDiiParticipant>> loadFiiDiiDataForDay(String day) {
+        List<LocalDate> dates = new ArrayList<>();
+        dates.add(LocalDate.parse(day));
+        Map<Date, List<FiiDiiParticipant>> fiidiiMap = getFII(dates.stream().map(this::localDateToDate).collect(Collectors.toList()));
         if (!CollectionUtils.isEmpty(fiidiiMap)) {
             List<List<FiiDiiParticipantEntity>> fiiDiiParticipantEntities = fiidiiMap.entrySet().stream().map(this::participantMapper).collect(Collectors.toList());
-            fiiDiiParticipantEntities.stream().flatMap(List::stream).forEach(s -> fiidiiRepository.save(s));
+            fiiDiiParticipantEntities.stream().flatMap(List::stream).forEach(s ->
+                    fiidiiRepository.save(s));
         }
         return fiidiiMap;
     }
 
-    public Map<Date, List<FiiDiiParticipant>> getFiiDiiParticipantsWeekly() {
+    public Map<Date, List<FiiDiiParticipant>> loadFiiDiiParticipantsDaily() {
+        Map<Date, List<FiiDiiParticipant>> fiidiiMap = getFII(getDaily().stream().map(this::localDateToDate).collect(Collectors.toList()));
+        if (!CollectionUtils.isEmpty(fiidiiMap)) {
+            List<List<FiiDiiParticipantEntity>> fiiDiiParticipantEntities = fiidiiMap.entrySet().stream().map(this::participantMapper).collect(Collectors.toList());
+            fiiDiiParticipantEntities.stream().flatMap(List::stream).forEach(s ->
+                    fiidiiRepository.save(s));
+        }
+        return fiidiiMap;
+    }
+
+    public Map<Date, List<FiiDiiParticipant>> loadFiiDiiParticipantsWeekly() {
         Map<Date, List<FiiDiiParticipant>> fiidiiMap = getFII(getWeekly().stream().map(this::localDateToDate).collect(Collectors.toList()));
         if (!CollectionUtils.isEmpty(fiidiiMap)) {
             List<List<FiiDiiParticipantEntity>> fiiDiiParticipantEntities = fiidiiMap.entrySet().stream().map(this::participantMapper).collect(Collectors.toList());
@@ -57,7 +70,7 @@ public class FIIDIIService {
         return fiidiiMap;
     }
 
-    public Map<Date, List<FiiDiiParticipant>> getFiiDiiParticipantsMonthly() {
+    public Map<Date, List<FiiDiiParticipant>> loadFiiDiiParticipantsMonthly() {
         Map<Date, List<FiiDiiParticipant>> fiidiiMap = getFII(getMonthly().stream().map(this::localDateToDate).collect(Collectors.toList()));
         if (!CollectionUtils.isEmpty(fiidiiMap)) {
             List<List<FiiDiiParticipantEntity>> fiiDiiParticipantEntities = fiidiiMap.entrySet().stream().map(this::participantMapper).collect(Collectors.toList());
@@ -197,7 +210,7 @@ public class FIIDIIService {
         );
     }
 
-    public Map<Date, List<FiiDiiParticipant>> getFiiDiiParticipantForXdays(String days) {
+    public Map<Date, List<FiiDiiParticipant>> loadFiiDiiParticipantForXdays(String days) {
         Map<Date, List<FiiDiiParticipant>> fiidiiMap = getFII(getXdays(days).stream().map(this::localDateToDate).collect(Collectors.toList()));
         if (!CollectionUtils.isEmpty(fiidiiMap)) {
             List<List<FiiDiiParticipantEntity>> fiiDiiParticipantEntities = fiidiiMap.entrySet().stream().map(this::participantMapper).collect(Collectors.toList());
@@ -225,14 +238,14 @@ public class FIIDIIService {
         LocalDate localDate = LocalDate.parse(date);
         List<FiiDiiParticipantEntity> dateSpecificFiiDiiParticipants = fiidiiRepository.getByCreatedDate(asDate(localDate));
         if (!CollectionUtils.isEmpty(dateSpecificFiiDiiParticipants)) {
-            return dateSpecificFiiDiiParticipants.stream().filter(s -> s.getClientType().equalsIgnoreCase("FII")).map(this::convertJsonToEnity).collect(Collectors.toList());
+            return dateSpecificFiiDiiParticipants.stream().filter(s -> s.getClientType().equalsIgnoreCase("FII") || s.getClientType().equalsIgnoreCase("DII")).map(this::convertJsonToEnity).collect(Collectors.toList());
         }
         return null;
     }
 
     public List<Map<Date, FiiDiiParticipant>> getParticipantsByFii(final int days) {
         List<FiiDiiParticipantEntity> fiiDiiParticipantEntities = fiidiiRepository.findAll();
-        List<FiiDiiParticipantEntity> sorted = fiiDiiParticipantEntities.stream().filter(s -> s.getClientType().equalsIgnoreCase("FII")).sorted(Comparator.comparing(FiiDiiParticipantEntity::getCreatedDate).reversed()).limit(days).collect(Collectors.toList());
+        List<FiiDiiParticipantEntity> sorted = fiiDiiParticipantEntities.stream().filter(s -> s.getClientType().equalsIgnoreCase("FII") || s.getClientType().equalsIgnoreCase("DII")).sorted(Comparator.comparing(FiiDiiParticipantEntity::getCreatedDate).reversed()).limit(days).collect(Collectors.toList());
         return sorted.stream().sorted(Comparator.comparing(FiiDiiParticipantEntity::getCreatedDate)).map(this::convertJsonToEnity).collect(Collectors.toList());
     }
 
