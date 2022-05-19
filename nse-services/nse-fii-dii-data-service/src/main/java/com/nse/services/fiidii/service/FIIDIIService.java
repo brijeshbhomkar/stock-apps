@@ -23,6 +23,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class FIIDIIService {
 
     private HttpClient client = HttpClient.newHttpClient();
 
-    private String FII_URL = "https://www1.nseindia.com/content/nsccl/fao_participant_oi_";
+    private String PARTICIPANT_URL = "https://www1.nseindia.com/content/nsccl/fao_participant_oi_";
 
     private String FILE_TYPE = "csv";
 
@@ -163,7 +164,7 @@ public class FIIDIIService {
         dates.stream().forEach(s -> {
             try {
                 final String day = DateUtil.getDate(s);
-                HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(FII_URL + day + "." + FILE_TYPE))
+                HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(PARTICIPANT_URL + day + "." + FILE_TYPE))
                         .header("Accept", "application/csv").build();
                 final HttpResponse<InputStream> httpResponse = client.send(httpRequest, HttpResponse.BodyHandlers.ofInputStream());
                 final InputStream data = httpResponse.body();
@@ -238,14 +239,24 @@ public class FIIDIIService {
         LocalDate localDate = LocalDate.parse(date);
         List<FiiDiiParticipantEntity> dateSpecificFiiDiiParticipants = fiidiiRepository.getByCreatedDate(asDate(localDate));
         if (!CollectionUtils.isEmpty(dateSpecificFiiDiiParticipants)) {
-            return dateSpecificFiiDiiParticipants.stream().filter(s -> s.getClientType().equalsIgnoreCase("FII") || s.getClientType().equalsIgnoreCase("DII")).map(this::convertJsonToEnity).collect(Collectors.toList());
+            return dateSpecificFiiDiiParticipants.stream().filter(s -> checkMatchingParticipants(s)).map(this::convertJsonToEnity).collect(Collectors.toList());
         }
         return null;
     }
 
+    private boolean checkMatchingParticipants(final FiiDiiParticipantEntity participant) {
+        Predicate<FiiDiiParticipantEntity> fiiParticipant = fii -> fii.getClientType().equalsIgnoreCase("FII");
+        Predicate<FiiDiiParticipantEntity> diiParticipant = fii -> fii.getClientType().equalsIgnoreCase("DII");
+        Predicate<FiiDiiParticipantEntity> proParticipant = fii -> fii.getClientType().equalsIgnoreCase("Pro");
+        Predicate<FiiDiiParticipantEntity> clientParticipant = fii -> fii.getClientType().equalsIgnoreCase("Client");
+        Predicate<FiiDiiParticipantEntity> totalParticipant = fii -> fii.getClientType().equalsIgnoreCase("TOTAL");
+        Predicate<FiiDiiParticipantEntity> result = fiiParticipant.or(diiParticipant).or(proParticipant).or(clientParticipant).or(totalParticipant);
+        return result.test(participant);
+    }
+
     public List<Map<Date, FiiDiiParticipant>> getParticipantsByFii(final int days) {
         List<FiiDiiParticipantEntity> fiiDiiParticipantEntities = fiidiiRepository.findAll();
-        List<FiiDiiParticipantEntity> sorted = fiiDiiParticipantEntities.stream().filter(s -> s.getClientType().equalsIgnoreCase("FII") || s.getClientType().equalsIgnoreCase("DII")).sorted(Comparator.comparing(FiiDiiParticipantEntity::getCreatedDate).reversed()).limit(days).collect(Collectors.toList());
+        List<FiiDiiParticipantEntity> sorted = fiiDiiParticipantEntities.stream().filter(s -> checkMatchingParticipants(s)).sorted(Comparator.comparing(FiiDiiParticipantEntity::getCreatedDate).reversed()).limit(days * 5).collect(Collectors.toList());
         return sorted.stream().sorted(Comparator.comparing(FiiDiiParticipantEntity::getCreatedDate)).map(this::convertJsonToEnity).collect(Collectors.toList());
     }
 

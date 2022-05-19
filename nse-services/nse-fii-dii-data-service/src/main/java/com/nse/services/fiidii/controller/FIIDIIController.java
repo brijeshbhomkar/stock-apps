@@ -171,7 +171,6 @@ public class FIIDIIController {
         Double totalShort = Double.parseDouble(shortContracts);
         Double result = (totalShort / totalLong);
         DecimalFormat df = new DecimalFormat("#.##");
-        System.out.println(result);
         return (result.isNaN() || result.isInfinite() ) ? 0.0 : Double.valueOf(df.format(result));
     }
 

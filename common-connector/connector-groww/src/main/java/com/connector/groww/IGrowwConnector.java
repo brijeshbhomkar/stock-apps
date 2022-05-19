@@ -14,7 +14,7 @@ public interface IGrowwConnector {
 
     String BASE_URL = "https://groww.in/v1/api/stocks_data/explore/v2/indices/";
 
-    public Optional<List<JsonData>> connect(final String marketType, final String filterType, final int size) throws ApplicationException;
+    public Optional<String> connect(final String marketType, final String filterType, final int size) throws ApplicationException;
 
     default HttpClient setup(final int poolsize) {
         final ExecutorService executorService = Executors.newFixedThreadPool(poolsize);

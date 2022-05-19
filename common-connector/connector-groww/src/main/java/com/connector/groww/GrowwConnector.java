@@ -21,10 +21,11 @@ import java.util.concurrent.ExecutionException;
 public class GrowwConnector implements IGrowwConnector {
 
     @Override
-    public Optional<List<JsonData>> connect(final String marketType, final String filterType, final int size) throws ApplicationException {
+    public Optional<String> connect(final String marketType, final String filterType, final int size) throws ApplicationException {
 
         //set up poolsize and httpclient
-        List<JsonData> json = new ArrayList<>();
+       // List<String> json = new ArrayList<>();
+        String json = null;
         HttpClient client = setup(3);
         String url = IGrowwConnector.endpoint(marketType, filterType, size);
         HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).build();
@@ -34,17 +35,18 @@ public class GrowwConnector implements IGrowwConnector {
         try {
             final String data = response.get();
             if (data != null && !data.isEmpty()) {
-                try {
-                    TopLosersResponseWrapper wrapper = new ObjectMapper().readValue(data, TopLosersResponseWrapper.class);
-                    if (wrapper != null && wrapper.getResponseMap() != null) {
-                        JsonData jsonData = new JsonData();
-                        jsonData.setTimestamp(wrapper.getTimeStamp());
-                        jsonData.setItems(wrapper.getResponseMap().getTopLosers().getItems());
-                        json.add(jsonData);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    TopLosersResponseWrapper wrapper = new ObjectMapper().readValue(data, TopLosersResponseWrapper.class);
+//                    if (wrapper != null && wrapper.getResponseMap() != null) {
+//                        JsonData jsonData = new JsonData();
+//                        jsonData.setTimestamp(wrapper.getTimeStamp());
+//                        jsonData.setItems(wrapper.getResponseMap().getTopLosers().getItems());
+//                        json.add(jsonData);
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+                json = data;
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
