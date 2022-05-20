@@ -1,10 +1,8 @@
 package com.connector.groww;
 
 import com.common.exception.ApplicationException;
-import com.connector.groww.json.common.JsonData;
 
 import java.net.http.HttpClient;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

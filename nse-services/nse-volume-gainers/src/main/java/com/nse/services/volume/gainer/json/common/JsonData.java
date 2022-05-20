@@ -1,4 +1,4 @@
-package com.connector.groww.json.common;
+package com.nse.services.volume.gainer.json.common;
 
 import lombok.Data;
 import lombok.ToString;

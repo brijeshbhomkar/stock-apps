@@ -1,20 +1,20 @@
-package com.connector.groww.json.losers;
+package com.nse.services.volume.gainer.json.gainers;
 
-import com.connector.groww.json.common.Items;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nse.services.volume.gainer.json.common.Items;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 @JsonIgnoreProperties
-public class TopLosers implements Serializable {
+public class VolumeGainersJson implements Serializable {
 
     @JsonProperty(value = "items")
     private Items[] items;
 
-    public List<Items> getItems() {
+    public List<com.nse.services.volume.gainer.json.common.Items> getItems() {
         return Arrays.asList(items);
     }
 

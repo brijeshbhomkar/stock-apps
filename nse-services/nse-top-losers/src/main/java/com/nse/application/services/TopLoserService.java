@@ -19,9 +19,9 @@ public class TopLoserService {
 
     public List<JsonData> connect(final String marketType, final String filterType, final int parseInt) {
         try {
-            Optional<List<JsonData>> optionalJsonData = growwConnector().connect(marketType, filterType, parseInt);
+            Optional<String> optionalJsonData = growwConnector().connect(marketType, filterType, parseInt);
             if (optionalJsonData.isPresent()) {
-                return optionalJsonData.get();
+                return null; // optionalJsonData.get();
             }
         } catch (ApplicationException exception) {
             exception.printStackTrace();

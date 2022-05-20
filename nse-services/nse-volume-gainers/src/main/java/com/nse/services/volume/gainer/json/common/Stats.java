@@ -1,4 +1,4 @@
-package com.connector.groww.json.common;
+package com.nse.services.volume.gainer.json.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
