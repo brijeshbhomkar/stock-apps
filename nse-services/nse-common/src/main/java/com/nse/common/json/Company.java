@@ -1,4 +1,4 @@
-package com.nse.services.volume.gainer.json.common;
+package com.nse.common.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

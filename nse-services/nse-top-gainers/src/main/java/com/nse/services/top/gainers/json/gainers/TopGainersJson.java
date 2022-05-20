@@ -1,8 +1,8 @@
 package com.nse.services.top.gainers.json.gainers;
 
-import com.connector.groww.json.common.Items;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nse.common.json.Items;
 
 import java.io.Serializable;
 import java.util.Arrays;

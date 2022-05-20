@@ -1,7 +1,5 @@
-package com.nse.services.top.gainers.json.common;
+package com.nse.common.json;
 
-import com.connector.groww.json.common.Company;
-import com.connector.groww.json.common.Stats;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

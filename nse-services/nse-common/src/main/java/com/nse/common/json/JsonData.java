@@ -1,6 +1,5 @@
-package com.nse.services.top.gainers.json.common;
+package com.nse.common.json;
 
-import com.connector.groww.json.common.Items;
 import lombok.Data;
 import lombok.ToString;
 

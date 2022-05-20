@@ -2,7 +2,7 @@ package com.nse.services.volume.gainer.json.gainers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.nse.services.volume.gainer.json.common.Items;
+import com.nse.common.json.Items;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ public class VolumeGainersJson implements Serializable {
     @JsonProperty(value = "items")
     private Items[] items;
 
-    public List<com.nse.services.volume.gainer.json.common.Items> getItems() {
+    public List<Items> getItems() {
         return Arrays.asList(items);
     }
 

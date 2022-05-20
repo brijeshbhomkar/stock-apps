@@ -2,9 +2,9 @@ package com.nse.services.top.gainers.service;
 
 import com.common.exception.ApplicationException;
 import com.connector.groww.GrowwConnector;
-import com.connector.groww.json.common.Items;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nse.services.top.gainers.json.common.JsonData;
+import com.nse.common.json.Items;
+import com.nse.common.json.JsonData;
 import com.nse.services.top.gainers.json.gainers.TopGainersJsonResponseWrapper;
 import com.nse.services.top.gainers.model.TopGainer;
 import com.nse.services.top.gainers.repository.TopGainerRepository;
