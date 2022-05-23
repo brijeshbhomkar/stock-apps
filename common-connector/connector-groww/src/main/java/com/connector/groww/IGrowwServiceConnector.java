@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @FunctionalInterface
-public interface IGrowwConnector {
+public interface IGrowwServiceConnector {
 
     String BASE_URL = "https://groww.in/v1/api/stocks_data/explore/v2/indices/";
 

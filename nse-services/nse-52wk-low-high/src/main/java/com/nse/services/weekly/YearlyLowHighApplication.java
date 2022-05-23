@@ -1,6 +1,6 @@
 package com.nse.services.weekly;
 
-import com.connector.groww.GrowwConnector;
+import com.connector.groww.GrowwServiceConnector;
 import com.nse.services.weekly.controller.YearlyLowHighController;
 import com.nse.services.weekly.repository.YearlyHighStockRepository;
 import com.nse.services.weekly.repository.YearlyLowStockRepository;
@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @EnableJpaRepositories
-@ComponentScan(basePackageClasses = {YearlyLowHighController.class, GrowwConnector.class, YearlyHighStockRepository.class, YearlyLowStockRepository.class,
+@ComponentScan(basePackageClasses = {YearlyLowHighController.class, GrowwServiceConnector.class, YearlyHighStockRepository.class, YearlyLowStockRepository.class,
         YearlyLowService.class, YearlyHighService.class})
 @SpringBootApplication
 public class YearlyLowHighApplication {

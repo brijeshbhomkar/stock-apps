@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @Component
-public class GrowwConnector implements IGrowwConnector {
+public class GrowwServiceConnector implements IGrowwServiceConnector {
 
     @Override
     public Optional<String> connect(final String marketType, final String filterType, final int size) throws ApplicationException {
@@ -21,7 +21,7 @@ public class GrowwConnector implements IGrowwConnector {
         // List<String> json = new ArrayList<>();
         String json = null;
         HttpClient client = setup(3);
-        String url = IGrowwConnector.endpoint(marketType, filterType, size);
+        String url = IGrowwServiceConnector.endpoint(marketType, filterType, size);
         HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).build();
         final CompletableFuture<String> response = client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body).exceptionally(exception -> "Error : " + exception.getMessage());

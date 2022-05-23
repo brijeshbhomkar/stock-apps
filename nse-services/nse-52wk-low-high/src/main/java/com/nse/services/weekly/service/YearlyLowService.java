@@ -1,11 +1,10 @@
 package com.nse.services.weekly.service;
 
 import com.common.exception.ApplicationException;
-import com.connector.groww.GrowwConnector;
+import com.connector.groww.GrowwServiceConnector;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nse.common.json.Items;
 import com.nse.common.json.JsonData;
-import com.nse.services.weekly.json.YearlyHighStockJsonResponseWrapper;
 import com.nse.services.weekly.json.YearlyLowStockJsonResponseWrapper;
 import com.nse.services.weekly.model.YearlyLowStock;
 import com.nse.services.weekly.repository.YearlyLowStockRepository;
@@ -29,7 +28,7 @@ public class YearlyLowService {
     private YearlyLowStockRepository yearlyLowStockRepository;
 
     @Autowired
-    private GrowwConnector growwConnector;
+    private GrowwServiceConnector growwServicesConnector;
 
     public List<YearlyLowStock> getYearlyNifty100LowStock() throws ApplicationException {
         List<YearlyLowStock> yearlyLowStocks = new ArrayList<>();
@@ -83,7 +82,7 @@ public class YearlyLowService {
     }
 
     private JsonData makeApiCall(String marketType, String filterType, int size) throws ApplicationException {
-        Optional<String> response = growwConnector.connect(marketType, filterType, size);
+        Optional<String> response = growwServicesConnector.connect(marketType, filterType, size);
         JsonData jsonData = new JsonData();
         try {
             YearlyLowStockJsonResponseWrapper wrapper = new ObjectMapper().readValue(response.get(), YearlyLowStockJsonResponseWrapper.class);

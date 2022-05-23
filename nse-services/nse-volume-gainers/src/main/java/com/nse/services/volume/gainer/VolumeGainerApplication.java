@@ -1,6 +1,6 @@
 package com.nse.services.volume.gainer;
 
-import com.connector.groww.GrowwConnector;
+import com.connector.groww.GrowwServiceConnector;
 import com.nse.services.volume.gainer.controller.VolumeGainerController;
 import com.nse.services.volume.gainer.repository.VolumeGainerRepository;
 import com.nse.services.volume.gainer.service.VolumeGainerService;
@@ -14,7 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @EnableJpaRepositories
-@ComponentScan(basePackageClasses = {VolumeGainerController.class, GrowwConnector.class, VolumeGainerService.class, VolumeGainerRepository.class})
+@ComponentScan(basePackageClasses = {VolumeGainerController.class, GrowwServiceConnector.class, VolumeGainerService.class, VolumeGainerRepository.class})
 @SpringBootApplication
 public class VolumeGainerApplication {
 

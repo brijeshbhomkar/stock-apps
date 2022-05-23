@@ -1,7 +1,7 @@
 package com.nse.services.volume.gainer.service;
 
 import com.common.exception.ApplicationException;
-import com.connector.groww.GrowwConnector;
+import com.connector.groww.GrowwServiceConnector;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nse.common.json.Items;
 import com.nse.common.json.JsonData;
@@ -28,7 +28,7 @@ public class VolumeGainerService {
     private VolumeGainerRepository volumeGainerRepository;
 
     @Autowired
-    private GrowwConnector growwConnector;
+    private GrowwServiceConnector growwServicesConnector;
 
     public List<VolumeGainer> getVolumeGainersNifty100() throws ApplicationException {
         List<VolumeGainer> volumeGainers = new ArrayList<>();
@@ -62,7 +62,7 @@ public class VolumeGainerService {
     }
 
     private JsonData makeApiCall(String marketType, String filterType, int size) throws ApplicationException {
-        Optional<String> response = growwConnector.connect(marketType, filterType, size);
+        Optional<String> response = growwServicesConnector.connect(marketType, filterType, size);
         JsonData jsonData = new JsonData();
         try {
             VolumeGainerJsonResponseWrapper wrapper = new ObjectMapper().readValue(response.get(), VolumeGainerJsonResponseWrapper.class);
