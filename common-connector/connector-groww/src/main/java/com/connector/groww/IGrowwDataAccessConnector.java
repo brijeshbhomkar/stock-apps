@@ -12,12 +12,7 @@ public interface IGrowwDataAccessConnector {
 
     String BASE_URL = "https://groww.in/v1/api/charting_service/v2/chart/exchange/NSE/segment/CASH/";
 
-    public Optional<String> connect(final String symbol, final String type, final String interval, final int intervalVal) throws ApplicationException;
-
-    default HttpClient setup(final int poolsize) {
-        final ExecutorService executorService = Executors.newFixedThreadPool(poolsize);
-        return HttpClient.newBuilder().executor(executorService).build();
-    }
+    Optional<String> connect(final String symbol, final String type, final String interval, final int intervalVal) throws ApplicationException;
 
     //e.g "ICICIBANK/monthly?intervalInMinutes=5"
     static String endpoint(final String symbol, final String type, final String interval, final int intervalVal) {

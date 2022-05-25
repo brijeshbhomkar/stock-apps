@@ -18,11 +18,6 @@ public class FIIDIIController {
     @Autowired
     private FIIDIIService fiidiiService;
 
-    @GetMapping
-    public String test() {
-        return "ok";
-    }
-
     @GetMapping("/{day}")
     public Map<Date, List<FiiDiiParticipant>> loadFiiDiiDataForDay(@PathVariable final String day) {
         return fiidiiService.loadFiiDiiDataForDay(day);

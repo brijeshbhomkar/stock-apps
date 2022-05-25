@@ -1,6 +1,7 @@
 package com.connector.groww;
 
 import com.common.exception.ApplicationException;
+import com.connector.common.util.ApplicationClient;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -17,10 +18,9 @@ public class GrowwDataAccessConnector implements IGrowwDataAccessConnector {
     @Override
     public Optional<String> connect(final String symbol, final String type, final String interval, final int intervalVal) throws ApplicationException {
         String json = null;
-        HttpClient client = setup(3);
         String url = IGrowwDataAccessConnector.endpoint(symbol, type, interval,intervalVal);
         HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).build();
-        final CompletableFuture<String> response = client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
+        final CompletableFuture<String> response = ApplicationClient.getClient().sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body).exceptionally(exception -> "Error : " + exception.getMessage());
 
         try {

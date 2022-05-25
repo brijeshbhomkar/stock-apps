@@ -23,6 +23,8 @@
     <modules>
         <module>connector-groww</module>
         <module>connector-yahoo</module>
+        <module>connector-nse</module>
+        <module>connector-common-util</module>
     </modules>
 
 </project>

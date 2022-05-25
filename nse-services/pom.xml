@@ -22,6 +22,7 @@
         <module>nse-52wk-low-high</module>
         <module>nse-data-consumer-service</module>
         <module>nse-fii-dii-data-service</module>
+        <module>nse-open-interest</module>
     </modules>
 
     <artifactId>nse-services</artifactId>

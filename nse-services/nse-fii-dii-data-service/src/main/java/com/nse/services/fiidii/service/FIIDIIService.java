@@ -1,5 +1,6 @@
 package com.nse.services.fiidii.service;
 
+import com.connector.nse.fii.client.FIIDIIClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.nse.services.fiidii.entity.FiiDiiParticipantEntity;
@@ -15,10 +16,6 @@ import org.springframework.util.CollectionUtils;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -34,11 +31,8 @@ public class FIIDIIService {
     @Autowired
     private FIIDIIRepository fiidiiRepository;
 
-    private HttpClient client = HttpClient.newHttpClient();
-
-    private String PARTICIPANT_URL = "https://www1.nseindia.com/content/nsccl/fao_participant_oi_";
-
-    private String FILE_TYPE = "csv";
+    @Autowired
+    private FIIDIIClient fiiDiiClient;
 
     public Map<Date, List<FiiDiiParticipant>> loadFiiDiiDataForDay(String day) {
         List<LocalDate> dates = new ArrayList<>();
@@ -108,7 +102,6 @@ public class FIIDIIService {
     }
 
 
-
     private List<LocalDate> getDaily() {
         List<LocalDate> localDateList = new ArrayList<>();
         LocalDate localDate = LocalDate.now(); //today's date
@@ -164,10 +157,7 @@ public class FIIDIIService {
         dates.stream().forEach(s -> {
             try {
                 final String day = DateUtil.getDate(s);
-                HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(PARTICIPANT_URL + day + "." + FILE_TYPE))
-                        .header("Accept", "application/csv").build();
-                final HttpResponse<InputStream> httpResponse = client.send(httpRequest, HttpResponse.BodyHandlers.ofInputStream());
-                final InputStream data = httpResponse.body();
+                InputStream data = fiiDiiClient.caller2("FII-DII-PARTICIPANT", day, "csv");
                 fiidiimap.put(s, convertToJson(data));
             } catch (Exception e) {
                 //e.printStackTrace();

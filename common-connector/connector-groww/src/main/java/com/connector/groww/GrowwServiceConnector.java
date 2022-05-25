@@ -1,6 +1,7 @@
 package com.connector.groww;
 
 import com.common.exception.ApplicationException;
+import com.connector.common.util.ApplicationClient;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -17,13 +18,10 @@ public class GrowwServiceConnector implements IGrowwServiceConnector {
     @Override
     public Optional<String> connect(final String marketType, final String filterType, final int size) throws ApplicationException {
 
-        //set up poolsize and httpclient
-        // List<String> json = new ArrayList<>();
         String json = null;
-        HttpClient client = setup(3);
         String url = IGrowwServiceConnector.endpoint(marketType, filterType, size);
         HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(url)).build();
-        final CompletableFuture<String> response = client.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
+        final CompletableFuture<String> response = ApplicationClient.getClient().sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body).exceptionally(exception -> "Error : " + exception.getMessage());
 
         try {

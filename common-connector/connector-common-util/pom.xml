@@ -2,23 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <parent>
-        <groupId>com.common.connector</groupId>
         <artifactId>common-connector</artifactId>
+        <groupId>com.common.connector</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
-
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.common.groww.connector</groupId>
-    <artifactId>connector-groww</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>connector-common-util</artifactId>
     <build>
         <plugins>
             <plugin>
@@ -32,17 +23,5 @@
         </plugins>
     </build>
 
-    <dependencies>
-        <dependency>
-            <groupId>common.utils</groupId>
-            <artifactId>common-utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.common.connector</groupId>
-            <artifactId>connector-common-util</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 </project>

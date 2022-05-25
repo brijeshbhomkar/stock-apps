@@ -1,5 +1,6 @@
 package com.nse.services.fiidii;
 
+import com.connector.nse.fii.client.FIIDIIClient;
 import com.nse.services.fiidii.controller.FIIDIIController;
 import com.nse.services.fiidii.repository.FIIDIIRepository;
 import com.nse.services.fiidii.service.FIIDIIService;
@@ -15,7 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaRepositories
 @ComponentScan(basePackageClasses = {FIIDIIController.class,
-        FIIDIIService.class, FIIDIIRepository.class})
+        FIIDIIService.class, FIIDIIRepository.class, FIIDIIClient.class})
 public class FiiDiiApplication {
 
     public static void main(String[] args) {
