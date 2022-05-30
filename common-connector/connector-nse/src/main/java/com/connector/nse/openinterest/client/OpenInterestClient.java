@@ -3,7 +3,7 @@ package com.connector.nse.openinterest.client;
 import com.connector.common.util.ApplicationClient;
 import com.connector.common.util.Endpoint;
 import com.connector.common.util.RequestHeader;
-import com.connector.nse.common.CommonClientInterface;
+import com.connector.nse.common.ICommonClient;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +15,14 @@ import java.net.http.HttpResponse;
 
 @Log4j2
 @Service
-public class OpenInterestClient implements CommonClientInterface {
+public class OpenInterestClient implements ICommonClient {
 
     @Override
-    public String caller1(final String endpoint) throws IOException, InterruptedException {
-        log.info("Fetching data for url " + Endpoint.valueOfLabel(endpoint).name());
+    public String caller1(final String endpoint, final String symbol) throws IOException, InterruptedException {
+        final String url = Endpoint.valueOfLabel(endpoint).getEndpoint() + symbol;
+        log.info("Fetching data for url " + url);
         String data = null;
-        HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(Endpoint.valueOfLabel(endpoint).name()))
+        HttpRequest httpRequest = HttpRequest.newBuilder().uri(URI.create(url))
                 .setHeader("Accept", "application/json")
                 //.setHeader("cookie", cookieid)
                 .setHeader("user-agent", RequestHeader.USER_AGENT)
@@ -39,7 +40,7 @@ public class OpenInterestClient implements CommonClientInterface {
     }
 
     @Override
-    public String callerFallback(RuntimeException exception, String endpoint) {
+    public String callerFallback(RuntimeException exception, String endpoint, String symbol) {
         log.error("Failed after 3 attempts, returning no data! " + Endpoint.valueOfLabel(endpoint).name());
         return null;
     }

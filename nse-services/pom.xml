@@ -23,6 +23,8 @@
         <module>nse-data-consumer-service</module>
         <module>nse-fii-dii-data-service</module>
         <module>nse-open-interest</module>
+        <module>sgx-nifty</module>
+        <module>nse-india-vix</module>
     </modules>
 
     <artifactId>nse-services</artifactId>

@@ -2,7 +2,7 @@ package com.connector.nse.fii.client;
 
 import com.connector.common.util.ApplicationClient;
 import com.connector.common.util.Endpoint;
-import com.connector.nse.common.CommonClientInterface;
+import com.connector.nse.common.ICommonClient;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
@@ -14,10 +14,10 @@ import java.net.http.HttpResponse;
 
 @Log4j2
 @Component
-public class FIIDIIClient implements CommonClientInterface {
+public class FIIDIIClientI implements ICommonClient {
 
     @Override
-    public String caller1(final String endpoint) throws IOException, InterruptedException {
+    public String caller1(final String endpoint, final String symbol) throws IOException, InterruptedException {
         return null;
     }
 
@@ -32,7 +32,7 @@ public class FIIDIIClient implements CommonClientInterface {
     }
 
     @Override
-    public String callerFallback(RuntimeException exception, String url) {
+    public String callerFallback(RuntimeException exception, String endpoint, final String symbol) {
         return null;
     }
 }

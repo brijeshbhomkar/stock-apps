@@ -25,6 +25,7 @@
         <module>connector-yahoo</module>
         <module>connector-nse</module>
         <module>connector-common-util</module>
+        <module>connector-sgxnifty</module>
     </modules>
 
 </project>

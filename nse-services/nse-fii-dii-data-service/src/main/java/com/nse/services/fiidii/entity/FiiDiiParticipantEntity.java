@@ -10,12 +10,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
-@Table(name = "FIIDIIPARTICIPANT")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@Entity
+@Table(name = "FIIDII_PARTICIPANT")
 public class FiiDiiParticipantEntity implements Serializable {
 
     @Id

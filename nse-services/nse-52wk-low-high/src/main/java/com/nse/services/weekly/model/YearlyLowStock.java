@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "YEARLY_HIGH")
+@Table(name = "YEARLY_LOW")
 public class YearlyLowStock implements Serializable {
 
     @Id
