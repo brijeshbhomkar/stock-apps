@@ -14,7 +14,7 @@ import java.net.http.HttpResponse;
 
 @Log4j2
 @Component
-public class FIIDIIClientI implements ICommonClient {
+public class FIIDIIClient implements ICommonClient {
 
     @Override
     public String caller1(final String endpoint, final String symbol) throws IOException, InterruptedException {

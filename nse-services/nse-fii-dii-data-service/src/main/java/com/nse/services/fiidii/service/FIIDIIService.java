@@ -1,6 +1,6 @@
 package com.nse.services.fiidii.service;
 
-import com.connector.nse.fii.client.FIIDIIClientI;
+import com.connector.nse.fii.client.FIIDIIClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.nse.services.fiidii.entity.FiiDiiParticipantEntity;
@@ -32,7 +32,7 @@ public class FIIDIIService {
     private FIIDIIRepository fiidiiRepository;
 
     @Autowired
-    private FIIDIIClientI fiiDiiClient;
+    private FIIDIIClient fiiDiiClient;
 
     public Map<Date, List<FiiDiiParticipant>> loadFiiDiiDataForDay(String day) {
         List<LocalDate> dates = new ArrayList<>();

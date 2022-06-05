@@ -11,5 +11,12 @@
 
     <artifactId>nse-india-vix</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.common.connector</groupId>
+            <artifactId>connector-nse</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>
