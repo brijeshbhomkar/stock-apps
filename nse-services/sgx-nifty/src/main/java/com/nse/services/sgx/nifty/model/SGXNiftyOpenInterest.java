@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -18,10 +19,9 @@ public class SGXNiftyOpenInterest implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private double putOpenInterest;
-    private double putChangePercentage;
-    private double callOpenInterest;
-    private double putTotalVolume;
-    private String category;
+    private long totalVolume;
+    private Date date;
+    private long openInterest;
+    private String type;
 
 }

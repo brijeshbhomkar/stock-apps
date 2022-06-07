@@ -11,5 +11,12 @@
 
     <artifactId>sgx-nifty</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.common.connector</groupId>
+            <artifactId>connector-sgxnifty</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>
