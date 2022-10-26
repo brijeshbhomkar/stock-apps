@@ -33,11 +33,6 @@ public class IndiaVIXClient implements ICommonClient {
     }
 
     @Override
-    public InputStream caller2(String endpoint, String dateFormat, String fileType) throws IOException, InterruptedException {
-        return null;
-    }
-
-    @Override
     public String callerFallback(RuntimeException exception, String endpoint, String symbol) {
         return null;
     }

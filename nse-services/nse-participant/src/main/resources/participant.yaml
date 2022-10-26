@@ -1,0 +1,363 @@
+openapi: 3.0.2
+info:
+  title: NSE Participants API's
+  contact:
+    email: brijesh.bhomkar@gmail.com
+  version: 0.0.1-SNAPSHOT
+servers:
+  - url: http://localhost:2002/v2/api
+tags:
+  - name: Participants
+    description: Different participants in the market
+paths:
+  /participants/daily:
+    get:
+      tags:
+        - Daily Participants
+      summary: Get Daily participants in the market
+      description: Return Daily participants in the market
+      operationId: getDailyParticipants
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantMap'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+  /participants/weekly:
+    get:
+      tags:
+        - Weekly Participants
+      summary: Get Daily participants in the market
+      description: Return Daily participants in the market
+      operationId: getWeeklyParticipants
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantMap'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+  /participants/monthly:
+    get:
+      tags:
+        - Monthly Participants
+      summary: Get Daily participants in the market
+      description: Return Daily participants in the market
+      operationId: getMonthlyParticipants
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantMap'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+  /participants/on/{date}:
+    get:
+      tags:
+        - Get Participants by specific date
+      summary: Get Participants by specific date
+      description: Return participants for specific date
+      operationId: getParticipantByDate
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "2022-04-01"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantMap'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+  /participants/bydays/{days}:
+    get:
+      tags:
+        - Get Participants by number of days
+      summary: Get Participants by number of days
+      description: Return Participants by number of days
+      operationId: getParticipantByDays
+      parameters:
+        - name: days
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "no. of days - 5"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantMap'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+  /participants/fii/{days}:
+    get:
+      tags:
+        - Last X Days FII Participants
+      summary: Get fii participants from last x days
+      description: Return fii participants from last x days
+      operationId: getFiiParticipantByDays
+      parameters:
+        - name: days
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantMap'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+  /participants/dii/{days}:
+    get:
+      tags:
+        - Last X Days DII Participants
+      summary: Get dii participants from last x days
+      description: Return dii participants from last x days
+      operationId: getDiiParticipantByDays
+      parameters:
+        - name: days
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantMap'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+  /participants/fii/on/{date}:
+    get:
+      tags:
+        - FII Participants on specific date (e.g. 2022-04-01)
+      summary: Get fii participants on specific date
+      description: Return fii participants on specific date
+      operationId: getFiiParticipantByDate
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantMap'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+  /participants/dii/on/{date}:
+    get:
+      tags:
+        - DII Participants on specific date (e.g. 2022-04-01)
+      summary: Get dii participants on specific date
+      description: Return dii participants on specific date
+      operationId: getDiiParticipantByDate
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantMap'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+components:
+  schemas:
+    ParticipantMap:
+      type: object
+      additionalProperties:
+        type: string
+        format: date
+        $ref: '#/components/schemas/ParticipantList'
+    ParticipantList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Participant'
+    Participant:
+      type: object
+      properties:
+        clientType:
+          type: string
+        futureIndexLong:
+          type: string
+        futureIndexShort:
+          type: string
+        futureStockLong:
+          type: string
+        futureStockShort:
+          type: string
+        optionIndexCallLong:
+          type: string
+        optionIndexPutLong:
+          type: string
+        optionIndexCallShort:
+          type: string
+        optionIndexPutShort:
+          type: string
+        optionStockCallLong:
+          type: string
+        optionStockPutLong:
+          type: string
+        optionStockCallShort:
+          type: string
+        optionStockPutShort:
+          type: string
+        totalLongContracts:
+          type: string
+        totalShortContracts:
+          type: string
+
+    defaultError:
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          description: Collection of Errors
+
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: One of a server-defined set of error codes.
+        message:
+          type: string
+          description: A human-readable representation of the error.
+        target:
+          type: string
+          description: The target of the error.

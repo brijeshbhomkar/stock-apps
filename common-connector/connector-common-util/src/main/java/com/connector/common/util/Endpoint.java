@@ -12,7 +12,7 @@ public enum Endpoint {
     INDICES_OPEN_INTEREST("INDICES-OPEN-INTEREST", "https://www.nseindia.com/api/option-chain-indices?symbol="),
     EQUITIES_OPEN_INTEREST("EQUITIES-OPEN-INTEREST", "https://www.nseindia.com/api/option-chain-equities?symbol="),
     MASTER_QUOTE("MASTER-QUOTE", "https://www.nseindia.com/api/master-quote"),
-    PARTICIPANT_URL("FII-DII-PARTICIPANT", "https://www1.nseindia.com/content/nsccl/fao_participant_oi_"),
+    PARTICIPANT_URL("NSE-PARTICIPANTS", "https://www1.nseindia.com/content/nsccl/fao_participant_oi_"),
     NSE_VIX_DETAILS("NSE-VIX-DETAILS", "https://www1.nseindia.com/live_market/dynaContent/live_watch/VixDetails.json");
 
     private static final Map<String, Endpoint> BY_LABEL = new HashMap<>();

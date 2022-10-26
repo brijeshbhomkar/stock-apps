@@ -42,7 +42,7 @@ public class LoginForm implements Serializable {
 	public void login() {
 	    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         try {
-        	//TOOD: Need to go through pretty config
+        	//TOOD: Need to go through pretty com.h2db.config
 			externalContext.redirect("/charting-service/main/dashboard.xhtml");
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -22,15 +22,6 @@ public class YearlyLowHighController {
     @Autowired
     private YearlyHighService yearlyHighService;
 
-
-    //YEARLY_LOW
-    //YEARLY_HIGH
-
-    @GetMapping("/test")
-    public String test() {
-        return "ok i am running";
-    }
-
     @GetMapping("/nifty100/yearly/high")
     public List<YearlyHighStock> yearlyNifty100HighStock() throws ApplicationException {
         return yearlyHighService.getYearlyNifty100HighStock();

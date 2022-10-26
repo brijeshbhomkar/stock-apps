@@ -1,0 +1,272 @@
+openapi: 3.0.2
+info:
+  title: NSE Open Interest API's
+  contact:
+    email: brijesh.bhomkar@gmail.com
+  version: 0.0.1-SNAPSHOT
+servers:
+  - url: http://localhost:2002/v2/api
+tags:
+  - name: Open Interest
+    description: Open interest api's
+paths:
+  /openinterest/indices:
+    post:
+      tags:
+        - Get open interest of indices
+      summary: Get open open interest of indices
+      description: Get open open interest of indices either nifty or banknifty
+      operationId: getIndicesOpenInterest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenInterestRequest'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenInterestList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+  /openinterest/indices/{symbol}:
+    get:
+      tags:
+        - Get open interest of indices for a day
+      summary: Get open interest of indices for a day
+      description: Return open interest of indices for a day
+      operationId: getIndicesOpenInterestDay
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "nifty or banknifty"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenInterestList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+  /openinterest/equities:
+    post:
+      tags:
+        - Get open interest of equities
+      summary: Get open open interest of equities
+      description: Get open open interest of equities
+      operationId: getEquitiesOpenInterest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenInterestRequest'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenInterestList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+  /openinterest/equities/{symbol}:
+    get:
+      tags:
+        - Get open interest of equities for a day
+      summary: Get open interest of equities for a day
+      description: Return open interest of equities for a day
+      operationId: getEquitiesOpenInterestDay
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "SBI"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenInterestList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/defaultError'
+        '401':
+          description: Unauthorized
+        '405':
+          description: Invalid input
+        '500':
+          description: Unknown error
+
+components:
+  schemas:
+    OpenInterestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OpenInterest'
+    OpenInterest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        identifier:
+          type: string
+        symbol:
+          type: string
+        expiryDate:
+          type: string
+          format: date
+        callOpenInterest:
+          type: number
+          format: double
+        callChangeOI:
+          type: number
+          format: double
+        callPerChangeOI:
+          type: number
+          format: double
+        callVolume:
+          type: number
+          format: double
+        callImpliedVolatility:
+          type: number
+          format: double
+        callLtp:
+          type: number
+          format: double
+        callLtpChange:
+          type: number
+          format: double
+        callPercLtpChange:
+          type: number
+          format: double
+        callStrikePrice:
+          type: number
+          format: double
+        callAskPrice:
+          type: number
+          format: double
+        resistance:
+          type: number
+          format: double
+        putOpenInterest:
+          type: number
+          format: double
+        putChangeOI:
+          type: number
+          format: double
+        putPerChangeOI:
+          type: number
+          format: double
+        putVolume:
+          type: number
+          format: double
+        putImpliedVolatility:
+          type: number
+          format: double
+        putLtp:
+          type: number
+          format: double
+        putLtpChange:
+          type: number
+          format: double
+        putPercLtpChange:
+          type: number
+          format: double
+        putStrikePrice:
+          type: number
+          format: double
+        support:
+          type: number
+          format: double
+        putAskPrice:
+          type: number
+          format: double
+        pcrOI:
+          type: number
+          format: double
+        pcrVolume:
+          type: number
+          format: double
+
+    OpenInterestRequest:
+      type: object
+      properties:
+        symbol:
+          type: string
+          example: "Stock symbol like SBI etc."
+        strikePriceRange:
+          type: string
+          example: "Range can be within 1000"
+
+    defaultError:
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+          description: Collection of Errors
+
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: One of a server-defined set of error codes.
+        message:
+          type: string
+          description: A human-readable representation of the error.
+        target:
+          type: string
+          description: The target of the error.

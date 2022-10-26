@@ -1,8 +1,8 @@
 package com.nse.application.controller;
 
-import com.connector.groww.json.common.JsonData;
 import com.nse.application.criteria.RequestCriteria;
 import com.nse.application.services.TopLoserService;
+import com.nse.common.json.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ public class TopLoserController {
 
     @PostMapping(value = "/start")
     public List<JsonData> losers(@RequestBody @Valid final RequestCriteria criteria) {
-        return topLoserService.connect(criteria.getMarketType(), criteria.getFilterType(), Integer.parseInt(criteria.getSize()));
+        return null; //topLoserService.connect(criteria.getMarketType(), criteria.getFilterType(), Integer.parseInt(criteria.getSize()));
     }
 
     @GetMapping

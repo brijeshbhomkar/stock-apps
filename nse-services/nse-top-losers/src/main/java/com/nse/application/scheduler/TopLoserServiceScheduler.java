@@ -1,8 +1,8 @@
 package com.nse.application.scheduler;
 
-import com.connector.groww.json.common.Items;
-import com.connector.groww.json.common.JsonData;
 import com.nse.application.services.TopLoserService;
+import com.nse.common.json.Items;
+import com.nse.common.json.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -24,12 +24,12 @@ public class TopLoserServiceScheduler {
 
     public void start(final String marketType, final String filterType, final int size) {
         System.out.println(" Calling remote service for market type " + marketType);
-        List<JsonData> data = topLoserService.connect(marketType, filterType, size);
-        data.stream().forEach(s -> {
-            List<Items> items = s.getItems();
-            if (!CollectionUtils.isEmpty(items)) {
-                items.stream().forEach(j -> System.out.println(j.toString()));
-            }
-        });
+        List<String> data = topLoserService.connect(marketType, filterType, size);
+//        data.stream().forEach(s -> {
+//            List<Items> items = s.getItems();
+//            if (!CollectionUtils.isEmpty(items)) {
+//                items.stream().forEach(j -> System.out.println(j.toString()));
+//            }
+//        });
     }
 }
