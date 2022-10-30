@@ -16,7 +16,7 @@ public class TopGainerController {
 
     @GetMapping("/nifty/100")
     public String getNifty100TopGainers(Model model) {
-        model.addAttribute("gainers", service.getNifty100TopGainers());
+        model.addAttribute("gainers", service.getNiftyTopGainersAll());
         return "gainers";
     }
 

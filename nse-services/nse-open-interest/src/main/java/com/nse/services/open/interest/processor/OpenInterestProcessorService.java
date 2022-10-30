@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import com.nse.services.open.interest.json.OpenInterestChainFiltered;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -42,9 +41,10 @@ public class OpenInterestProcessorService implements OpenInterestProcessor {
             OpenInterestChainJson ce = ceList != null && ceList.size() > 0 ? ceList.get(0) : null;
             OpenInterestChainJson pe = peList != null && peList.size() > 0 ? peList.get(0) : null;
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
-            if (ce != null) {
-                openInterestEntity.setExpiryDate(LocalDate.parse(ce.getExpiryDate(), formatter));
+            DateTimeFormatter expiryDateFormatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+              if (ce != null) {
+                openInterestEntity.setExpiryDate(LocalDate.parse(ce.getExpiryDate(), expiryDateFormatter));
+                openInterestEntity.setTimestamp(LocalDateTime.now());
                 openInterestEntity.setIdentifier(ce.getIdentifier());
                 openInterestEntity.setCallLtp(ce.getLtp());
                 openInterestEntity.setCallLtpChange(ce.getLtpChange());
@@ -60,7 +60,8 @@ public class OpenInterestProcessorService implements OpenInterestProcessor {
             }
 
             if (pe != null) {
-                openInterestEntity.setExpiryDate(LocalDate.parse(ce.getExpiryDate(), formatter));
+                openInterestEntity.setExpiryDate(LocalDate.parse(ce.getExpiryDate(), expiryDateFormatter));
+                openInterestEntity.setTimestamp(LocalDateTime.now());
                 openInterestEntity.setIdentifier(pe.getIdentifier());
                 openInterestEntity.setPutLtp(pe.getLtp());
                 openInterestEntity.setPutLtpChange(pe.getLtpChange());

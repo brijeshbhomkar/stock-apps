@@ -29,4 +29,6 @@ public class TopGainer implements Serializable {
     private double yearLowPrice;
 
     private double percChange;
+
+    private String marketType;
 }

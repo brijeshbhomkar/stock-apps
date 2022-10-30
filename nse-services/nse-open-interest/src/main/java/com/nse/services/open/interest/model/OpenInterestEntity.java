@@ -3,6 +3,7 @@ package com.nse.services.open.interest.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ public class OpenInterestEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private LocalDateTime timestamp;
     private String symbol;
     private LocalDate expiryDate;
     private String identifier;
@@ -41,6 +43,14 @@ public class OpenInterestEntity implements Serializable {
     private double putAskPrice;
     private double pcrOI;
     private double pcrVolume;
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -74,18 +84,20 @@ public class OpenInterestEntity implements Serializable {
                 Double.compare(that.pcrVolume, pcrVolume) == 0 &&
                 Objects.equals(symbol, that.symbol) &&
                 Objects.equals(expiryDate, that.expiryDate) &&
+                Objects.equals(timestamp, that.timestamp) &&
                 Objects.equals(identifier, that.identifier);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, symbol, expiryDate, identifier, callOpenInterest, callChangeOI, callPerChangeOI, callVolume, callAskPrice, callImpliedVolatility, callLtp, callLtpChange, callPercLtpChange, callStrikePrice, resistance, putOpenInterest, putChangeOI, putPerChangeOI, putVolume, putImpliedVolatility, putLtp, putLtpChange, putPercLtpChange, putStrikePrice, support, putAskPrice, pcrOI, pcrVolume);
+        return Objects.hash(id, timestamp, symbol, expiryDate, identifier, callOpenInterest, callChangeOI, callPerChangeOI, callVolume, callAskPrice, callImpliedVolatility, callLtp, callLtpChange, callPercLtpChange, callStrikePrice, resistance, putOpenInterest, putChangeOI, putPerChangeOI, putVolume, putImpliedVolatility, putLtp, putLtpChange, putPercLtpChange, putStrikePrice, support, putAskPrice, pcrOI, pcrVolume);
     }
 
     @Override
     public String toString() {
         return "OpenInterestEntity{" +
                 "id=" + id +
+                ", timestamp='" + timestamp + '\'' +
                 ", symbol='" + symbol + '\'' +
                 ", expiryDate=" + expiryDate +
                 ", callOpenInterest=" + callOpenInterest +

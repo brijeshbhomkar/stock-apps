@@ -39,7 +39,7 @@ public class NavigationController {
     @GetMapping("/topgainers")
     public String getTopGainers(Model model){
         model.addAttribute("activePage", "topgainers");
-        model.addAttribute("gainers", topGainerService.getNifty100TopGainers());
+        model.addAttribute("gainers", topGainerService.getNiftyTopGainersAll());
         return "topgainers";
     }
 

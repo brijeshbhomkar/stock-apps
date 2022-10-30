@@ -4,12 +4,16 @@ package com.nse.services.open.interest.controller;
 import com.nse.services.open.interest.api.OpeninterestApi;
 import com.nse.services.open.interest.model.OpenInterest;
 import com.nse.services.open.interest.model.OpenInterestRequest;
+import com.nse.services.open.interest.model.OpenInterestScheduledRequest;
+import com.nse.services.open.interest.service.OpenInterestScheduler;
 import com.nse.services.open.interest.service.OpenInterestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.validation.Valid;
@@ -23,6 +27,9 @@ public class OpenInterestController implements OpeninterestApi {
 
     @Autowired
     private OpenInterestService openInterestService;
+
+    @Autowired
+    private OpenInterestScheduler openInterestScheduler;
 
     public OpenInterestService getOpenInterestService() {
         return openInterestService;
@@ -81,7 +88,18 @@ public class OpenInterestController implements OpeninterestApi {
     }
 
     @Override
+    public ResponseEntity<String> scheduledOpenInterest(final OpenInterestScheduledRequest openInterestScheduledRequest) {
+        try {
+            openInterestScheduler.startOpenInterestScheduleder(openInterestScheduledRequest);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
     public Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
+
 }

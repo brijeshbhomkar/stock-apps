@@ -11,13 +11,34 @@
 
 <div th:replace="~{fragments/header :: header}"></div>
 
-<main role="main" class="flex-shrink-0">
-    <div class="container mt-5">
-        <div class="jumbotron">
-            <h1 class="display-4">Top Losers</h1>
-        </div>
-    </div>
-</main>
+<div th:if="${ not#lists.isEmpty(losers)}" class="container mt-5 ">
+    <table id="toplosers" class="table table-hover">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Company Name</th>
+            <th>NSE Symbol</th>
+            <th>Market Type</th>
+            <th>LTP</th>
+            <th>Year High Price</th>
+            <th>Year Low Price</th>
+            <th>Change %</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="gainer : ${gainers}">
+            <td th:text="${gainer.date}"></td>
+            <td th:text="${gainer.companyName}"></td>
+            <td th:text="${gainer.nseSymbol}"></td>
+            <td th:text="${gainer.equityType}"></td>
+            <td th:text="${gainer.ltp}"></td>
+            <td th:text="${gainer.yearHighPrice}"></td>
+            <td th:text="${gainer.yearLowPrice}"></td>
+            <td th:text="${gainer.percChange}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 

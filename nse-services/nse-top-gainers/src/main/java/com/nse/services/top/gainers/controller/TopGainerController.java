@@ -17,14 +17,19 @@ public class TopGainerController {
     @Autowired
     private TopGainerService topGainerService;
 
-    @GetMapping("/test")
-    public String test() {
-        return "I am running ok!!!";
-    }
-
     @GetMapping("/nifty/100")
     public List<TopGainer> topGainer100() throws ApplicationException {
         return topGainerService.getTopGainersNifty100();
+    }
+
+    @GetMapping("/nifty/all")
+    public List<TopGainer> topGainersAll() throws ApplicationException {
+        return topGainerService.getAllTopGainers();
+    }
+
+    @GetMapping("/nifty/today")
+    public List<TopGainer> topGainersByDate() throws ApplicationException {
+        return topGainerService.findTopGainersToday();
     }
 
     @GetMapping("/nifty/500")

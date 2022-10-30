@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @ToString
-@JsonIgnoreProperties
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Stats implements Serializable {
 
     private long ltp;

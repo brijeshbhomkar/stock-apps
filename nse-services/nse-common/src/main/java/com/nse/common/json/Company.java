@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @ToString
-@JsonIgnoreProperties
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Company implements Serializable {
 
     private String isin;
@@ -20,5 +20,6 @@ public class Company implements Serializable {
     private String equityType;
     private String logoUrl;
     private String growwContractId;
+    private String marketCap;
 
 }

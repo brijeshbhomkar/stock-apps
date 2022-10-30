@@ -32,17 +32,46 @@ public class TopGainerService {
         List<TopGainer> topGainers = new ArrayList<>();
         JsonData data = makeApiCall("GIDXNIFTY100", "TOP_GAINERS", 20);
         if (data != null) {
-            List<TopGainer> topGainerList = convertJsonToEntity(data);
-            topGainerList.stream().forEach(s -> topGainers.add(topGainersRepository.save(s)));
+            List<TopGainer> topGainerList = convertJsonToEntity(data, "GIDXNIFTY100");
+            topGainerList.stream().forEach(s -> {
+                try {
+                    topGainers.add(saveTopGainer(s));
+                } catch (ApplicationException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
         return topGainers;
     }
 
-    private List<TopGainer> convertJsonToEntity(final JsonData data) {
-        return data.getItems().stream().map(s -> topGainerMapper(data.getTimestamp(), s)).collect(Collectors.toList());
+    private TopGainer saveTopGainer(final TopGainer newTopGainer) throws ApplicationException {
+        TopGainer tmpGainer = null;
+        try {
+            Optional<TopGainer> oldTopGainer = topGainersRepository.findByNseSymbol(newTopGainer.getNseSymbol());
+            if (oldTopGainer.isPresent()) {
+                TopGainer previousGainer = oldTopGainer.get();
+                if (Double.valueOf(newTopGainer.getPercChange()).compareTo(Double.valueOf(previousGainer.getPercChange())) != 0) {
+                    topGainersRepository.delete(previousGainer);
+                    topGainersRepository.save(newTopGainer);
+                    tmpGainer = newTopGainer;
+                } else {
+                    tmpGainer = previousGainer;
+                }
+            } else {
+                topGainersRepository.save(newTopGainer);
+                tmpGainer = newTopGainer;
+            }
+        } catch (ApplicationException e) {
+            throw new ApplicationException("Failed to get the top gainer by symbol " + newTopGainer.getNseSymbol());
+        }
+        return tmpGainer;
     }
 
-    private <R> TopGainer topGainerMapper(final long timestamp, final Items item) {
+    private List<TopGainer> convertJsonToEntity(final JsonData data, final String marketType) {
+        return data.getItems().stream().map(s -> topGainerMapper(data.getTimestamp(), s, marketType)).collect(Collectors.toList());
+    }
+
+    private <R> TopGainer topGainerMapper(final long timestamp, final Items item, final String marketType) {
         final TopGainer topGainer = new TopGainer();
         topGainer.setDate(new Date(timestamp));
         topGainer.setCompanyName(item.getCompany().getCompanyName());
@@ -56,6 +85,7 @@ public class TopGainerService {
         Double perc = (high) / (high + low);
         DecimalFormat df = new DecimalFormat("#.##");
         topGainer.setPercChange(Double.valueOf(df.format(perc)));
+        topGainer.setMarketType(marketType);
         return topGainer;
     }
 
@@ -78,7 +108,7 @@ public class TopGainerService {
         List<TopGainer> topGainers = new ArrayList<>();
         JsonData data = makeApiCall("GIDXNIFTY500", "TOP_GAINERS", 20);
         if (data != null) {
-            List<TopGainer> topGainerList = convertJsonToEntity(data);
+            List<TopGainer> topGainerList = convertJsonToEntity(data, "GIDXNIFTY500");
             topGainerList.stream().forEach(s -> topGainers.add(topGainersRepository.save(s)));
         }
         return topGainers;
@@ -88,10 +118,31 @@ public class TopGainerService {
         List<TopGainer> topGainers = new ArrayList<>();
         JsonData data = makeApiCall("GIDXNIFSMCP100", "TOP_GAINERS", 20);
         if (data != null) {
-            List<TopGainer> topGainerList = convertJsonToEntity(data);
+            List<TopGainer> topGainerList = convertJsonToEntity(data, "GIDXNIFSMCP100");
             topGainerList.stream().forEach(s -> topGainers.add(topGainersRepository.save(s)));
         }
         return topGainers;
     }
 
+    public List<TopGainer> findTopGainersToday() throws ApplicationException {
+        try {
+            return topGainersRepository.findByDate(new Date());
+        } catch (ApplicationException e) {
+            throw new ApplicationException("Failed to get top gainers for the day");
+        }
+    }
+
+    public List<TopGainer> getAllTopGainers() throws ApplicationException {
+
+        //get nifty top 100
+        getTopGainersNifty100();
+
+        //get nifty top 500
+        getTopGainersNifty500();
+
+        //get smcp 100
+        getTopGainersSMCP100();
+
+        return topGainersRepository.findAll();
+    }
 }

@@ -11,28 +11,34 @@
 
 <div th:replace="~{fragments/header :: header}"></div>
 
-<div th:if="${ not#lists.isEmpty(gainers)}">
-    <table>
+<div th:if="${ not#lists.isEmpty(gainers)}" class="container mt-5 ">
+    <table id="topgainers" class="table table-hover">
+        <thead>
         <tr>
             <th>Date</th>
             <th>Company Name</th>
             <th>NSE Symbol</th>
+            <th>Equity Type</th>
             <th>Market Type</th>
             <th>LTP</th>
             <th>Year High Price</th>
             <th>Year Low Price</th>
             <th>Change %</th>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="gainer : ${gainers}">
-            <td th:text="${gainer.date}"></td>
+            <td th:text="${#dates.format(gainer.date, 'yyyy-MMM-dd')}"></td>
             <td th:text="${gainer.companyName}"></td>
             <td th:text="${gainer.nseSymbol}"></td>
             <td th:text="${gainer.equityType}"></td>
+            <td th:text="${gainer.marketType}"></td>
             <td th:text="${gainer.ltp}"></td>
             <td th:text="${gainer.yearHighPrice}"></td>
             <td th:text="${gainer.yearLowPrice}"></td>
             <td th:text="${gainer.percChange}"></td>
         </tr>
+        </tbody>
         </table>
 </div>
 

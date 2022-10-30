@@ -115,7 +115,7 @@ public class OpenInterestChainDeserializer extends JsonDeserializer<OpenInterest
             pe.setImpliedVolatility(s.get("impliedVolatility").asDouble());
             pe.setLtp(s.get("lastPrice").asDouble());
             pe.setLtpChange(s.get("change").asDouble());
-            pe.setpChange(s.get("pchange").asDouble());
+            pe.setpChange(s.get("pChange").asDouble());
             pe.setTotalBuyQuantity(s.get("totalBuyQuantity").asDouble());
             pe.setTotalSellQuantity(s.get("totalSellQuantity").asDouble());
             pe.setBidQty(s.get("bidQty").asDouble());
